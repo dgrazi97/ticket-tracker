@@ -158,6 +158,7 @@
       "time": "1 PM",
       "stake": 10,
       "payout": 67.84,
+      "status": "lost",
       "placedAt": "2026-10-25T01:11:38-04:00",
       "dkTicket": "DK639285018973398776",
       "odds": "+578",
