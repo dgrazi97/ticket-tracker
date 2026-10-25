@@ -262,6 +262,7 @@
       "name": "TEST NFL",
       "stake": 2,
       "payout": 9,
+      "status": "void",
       "placedAt": "2026-10-25T09:37:05-04:00",
       "legs": [
         {
