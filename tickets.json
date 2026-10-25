@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-25T16:16:35-04:00",
+  "updated": "2026-10-25T16:37:47-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -259,6 +259,25 @@
           "event": "401873020",
           "stat": "rec",
           "line": 5,
+          "sport": "football/nfl"
+        }
+      ]
+    },
+    {
+      "id": "GB_DET_LIVE_1stTD_1025",
+      "name": "Golden 1st TD + Lloyd 10+ (live)",
+      "time": "4:25 PM",
+      "stake": 5,
+      "payout": 122,
+      "placedAt": "2026-10-25T16:37:00-04:00",
+      "odds": "+2340",
+      "legs": [
+        {
+          "player": "MarShawn Lloyd",
+          "team": "GB",
+          "event": "401873020",
+          "stat": "rushYds",
+          "line": 10,
           "sport": "football/nfl"
         }
       ]
