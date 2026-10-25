@@ -7,7 +7,13 @@ const REFRESH_SECONDS = 60; // ask iOS for ~1 min; iOS still throttles (often 5-
 const FM = FileManager.local();
 const DIR = FM.joinPath(FM.documentsDirectory(), "ticket-tracker");
 const TICKETS_FILE = FM.joinPath(DIR, "tickets.json");
-const DATA_FILE = FM.joinPath(DIR, "espn-cache.json");
+const DATA_FILE = FM.joinPath(DIR, "espn-compact.json"); // compact parsed stats only
+const OLD_DATA_FILE = FM.joinPath(DIR, "espn-cache.json");  // pre-v2: raw ESPN blobs (could be 500 KB+)
+const CACHE_V = 2;
+const REQ_TIMEOUT = 8;          // seconds per request
+const RUN_BUDGET_MS = 14000;    // no new fetch starts after 14 s, so worst case ~22 s (iOS kills widget runs ~30 s)
+const PAR = 2;                  // at most 2 summaries in flight (and in memory) at once
+const RUN_START = Date.now();
 function readJSON(path) {
   try { if (FM.fileExists(path)) return JSON.parse(FM.readString(path)); } catch (e) {}
   return null;
@@ -20,7 +26,7 @@ function writeJSON(path, obj) {
 async function loadTickets() {
   try {
     const r = new Request(TICKETS_URL + "?t=" + Date.now());
-    r.timeoutInterval = 15;
+    r.timeoutInterval = REQ_TIMEOUT;
     r.headers = { "Cache-Control": "no-cache" };
     const doc = await r.loadJSON();
     if (!doc || !Array.isArray(doc.tickets)) throw new Error("bad tickets.json");
@@ -32,39 +38,88 @@ async function loadTickets() {
   }
 }
 
-async function fetchRaw(events) {
-  const raw = {};
-  let failures = 0;
-  await Promise.all(events.map(async e => {
-    try {
-      const r = new Request(TT.summaryUrl(e.sport, e.ev));
-      r.timeoutInterval = 15;
-      const d = await r.loadJSON();
-      if (!d || !d.header) throw new Error("bad response");
-      // keep only what the parser needs so the cache stays small
-      raw[e.key] = { header: d.header, boxscore: { players: (d.boxscore && d.boxscore.players) || [] }, injuries: d.injuries || [] };
-    } catch (err) { failures++; }
-  }));
-  return { raw, failures };
+// ---- ESPN fetch: only what's needed, 2 at a time, parsed to compact form right away ----
+// Compact game = parseSummary output trimmed to the players on our tickets; `out` as an array.
+function compactGame(d, sport, wanted) {
+  const G = TT.parseSummary(d, sport);
+  const players = {};
+  for (const n of Object.keys(G.players)) {
+    const last = n.split(" ").pop();
+    if (wanted.has(last)) players[n] = G.players[n];
+  }
+  const out = [...G.out].filter(n => wanted.has(n.split(" ").pop()));
+  return { game: G.game, players, out, sport: G.sport, at: Date.now() };
+}
+const toParsed = c => ({ game: c.game, players: c.players || {}, out: new Set(c.out || []), sport: c.sport });
+
+function loadCache() {
+  // drop the old raw-blob cache without reading it into memory
+  try { if (FM.fileExists(OLD_DATA_FILE)) FM.remove(OLD_DATA_FILE); } catch (e) {}
+  try { if (FM.fileExists(DATA_FILE) && FM.fileSize(DATA_FILE) > 300) { FM.remove(DATA_FILE); return null; } } catch (e) {}
+  const c = readJSON(DATA_FILE);
+  return c && c.v === CACHE_V && c.games ? c : null;
 }
 
+async function fetchOne(e, wanted) {
+  const r = new Request(TT.summaryUrl(e.sport, e.ev));
+  r.timeoutInterval = REQ_TIMEOUT;
+  let d = await r.loadJSON();
+  if (!d || !d.header) throw new Error("bad response");
+  const c = compactGame(d, e.sport, wanted);
+  d = null; // let the raw summary go before the next fetch
+  return c;
+}
+
+async function fetchGames(queue, wanted, games) {
+  let ok = 0, failures = 0, i = 0;
+  async function worker() {
+    while (i < queue.length) {
+      const e = queue[i++];
+      if (Date.now() - RUN_START > RUN_BUDGET_MS) { failures++; continue; }
+      try { games[e.key] = await fetchOne(e, wanted[e.key] || new Set()); ok++; }
+      catch (err) { failures++; }
+    }
+  }
+  const n = Math.min(PAR, queue.length), ws = [];
+  for (let k = 0; k < n; k++) ws.push(worker());
+  await Promise.all(ws);
+  return { ok, failures };
+}
+
+const SETTLED_OVERRIDES = { lost: 1, won: 1, cashed: 1, void: 1 };
 async function loadData() {
   const t = await loadTickets();
   const tickets = TT.normalizeTickets(t.doc);
   const events = TT.eventsOf(tickets);
-  const cache = readJSON(DATA_FILE) || { raw: {}, updated: null };
-  let fresh;
-  try { fresh = await fetchRaw(events); } catch (e) { fresh = { raw: {}, failures: events.length || 1 }; }
-  const raw = {};
-  for (const e of events) { const v = fresh.raw[e.key] || (cache.raw || {})[e.key]; if (v) raw[e.key] = v; }
-  const ok = fresh.failures === 0;
-  const updated = ok ? Date.now() : (cache.updated || null);
-  writeJSON(DATA_FILE, { raw, updated: updated || Date.now() });
-  const sportOf = {}; for (const e of events) sportOf[e.key] = e.sport;
+  const cache = loadCache() || { v: CACHE_V, games: {}, updated: null };
+  const cached = cache.games || {};
+  // player last names per event (keeps the compact cache tiny)
+  const wanted = {};
+  for (const tk of tickets) for (const l of tk.legs) {
+    (wanted[l.key] = wanted[l.key] || new Set()).add(TT.norm(l.p).split(" ").pop());
+  }
+  // events with an unsettled ticket, minus games already final in the cache
+  const openKeys = new Set();
+  for (const tk of tickets) if (!SETTLED_OVERRIDES[tk.override]) for (const l of tk.legs) openKeys.add(l.key);
+  const isFinal = k => cached[k] && cached[k].game && cached[k].game.state === "post";
+  const need = events.filter(e => openKeys.has(e.key) && !isFinal(e.key));
+  // settled tickets: one-time fill (for leg counts) only if never cached, after the live ones
+  const backfill = events.filter(e => !openKeys.has(e.key) && !cached[e.key]);
   const games = {};
-  for (const k of Object.keys(raw)) { try { games[k] = TT.parseSummary(raw[k], sportOf[k]); } catch (e) {} }
-  const result = TT.evaluate(tickets, games);
-  return { result, view: TT.currentView(result, Date.now()), updated, error: !ok, ticketsStale: t.stale };
+  for (const e of events) if (cached[e.key]) games[e.key] = cached[e.key];
+  let res = { ok: 0, failures: 0 };
+  try { res = await fetchGames(need, wanted, games); } catch (e) { res = { ok: 0, failures: need.length || 1 }; }
+  if (backfill.length && Date.now() - RUN_START < RUN_BUDGET_MS / 2) {
+    try { await fetchGames(backfill, wanted, games); } catch (e) {}
+  }
+  // last successful refresh: now if anything we needed came back (or nothing needed fetching)
+  const refreshed = !need.length ? !t.stale : res.ok > 0;
+  const updated = refreshed ? Date.now() : (cache.updated || null);
+  writeJSON(DATA_FILE, { v: CACHE_V, games, updated });
+  const parsed = {};
+  for (const k of Object.keys(games)) { try { parsed[k] = toParsed(games[k]); } catch (e) {} }
+  const result = TT.evaluate(tickets, parsed);
+  return { result, view: TT.currentView(result, Date.now()), updated, error: res.failures > 0, ticketsStale: t.stale };
 }
 
 // ---- Presentation -------------------------------------------------------------
