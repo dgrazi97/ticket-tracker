@@ -229,24 +229,6 @@
           "line": 8
         }
       ]
-    },
-    {
-      "id": "TEST_NHL_1025",
-      "name": "TEST NHL",
-      "stake": 1,
-      "payout": 4,
-      "placedAt": "2026-10-25T09:37:08-04:00",
-      "sport": "hockey/nhl",
-      "legs": [
-        {
-          "player": "Juuse Saros",
-          "team": "NSH",
-          "event": "401892570",
-          "stat": "saves",
-          "line": 30,
-          "sport": "hockey/nhl"
-        }
-      ]
     }
   ]
 }
