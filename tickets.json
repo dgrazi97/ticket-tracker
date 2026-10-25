@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-25T12:38:03-04:00",
+  "updated": "2026-10-25T15:55:28-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -70,6 +70,7 @@
       "time": "1 PM",
       "stake": 5,
       "payout": 71.45,
+      "status": "lost",
       "placedAt": "2026-10-25T01:05:05-04:00",
       "dkTicket": "DK639285015047465926",
       "odds": "+1021 boosted to +1329",
