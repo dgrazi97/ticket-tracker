@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-25T09:37:08-04:00",
+  "updated": "2026-10-25T09:38:23-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -236,21 +236,21 @@
       "time": "Final",
       "stake": 1,
       "payout": 3,
-      "placedAt": "2026-10-25T09:36:21-04:00",
+      "placedAt": "2026-10-25T09:38:23-04:00",
       "sport": "basketball/nba",
       "legs": [
         {
           "player": "Giannis Antetokounmpo",
-          "team": "MIL",
-          "event": "401909855",
+          "team": "MIA",
+          "event": "401909853",
           "stat": "pts",
           "line": 10,
           "sport": "basketball/nba"
         },
         {
           "player": "Giannis Antetokounmpo",
-          "team": "MIL",
-          "event": "401909855",
+          "team": "MIA",
+          "event": "401909853",
           "stat": "3PM",
           "line": 1,
           "sport": "basketball/nba"
