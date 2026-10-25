@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-25T15:55:28-04:00",
+  "updated": "2026-10-25T15:56:03-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -230,6 +230,34 @@
           "event": "401873013",
           "stat": "tackles",
           "line": 8
+        }
+      ]
+    },
+    {
+      "id": "GB_DET_SGP_1025",
+      "name": "GB@DET SGP (+ Over 57.5 total)",
+      "time": "4:25 PM",
+      "stake": 25,
+      "payout": 118.75,
+      "placedAt": "2026-10-25T15:54:37-04:00",
+      "dkTicket": "DK639285548762471979",
+      "odds": "+375",
+      "legs": [
+        {
+          "player": "Matthew Golden",
+          "team": "GB",
+          "event": "401873020",
+          "stat": "recYds",
+          "line": 60,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Tucker Kraft",
+          "team": "GB",
+          "event": "401873020",
+          "stat": "rec",
+          "line": 5,
+          "sport": "football/nfl"
         }
       ]
     }
