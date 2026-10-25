@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ticket Tracker Widget</title>
+<meta name="theme-color" content="#0d1117">
+<style>
+body{margin:0;background:#0d1117;color:#e6edf3;font:16px -apple-system,system-ui,sans-serif;padding:20px 16px 40px}
+h1{font-size:22px;margin:0 0 12px}
+ol{padding-left:22px;line-height:1.5;color:#c9d1d9}li{margin-bottom:6px}
+a{color:#58a6ff}
+button{display:block;width:100%;padding:18px;font-size:20px;font-weight:700;border:0;border-radius:14px;background:#3fb950;color:#0d1117;margin:16px 0}
+button.done{background:#58a6ff}
+textarea{width:100%;box-sizing:border-box;height:220px;background:#161b22;color:#8b949e;border:1px solid #30363d;border-radius:10px;font:11px ui-monospace,Menlo,monospace;padding:10px}
+.note{color:#8b949e;font-size:13px}
+</style></head><body>
+<h1>🎟️ Home-screen widget</h1>
+<ol>
+<li>Install <a href="https://apps.apple.com/app/scriptable/id1405459188">Scriptable</a> (free) from the App Store.</li>
+<li>Tap <b>Copy script</b> below.</li>
+<li>Open Scriptable, tap <b>+</b>, paste, and name it <b>Tickets</b>. Tap ▶︎ once to preview.</li>
+<li>On the home screen, long-press → <b>+</b> (Edit → Add Widget) → <b>Scriptable</b> → pick Small, Medium or Large → Add.</li>
+<li>Long-press the new widget → <b>Edit Widget</b> → Script: <b>Tickets</b>.</li>
+</ol>
+<button id="copy">Copy script</button>
+<textarea id="code" readonly>// Ticket Tracker widget for Scriptable (scriptable.app)
+// Paste into a new Scriptable script, then add a Scriptable widget to your
+// home screen and pick this script. Tap the widget to open the full tracker.
+// Data: ESPN public game summaries. iOS decides real refresh timing (~5-15 min).
+
+const TRACKER_URL = &quot;https://dgrazi97.github.io/ticket-tracker/&quot;;
+const ESPN = &quot;https://site.api.espn.com/apis/site/v2/sports/football/nfl/summary?event=&quot;;
+
+// ---- Ticket definitions + stat logic (same as logic.js on the web tracker) ----
+const TICKETS = [
+  { name: &quot;Paris SGP&quot;, time: &quot;9:30 AM&quot;, stake: 5, pays: 25.80, legs: [
+    { p: &quot;DK Metcalf&quot;, ev: &quot;401873011&quot;, stat: &quot;rec&quot;, line: 4 },
+    { p: &quot;Devaughn Vele&quot;, ev: &quot;401873011&quot;, stat: &quot;rec&quot;, line: 3 },
+    { p: &quot;Juwan Johnson&quot;, ev: &quot;401873011&quot;, stat: &quot;rec&quot;, line: 3 },
+    { p: &quot;Chris Olave&quot;, ev: &quot;401873011&quot;, stat: &quot;rec&quot;, line: 6 },
+    { p: &quot;Jaylen Warren&quot;, ev: &quot;401873011&quot;, stat: &quot;rec&quot;, line: 2 },
+    { p: &quot;Pat Freiermuth&quot;, ev: &quot;401873011&quot;, stat: &quot;rec&quot;, line: 2 } ] },
+  { name: &quot;TD SGPx&quot;, time: &quot;1 PM&quot;, stake: 5, pays: 71.45, legs: [
+    { p: &quot;Ja&#x27;Marr Chase&quot;, tdp: 0.5, ev: &quot;401873012&quot;, stat: &quot;td&quot;, line: 1 },
+    { p: &quot;Derrick Henry&quot;, tdp: 0.58, ev: &quot;401873012&quot;, stat: &quot;td&quot;, line: 1 },
+    { p: &quot;George Kittle&quot;, tdp: 0.45, ev: &quot;401873017&quot;, stat: &quot;td&quot;, line: 1 },
+    { p: &quot;Chuba Hubbard&quot;, tdp: 0.42, ev: &quot;401873018&quot;, stat: &quot;td&quot;, line: 1 } ] },
+  { name: &quot;TD parlay #2&quot;, time: &quot;1 PM&quot;, stake: 5, pays: 68.40, legs: [
+    { p: &quot;Nico Collins&quot;, tdp: 0.45, ev: &quot;401873016&quot;, stat: &quot;td&quot;, line: 1 },
+    { p: &quot;Jonathan Taylor&quot;, tdp: 0.55, ev: &quot;401873014&quot;, stat: &quot;td&quot;, line: 1 },
+    { p: &quot;Garrett Wilson&quot;, tdp: 0.38, ev: &quot;401873015&quot;, stat: &quot;td&quot;, line: 1 } ] },
+  { name: &quot;Props parlay&quot;, time: &quot;1 PM&quot;, stake: 10, pays: 67.84, legs: [
+    { p: &quot;Aaron Jones&quot;, ev: &quot;401873014&quot;, stat: &quot;rushyds&quot;, line: 39 },
+    { p: &quot;Isaiah Likely&quot;, ev: &quot;401873016&quot;, stat: &quot;recyds&quot;, line: 50 },
+    { p: &quot;Tetairoa McMillan&quot;, ev: &quot;401873018&quot;, stat: &quot;recyds&quot;, line: 71 } ] },
+  { name: &quot;1 PM SGPx&quot;, time: &quot;1 PM&quot;, stake: 5, pays: 26.86, legs: [
+    { p: &quot;Bijan Robinson&quot;, ev: &quot;401873017&quot;, stat: &quot;rushyds&quot;, line: 80 },
+    { p: &quot;Michael Penix Jr.&quot;, ev: &quot;401873017&quot;, stat: &quot;passyds&quot;, line: 220 },
+    { p: &quot;Deshaun Watson&quot;, ev: &quot;401873013&quot;, stat: &quot;rushyds&quot;, line: 25 },
+    { p: &quot;Carson Schwesinger&quot;, ev: &quot;401873013&quot;, stat: &quot;tackles&quot;, line: 8 } ] },
+];
+const STAT_LABEL = { rec: &quot;rec&quot;, recyds: &quot;rec yds&quot;, rushyds: &quot;rush yds&quot;, passyds: &quot;pass yds&quot;, tackles: &quot;tackles&quot;, td: &quot;TD&quot; };
+
+const norm = s =&gt; (s || &quot;&quot;).toLowerCase().replace(/[^a-z ]/g, &quot;&quot;).replace(/\b(jr|sr|ii|iii|iv|v)\b/g, &quot;&quot;).replace(/\s+/g, &quot; &quot;).trim();
+
+// Parse a summary JSON into { game, players: {normName: {rec,recyds,rushyds,passyds,tackles,td}}, out: Set }
+function parseSummary(d) {
+  const comp = (d.header &amp;&amp; d.header.competitions &amp;&amp; d.header.competitions[0]) || {};
+  const st = comp.status || {};
+  const type = st.type || {};
+  const teams = (comp.competitors || []).map(c =&gt; ({ abbr: c.team &amp;&amp; c.team.abbreviation, score: c.score, homeAway: c.homeAway }));
+  const away = teams.find(t =&gt; t.homeAway === &quot;away&quot;) || teams[1] || {};
+  const home = teams.find(t =&gt; t.homeAway === &quot;home&quot;) || teams[0] || {};
+  const game = {
+    state: type.state || &quot;pre&quot;, completed: !!type.completed,
+    detail: type.shortDetail || type.detail || &quot;&quot;, period: st.period || 0,
+    clock: st.displayClock || &quot;&quot;, away, home,
+  };
+  const players = {};
+  const get = n =&gt; (players[n] = players[n] || { rec: 0, recyds: 0, rushyds: 0, passyds: 0, tackles: 0, td: 0, team: &quot;&quot; });
+  const bp = (d.boxscore &amp;&amp; d.boxscore.players) || [];
+  for (const team of bp) {
+    const abbr = team.team &amp;&amp; team.team.abbreviation;
+    for (const cat of team.statistics || []) {
+      const keys = cat.keys || [];
+      for (const a of cat.athletes || []) {
+        const n = norm(a.athlete &amp;&amp; a.athlete.displayName);
+        if (!n) continue;
+        const p = get(n); p.team = abbr;
+        const v = k =&gt; { const i = keys.indexOf(k); return i &lt; 0 ? 0 : (parseFloat(String(a.stats[i]).split(&quot;/&quot;)[0]) || 0); };
+        if (cat.name === &quot;receiving&quot;) { p.rec = v(&quot;receptions&quot;); p.recyds = v(&quot;receivingYards&quot;); p.td += v(&quot;receivingTouchdowns&quot;); }
+        else if (cat.name === &quot;rushing&quot;) { p.rushyds = v(&quot;rushingYards&quot;); p.td += v(&quot;rushingTouchdowns&quot;); }
+        else if (cat.name === &quot;passing&quot;) { p.passyds = v(&quot;passingYards&quot;); }
+        else if (cat.name === &quot;defensive&quot;) { p.tackles = v(&quot;totalTackles&quot;); }
+      }
+    }
+  }
+  const out = new Set();
+  for (const t of d.injuries || []) for (const i of t.injuries || []) {
+    if (String(i.status).toLowerCase() === &quot;out&quot; &amp;&amp; i.athlete) out.add(norm(i.athlete.displayName));
+  }
+  return { game, players, out };
+}
+
+function fracLeft(g) {
+  if (g.state === &quot;pre&quot;) return 1;
+  if (g.state === &quot;post&quot;) return 0;
+  const per = g.period || 1;
+  const [m, s] = String(g.clock || &quot;15:00&quot;).split(&quot;:&quot;).map(Number);
+  const secLeftQ = (m || 0) * 60 + (s || 0);
+  if (per &gt; 4) return Math.max(0.02, secLeftQ / 3600);
+  if (/half/i.test(g.detail)) return 0.5;
+  return Math.max(0, ((4 - per) * 900 + secLeftQ) / 3600);
+}
+
+// simple priors: expected per-game value given the line (books set floor lines below the mean)
+const PRIOR = { rec: l =&gt; l * 1.35, recyds: l =&gt; l * 1.15, rushyds: l =&gt; l * 1.15, passyds: l =&gt; l * 1.1, tackles: l =&gt; l * 1.05 };
+function poissonAtLeast(lam, k) {
+  if (k &lt;= 0) return 1; let term = Math.exp(-lam), cdf = term;
+  for (let i = 1; i &lt; k; i++) { term *= lam / i; cdf += term; }
+  return Math.max(0, Math.min(1, 1 - cdf));
+}
+function normAtLeast(mu, sd, x) { // P(X &gt;= x)
+  if (sd &lt;= 0) return mu &gt;= x ? 1 : 0;
+  const z = (x - mu) / sd, t = 1 / (1 + 0.2316419 * Math.abs(z));
+  const p = 1 - 0.3989423 * Math.exp(-z * z / 2) * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
+  return z &gt; 0 ? 1 - p : p;
+}
+
+function legEstimate(leg, cur, g) {
+  const need = leg.line - cur;
+  if (need &lt;= 0) return 1;
+  const r = fracLeft(g);
+  if (r &lt;= 0) return 0;
+  const elapsed = 1 - r;
+  if (leg.stat === &quot;td&quot;) { const lam = -Math.log(1 - (leg.tdp || 0.4)); return 1 - Math.exp(-lam * r); }
+  const mu0 = PRIOR[leg.stat](leg.line);
+  const pace = elapsed &gt; 0.05 ? cur / elapsed : mu0;
+  const w = Math.min(0.6, elapsed);
+  const muRem = r * (w * pace + (1 - w) * mu0);
+  if (leg.stat === &quot;rec&quot; || leg.stat === &quot;tackles&quot;) return poissonAtLeast(muRem, Math.ceil(need));
+  const sd = 0.55 * mu0 * Math.sqrt(r);
+  return normAtLeast(muRem, sd, need);
+}
+
+// games: {eventId: parsedSummary}
+function evaluate(games) {
+  let cashed = 0;
+  const tickets = TICKETS.map(t =&gt; {
+    const legs = t.legs.map(leg =&gt; {
+      const G = games[leg.ev];
+      const g = G ? G.game : { state: &quot;pre&quot;, detail: &quot;&quot;, away: {}, home: {} };
+      const n = norm(leg.p);
+      const ps = G &amp;&amp; G.players[n];
+      const cur = ps ? ps[leg.stat] : 0;
+      const isOut = G ? G.out.has(n) : false;
+      let status = &quot;pending&quot;;
+      if (cur &gt;= leg.line) status = &quot;hit&quot;;
+      else if (isOut || g.state === &quot;post&quot;) status = &quot;dead&quot;;
+      else if (g.state === &quot;in&quot;) status = &quot;live&quot;;
+      const prob = status === &quot;hit&quot; ? 1 : status === &quot;dead&quot; ? 0 : legEstimate(leg, cur, g);
+      return { ...leg, label: STAT_LABEL[leg.stat], cur, status, prob, isOut, game: g };
+    });
+    let status = &quot;Pregame&quot;;
+    if (legs.some(l =&gt; l.status === &quot;dead&quot;)) status = &quot;Lost&quot;;
+    else if (legs.every(l =&gt; l.status === &quot;hit&quot;)) status = &quot;Cashed&quot;;
+    else if (legs.some(l =&gt; l.game.state !== &quot;pre&quot;)) status = &quot;Live&quot;;
+    const prob = status === &quot;Lost&quot; ? 0 : legs.reduce((a, l) =&gt; a * l.prob, 1);
+    if (status === &quot;Cashed&quot;) cashed += t.pays;
+    return { ...t, legs, status, prob };
+  });
+  return { tickets, cashed };
+}
+
+
+// ---- Data fetch with cache fallback ----
+const CACHE_NAME = &quot;ticket-tracker-cache.json&quot;;
+function cachePath() {
+  const fm = FileManager.local();
+  return { fm, path: fm.joinPath(fm.cacheDirectory(), CACHE_NAME) };
+}
+function readCache() {
+  try { const { fm, path } = cachePath(); if (fm.fileExists(path)) return JSON.parse(fm.readString(path)); } catch (e) {}
+  return null;
+}
+function writeCache(obj) {
+  try { const { fm, path } = cachePath(); fm.writeString(path, JSON.stringify(obj)); } catch (e) {}
+}
+
+async function fetchRaw() {
+  const ids = [...new Set(TICKETS.flatMap(t =&gt; t.legs.map(l =&gt; l.ev)))];
+  const raw = {};
+  let failures = 0;
+  await Promise.all(ids.map(async id =&gt; {
+    try {
+      const r = new Request(ESPN + id);
+      r.timeoutInterval = 15;
+      const d = await r.loadJSON();
+      if (!d || !d.header) throw new Error(&quot;bad response&quot;);
+      // keep only what the parser needs so the cache stays small
+      raw[id] = { header: d.header, boxscore: { players: (d.boxscore &amp;&amp; d.boxscore.players) || [] }, injuries: d.injuries || [] };
+    } catch (e) { failures++; }
+  }));
+  return { raw, failures, total: ids.length };
+}
+
+async function loadData() {
+  const cache = readCache();
+  let fresh = null;
+  try { fresh = await fetchRaw(); } catch (e) { fresh = { raw: {}, failures: 1, total: 1 }; }
+  const raw = Object.assign({}, cache ? cache.raw : {}, fresh.raw);
+  const ok = fresh.failures === 0;
+  const updated = ok ? Date.now() : (cache ? cache.updated : null);
+  if (Object.keys(fresh.raw).length) writeCache({ raw, updated: ok ? Date.now() : (cache ? cache.updated : Date.now()) });
+  const games = {};
+  for (const id of Object.keys(raw)) { try { games[id] = parseSummary(raw[id]); } catch (e) {} }
+  return { result: evaluate(games), updated, error: !ok };
+}
+
+// ---- Presentation helpers ----
+const C = {
+  bg: new Color(&quot;#0d1117&quot;), card: new Color(&quot;#161b22&quot;), text: new Color(&quot;#e6edf3&quot;),
+  dim: new Color(&quot;#8b949e&quot;), green: new Color(&quot;#3fb950&quot;), yellow: new Color(&quot;#d29922&quot;),
+  red: new Color(&quot;#f85149&quot;), gray: new Color(&quot;#6e7681&quot;), accent: new Color(&quot;#58a6ff&quot;),
+};
+const STATUS_COLOR = { Cashed: C.green, Live: C.yellow, Lost: C.red, Pregame: C.gray };
+const pct = p =&gt; Math.round(p * 100) + &quot;%&quot;;
+const money = n =&gt; &quot;$&quot; + n.toFixed(2);
+function timeStr(ts) {
+  if (!ts) return &quot;never&quot;;
+  const df = new DateFormatter(); df.useNoDateStyle(); df.useShortTimeStyle();
+  return df.string(new Date(ts));
+}
+function lastName(p) {
+  const parts = p.replace(/\b(Jr\.?|Sr\.?|II|III|IV)$/i, &quot;&quot;).trim().split(&quot; &quot;);
+  return parts[parts.length - 1];
+}
+function fmtNum(n) { return Number.isInteger(n) ? String(n) : n.toFixed(1); }
+// The leg this ticket still needs most (lowest chance among unhit legs)
+function nextNeeded(t) {
+  if (t.status === &quot;Cashed&quot;) return &quot;All legs hit&quot;;
+  const dead = t.legs.find(l =&gt; l.status === &quot;dead&quot;);
+  if (dead) return lastName(dead.p) + &quot; &quot; + fmtNum(dead.cur) + &quot;/&quot; + dead.line + &quot; &quot; + dead.label + (dead.isOut ? &quot; (OUT)&quot; : &quot; ✗&quot;);
+  const open = t.legs.filter(l =&gt; l.status !== &quot;hit&quot;).sort((a, b) =&gt; a.prob - b.prob)[0];
+  if (!open) return &quot;&quot;;
+  return lastName(open.p) + &quot; &quot; + fmtNum(open.cur) + &quot;/&quot; + open.line + &quot; &quot; + open.label;
+}
+function hits(t) { return t.legs.filter(l =&gt; l.status === &quot;hit&quot;).length; }
+function addText(stack, s, size, color, bold) {
+  const t = stack.addText(s);
+  t.font = bold ? Font.boldSystemFont(size) : Font.systemFont(size);
+  t.textColor = color; t.lineLimit = 1; t.minimumScaleFactor = 0.6;
+  return t;
+}
+function footer(w, data, size) {
+  const s = data.error ? &quot;Updated &quot; + timeStr(data.updated) + &quot; · retrying&quot; : &quot;Updated &quot; + timeStr(data.updated);
+  addText(w, s, size, data.error ? C.yellow : C.dim, false);
+}
+
+// ---- Layouts ----
+function buildSmall(w, data) {
+  const { tickets, cashed } = data.result;
+  const alive = tickets.filter(t =&gt; t.status === &quot;Live&quot; || t.status === &quot;Pregame&quot;).length;
+  const best = tickets.filter(t =&gt; t.status !== &quot;Lost&quot; &amp;&amp; t.status !== &quot;Cashed&quot;).sort((a, b) =&gt; b.prob - a.prob)[0];
+  addText(w, &quot;🎟️ TICKETS&quot;, 11, C.dim, true);
+  w.addSpacer(4);
+  addText(w, money(cashed), 26, cashed &gt; 0 ? C.green : C.text, true);
+  addText(w, &quot;cashed&quot;, 10, C.dim, false);
+  w.addSpacer(4);
+  addText(w, alive + &quot; of &quot; + tickets.length + &quot; alive&quot;, 13, alive ? C.yellow : C.red, true);
+  if (best) addText(w, &quot;Best: &quot; + best.name + &quot; &quot; + pct(best.prob), 11, C.text, false);
+  w.addSpacer();
+  footer(w, data, 9);
+}
+
+function ticketRow(w, t, large) {
+  const row = w.addStack(); row.centerAlignContent();
+  const dot = row.addText(&quot;●&quot;); dot.font = Font.systemFont(large ? 13 : 12); dot.textColor = STATUS_COLOR[t.status] || C.gray;
+  row.addSpacer(6);
+  addText(row, t.name, large ? 14 : 13, C.text, true);
+  row.addSpacer();
+  addText(row, hits(t) + &quot;/&quot; + t.legs.length, large ? 13 : 12, C.dim, false);
+  row.addSpacer(8);
+  const pc = t.status === &quot;Cashed&quot; ? &quot;WIN&quot; : t.status === &quot;Lost&quot; ? &quot;LOST&quot; : pct(t.prob);
+  const pt = addText(row, pc, large ? 14 : 13, STATUS_COLOR[t.status] || C.text, true);
+  pt.rightAlignText();
+  if (large) {
+    const sub = w.addStack(); sub.addSpacer(19);
+    addText(sub, nextNeeded(t) + &quot;  ·  pays &quot; + money(t.pays), 11, C.dim, false);
+    sub.addSpacer();
+  }
+}
+
+function buildList(w, data, large) {
+  const { tickets, cashed } = data.result;
+  const head = w.addStack(); head.centerAlignContent();
+  addText(head, &quot;🎟️ Sunday Tickets&quot;, large ? 15 : 13, C.text, true);
+  head.addSpacer();
+  addText(head, &quot;Cashed &quot; + money(cashed), large ? 13 : 11, cashed &gt; 0 ? C.green : C.dim, true);
+  w.addSpacer(large ? 8 : 4);
+  tickets.forEach((t, i) =&gt; { ticketRow(w, t, large); if (i &lt; tickets.length - 1) w.addSpacer(large ? 7 : 2); });
+  w.addSpacer();
+  footer(w, data, large ? 10 : 9);
+}
+
+async function main() {
+  let data;
+  try { data = await loadData(); }
+  catch (e) { const c = readCache(); data = { result: evaluate({}), updated: c ? c.updated : null, error: true }; }
+  const w = new ListWidget();
+  w.backgroundColor = C.bg;
+  w.url = TRACKER_URL;
+  w.setPadding(12, 14, 12, 14);
+  w.refreshAfterDate = new Date(Date.now() + 5 * 60 * 1000);
+  const family = config.runsInWidget ? (config.widgetFamily || &quot;medium&quot;) : &quot;large&quot;;
+  if (family === &quot;small&quot;) buildSmall(w, data);
+  else buildList(w, data, family === &quot;large&quot; || family === &quot;extraLarge&quot;);
+  if (config.runsInWidget) Script.setWidget(w);
+  else await w.presentLarge();
+  Script.complete();
+  return { w, data };
+}
+
+main();
+</textarea>
+<p class="note">iOS refreshes widgets on its own schedule, usually every 5–15 minutes. Tap the widget to open the <a href="./">live tracker</a>, which updates every 30 seconds.</p>
+<script>
+const b=document.getElementById('copy'),t=document.getElementById('code');
+b.onclick=async()=>{
+  try{await navigator.clipboard.writeText(t.value)}
+  catch(e){t.focus();t.setSelectionRange(0,t.value.length);document.execCommand('copy')}
+  b.textContent='Copied ✓';b.className='done';setTimeout(()=>{b.textContent='Copy script';b.className=''},2500);
+};
+</script>
+</body></html>
