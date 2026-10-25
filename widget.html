@@ -159,7 +159,7 @@ const TT = (function () {
         const def = statDef(l.stat, sport);
         const tdp = l.tdProb != null ? l.tdProb : (l.pregameProb != null ? l.pregameProb : l.tdp);
         return {
-          p: l.player || l.p, team: l.team || &quot;&quot;, sport, ev, key: gameKey(sport, ev),
+          p: l.player || l.p, short: l.short || undefined, team: l.team || &quot;&quot;, sport, ev, key: gameKey(sport, ev),
           stat: def.name, def, line: Number(l.line), tdp: tdp != null ? Number(tdp) : undefined,
           result: l.result ? String(l.result).toLowerCase() : undefined,
         };
@@ -192,6 +192,7 @@ const TT = (function () {
       state: type.state || &quot;pre&quot;, completed: !!type.completed,
       detail: type.shortDetail || type.detail || &quot;&quot;, period: st.period || 0,
       clock: st.displayClock || &quot;&quot;, away, home, sport: sport || DEFAULT_SPORT,
+      date: comp.date ? (Date.parse(comp.date) || null) : null,
     };
     const players = {};
     const bp = (d.boxscore &amp;&amp; d.boxscore.players) || [];
@@ -356,9 +357,83 @@ const TT = (function () {
     return { tickets: out, cashed, inPlay, potential };
   }
 
+
+  // ---- Days, titles, roll-off (all in US Eastern) ---------------------------
+  const ET = &quot;America/New_York&quot;;
+  const WD = [&quot;Sunday&quot;, &quot;Monday&quot;, &quot;Tuesday&quot;, &quot;Wednesday&quot;, &quot;Thursday&quot;, &quot;Friday&quot;, &quot;Saturday&quot;];
+  const HOUR = 3600000;
+  const GAME_LEN = { football: 3.25, basketball: 2.5, hockey: 2.6, baseball: 3, soccer: 2 };
+  let etFmt = null;
+  function etParts(ts) {
+    try {
+      etFmt = etFmt || new Intl.DateTimeFormat(&quot;en-US&quot;, { timeZone: ET, year: &quot;numeric&quot;, month: &quot;2-digit&quot;, day: &quot;2-digit&quot;, hour: &quot;2-digit&quot;, hourCycle: &quot;h23&quot;, weekday: &quot;long&quot; });
+      const o = {}; for (const q of etFmt.formatToParts(new Date(ts))) o[q.type] = q.value;
+      if (!o.year || !o.weekday) throw new Error(&quot;no parts&quot;);
+      return { y: +o.year, m: +o.month, d: +o.day, h: (+o.hour) % 24, wd: o.weekday };
+    } catch (e) {
+      const d = new Date(ts);
+      return { y: d.getFullYear(), m: d.getMonth() + 1, d: d.getDate(), h: d.getHours(), wd: WD[d.getDay()] };
+    }
+  }
+  const pad2 = n =&gt; (n &lt; 10 ? &quot;0&quot; : &quot;&quot;) + n;
+  function etDayKey(ts) { const q = etParts(ts); return q.y + &quot;-&quot; + pad2(q.m) + &quot;-&quot; + pad2(q.d); }
+  function next6amET(ts) {
+    let t = Math.floor(ts / HOUR) * HOUR + HOUR; // ET offsets are whole hours, so hour boundaries line up
+    for (let i = 0; i &lt; 30 &amp;&amp; etParts(t).h !== 6; i++) t += HOUR;
+    return t;
+  }
+  function placedTs(t) { // placedAt &quot;YYYY-MM-DD&quot; -&gt; 8 PM ET that day (rough &quot;end of slate&quot;)
+    if (!t.placedAt) return null;
+    const v = Date.parse(String(t.placedAt).length &lt;= 10 ? t.placedAt + &quot;T20:00:00-04:00&quot; : t.placedAt);
+    return isNaN(v) ? null : v;
+  }
+  // Start / estimated end of a ticket&#x27;s games (ms), from ESPN dates; falls back to placedAt.
+  function ticketTimes(t) {
+    let first = null, last = null;
+    for (const l of t.legs) {
+      const g = l.game || {};
+      if (!g.date) continue;
+      const end = g.date + (GAME_LEN[sportRoot(g.sport || l.sport)] || 3) * HOUR;
+      if (first == null || g.date &lt; first) first = g.date;
+      if (last == null || end &gt; last) last = end;
+    }
+    const pt = placedTs(t);
+    if (first == null) first = pt;
+    if (last == null) last = pt;
+    return { first, last };
+  }
+  function isSettled(t) {
+    if (t.status === &quot;Cashed&quot; || t.status === &quot;Lost&quot; || t.status === &quot;Void&quot;) return true;
+    return t.legs.length &gt; 0 &amp;&amp; t.legs.every(l =&gt; l.game &amp;&amp; l.game.state === &quot;post&quot;);
+  }
+  // When a settled ticket drops off the widget: 12h after its last game ends, or the next 6 AM ET, whichever is first.
+  function rollOffAt(t) {
+    const { last } = ticketTimes(t);
+    if (last == null) return null;
+    return Math.min(last + 12 * HOUR, next6amET(last));
+  }
+  // Split evaluated tickets into what the widget shows now vs. rolled-off history.
+  function currentView(result, now) {
+    now = now || Date.now();
+    const shown = [], hidden = [];
+    for (const t of result.tickets) {
+      const r = isSettled(t) ? rollOffAt(t) : null;
+      (r != null &amp;&amp; now &gt;= r ? hidden : shown).push(t);
+    }
+    const open = shown.filter(t =&gt; t.status === &quot;Live&quot; || t.status === &quot;Pregame&quot;);
+    const days = new Set(open.map(t =&gt; { const f = ticketTimes(t).first; return f != null ? etDayKey(f) : etDayKey(now); }));
+    let title;
+    if (days.size &gt; 1) title = &quot;My Tickets&quot;;
+    else if (days.size === 1) { const k = [...days][0]; title = etParts(Date.parse(k + &quot;T12:00:00-04:00&quot;)).wd + &quot; Tickets&quot;; }
+    else title = etParts(now).wd + &quot; Tickets&quot;;
+    const cashed = shown.filter(t =&gt; t.status === &quot;Cashed&quot;).reduce((a, t) =&gt; a + t.pays, 0);
+    return { shown, hidden, title, cashed };
+  }
+
   const api = {
     DEFAULT_SPORT, STATS, ALIASES, summaryUrl, gameKey, statDef, normalizeTickets, eventsOf,
     parseSummary, statValue, evaluate, fracLeft, legEstimate, norm,
+    etParts, etDayKey, next6amET, ticketTimes, isSettled, rollOffAt, currentView,
   };
   if (typeof module !== &quot;undefined&quot; &amp;&amp; module.exports) module.exports = api; else root.TT = api;
 })(typeof window !== &quot;undefined&quot; ? window : (typeof globalThis !== &quot;undefined&quot; ? globalThis : this));
@@ -431,109 +506,280 @@ async function loadData() {
   const sportOf = {}; for (const e of events) sportOf[e.key] = e.sport;
   const games = {};
   for (const k of Object.keys(raw)) { try { games[k] = TT.parseSummary(raw[k], sportOf[k]); } catch (e) {} }
-  return { result: TT.evaluate(tickets, games), updated, error: !ok, ticketsStale: t.stale, title: t.doc.title || &quot;Tickets&quot; };
+  const result = TT.evaluate(tickets, games);
+  return { result, view: TT.currentView(result, Date.now()), updated, error: !ok, ticketsStale: t.stale };
 }
 
-// ---- Presentation helpers ----
+// ---- Presentation -------------------------------------------------------------
 const C = {
-  bg: new Color(&quot;#0d1117&quot;), card: new Color(&quot;#161b22&quot;), text: new Color(&quot;#e6edf3&quot;),
-  dim: new Color(&quot;#8b949e&quot;), green: new Color(&quot;#3fb950&quot;), yellow: new Color(&quot;#d29922&quot;),
-  red: new Color(&quot;#f85149&quot;), gray: new Color(&quot;#6e7681&quot;), accent: new Color(&quot;#58a6ff&quot;),
+  bg: new Color(&quot;#0d1117&quot;), text: new Color(&quot;#e6edf3&quot;), dim: new Color(&quot;#8b949e&quot;),
+  green: new Color(&quot;#3fb950&quot;), yellow: new Color(&quot;#d29922&quot;), red: new Color(&quot;#f85149&quot;),
+  gray: new Color(&quot;#6e7681&quot;), white: new Color(&quot;#ffffff&quot;),
 };
 const STATUS_COLOR = { Cashed: C.green, Live: C.yellow, Lost: C.red, Pregame: C.gray, Void: C.gray };
 const PRIORITY = { Live: 0, Pregame: 1, Cashed: 2, Lost: 3, Void: 4 };
 const pct = p =&gt; Math.round(p * 100) + &quot;%&quot;;
 const money = n =&gt; &quot;$&quot; + n.toFixed(2);
+const fmtNum = n =&gt; Number.isInteger(n) ? String(n) : n.toFixed(1);
+
+// Row heights (pt) used by the fitting algorithm; rows are drawn with these exact heights.
+const H = { header: 18, afterHeader: 4, title: 15, afterTitle: 1, chip11: 13, chip10: 12, chip9: 11, gap: 4, more: 12 };
+const PAD = { v: 10, h: 12 };
+// Widget sizes (pt) by screen width, from Apple&#x27;s published widget dimensions.
+function widgetSize(family) {
+  let w = 430;
+  try { const s = Device.screenSize(); w = Math.min(s.width, s.height); } catch (e) {}
+  const t = w &gt;= 428 ? { small: [170, 170], medium: [364, 170], large: [364, 382] }
+    : w &gt;= 414 ? { small: [169, 169], medium: [360, 169], large: [360, 379] }
+    : w &gt;= 390 ? { small: [158, 158], medium: [338, 158], large: [338, 354] }
+    : w &gt;= 375 ? { small: [155, 155], medium: [329, 155], large: [329, 345] }
+    : { small: [141, 141], medium: [292, 141], large: [292, 311] };
+  const fam = family === &quot;extraLarge&quot; ? &quot;large&quot; : family;
+  const [ww, hh] = t[fam] || t.large;
+  return { w: ww - 2 * PAD.h, h: hh - 2 * PAD.v };
+}
+
 function timeStr(ts) {
   if (!ts) return &quot;never&quot;;
   const df = new DateFormatter(); df.useNoDateStyle(); df.useShortTimeStyle();
   return df.string(new Date(ts));
 }
 function lastName(p) {
-  const parts = p.replace(/\b(Jr\.?|Sr\.?|II|III|IV)$/i, &quot;&quot;).trim().split(&quot; &quot;);
+  const parts = String(p).replace(/\s+(Jr\.?|Sr\.?|II|III|IV|V)$/i, &quot;&quot;).trim().split(/\s+/);
   return parts[parts.length - 1];
 }
-function fmtNum(n) { return Number.isInteger(n) ? String(n) : n.toFixed(1); }
-// The leg this ticket still needs most (lowest chance among unhit legs)
-function nextNeeded(t) {
-  if (t.status === &quot;Cashed&quot;) return &quot;All legs hit&quot;;
-  if (t.status === &quot;Void&quot;) return &quot;Void&quot;;
-  const dead = t.legs.find(l =&gt; l.status === &quot;dead&quot;);
-  if (dead) return lastName(dead.p) + &quot; &quot; + fmtNum(dead.cur) + &quot;/&quot; + dead.line + &quot; &quot; + dead.label + (dead.isOut ? &quot; (OUT)&quot; : &quot; ✗&quot;);
-  const open = t.legs.filter(l =&gt; l.status !== &quot;hit&quot; &amp;&amp; l.status !== &quot;void&quot;).sort((a, b) =&gt; a.prob - b.prob)[0];
-  if (!open) return &quot;&quot;;
-  return lastName(open.p) + &quot; &quot; + fmtNum(open.cur) + &quot;/&quot; + open.line + &quot; &quot; + open.label;
+// Last names; first initial added when two different players share one.
+function nameMap(tickets) {
+  const byLast = {};
+  for (const t of tickets) for (const l of t.legs) { const k = lastName(l.p); (byLast[k] = byLast[k] || new Set()).add(l.p); }
+  return leg =&gt; {
+    if (leg.short) return leg.short;
+    const ln = lastName(leg.p);
+    return byLast[ln] &amp;&amp; byLast[ln].size &gt; 1 ? leg.p.trim()[0] + &quot;. &quot; + ln : ln;
+  };
+}
+function shortName(name) {
+  let s = String(name).replace(/\bparlay\b/ig, &quot;&quot;).replace(/\s+/g, &quot; &quot;).trim();
+  const noSgp = s.replace(/\s*\bSGPx?\b\s*$/i, &quot;&quot;).trim();
+  if (noSgp.length &gt; 2) s = noSgp;
+  return s || String(name);
+}
+function kickoff(t) {
+  if (t.time) return String(t.time).replace(/:00\b/, &quot;&quot;).replace(/\s+/g, &quot; &quot;);
+  const f = TT.ticketTimes(t).first;
+  return f ? timeStr(f) : &quot;&quot;;
 }
 function hits(t) { return t.legs.filter(l =&gt; l.status === &quot;hit&quot;).length; }
 function legCount(t) { return t.legs.filter(l =&gt; l.status !== &quot;void&quot;).length; }
+function liveDetail(t) { // clock for single-game live tickets, e.g. &quot;7:30 - 2nd&quot;
+  const evs = new Set(t.legs.map(l =&gt; l.key));
+  if (evs.size !== 1) { const n = new Set(t.legs.filter(l =&gt; l.game.state === &quot;in&quot;).map(l =&gt; l.key)).size; return n ? n + &quot; live&quot; : &quot;&quot;; }
+  const g = t.legs[0].game; return g.state === &quot;in&quot; ? String(g.detail || &quot;&quot;) : &quot;&quot;;
+}
+
+function chipText(l, name) {
+  if (l.status === &quot;void&quot;) return name + &quot; void&quot;;
+  const pre = l.game.state === &quot;pre&quot; &amp;&amp; l.status !== &quot;hit&quot; &amp;&amp; l.status !== &quot;dead&quot;;
+  if (l.anytime) {
+    const mark = l.status === &quot;hit&quot; ? &quot; ✓&quot; : l.status === &quot;dead&quot; ? &quot; ✗&quot; : &quot;&quot;;
+    if (l.line &lt;= 1) return name + &quot; TD&quot; + (mark || (pre ? &quot; –&quot; : &quot; &quot; + fmtNum(l.cur))) + (l.isOut &amp;&amp; l.status === &quot;dead&quot; ? &quot; OUT&quot; : &quot;&quot;);
+    return name + &quot; TD &quot; + (pre ? &quot;–&quot; : fmtNum(l.cur)) + &quot;/&quot; + fmtNum(l.line) + mark;
+  }
+  if (l.isOut &amp;&amp; l.status === &quot;dead&quot;) return name + &quot; OUT ✗&quot;;
+  return name + &quot; &quot; + (pre ? &quot;–&quot; : fmtNum(l.cur)) + &quot;/&quot; + fmtNum(l.line) + (l.status === &quot;hit&quot; ? &quot; ✓&quot; : l.status === &quot;dead&quot; ? &quot; ✗&quot; : &quot;&quot;);
+}
+function chipColor(l) {
+  if (l.status === &quot;hit&quot;) return C.green;
+  if (l.status === &quot;dead&quot;) return C.red;
+  if (l.status === &quot;void&quot;) return C.gray;
+  if (l.game.state === &quot;pre&quot;) return C.gray;
+  return l.prob &lt; 0.3 ? C.yellow : C.white; // live: yellow = behind pace
+}
+
+// ---- Fitting ---------------------------------------------------------------------
+// plan = { items: [{ t, mode: &quot;full&quot;|&quot;one&quot;|&quot;title&quot; }], font, perRow, more: &quot;+N ...&quot; | null }
+function chipH(font) { return font &gt;= 11 ? H.chip11 : font &gt;= 10 ? H.chip10 : H.chip9; }
+function itemH(it, plan) {
+  let h = H.title;
+  const n = it.mode === &quot;full&quot; ? Math.ceil((it.maxLegs || it.t.legs.length) / plan.perRow) : it.mode === &quot;one&quot; ? 1 : 0;
+  if (n) h += H.afterTitle + n * chipH(plan.font);
+  return h;
+}
+function planHeight(plan) {
+  let h = H.header + H.afterHeader;
+  plan.items.forEach((it, i) =&gt; { h += itemH(it, plan) + (i ? H.gap : 0); });
+  if (plan.more) h += H.gap + H.more;
+  return h;
+}
+const sortTickets = ts =&gt; ts.map((t, i) =&gt; ({ t, i })).sort((a, b) =&gt; (PRIORITY[a.t.status] - PRIORITY[b.t.status]) || (a.i - b.i)).map(x =&gt; x.t);
+const isLive = t =&gt; t.status === &quot;Live&quot;;
+const isOpen = t =&gt; t.status === &quot;Live&quot; || t.status === &quot;Pregame&quot;;
+
+// Generic shrink: try fonts/columns, then collapse non-live items (settled first, from the bottom),
+// then drop non-live items into &quot;+N other&quot;. Live legs are only trimmed if nothing else is left.
+function fit(items, budget, opts) {
+  const variants = opts.variants;
+  const mk = (v, its, more) =&gt; ({ items: its.map(x =&gt; Object.assign({}, x)), font: v.font, perRow: v.perRow, more });
+  for (const v of variants) { const p = mk(v, items, opts.more ? opts.more(0) : null); if (planHeight(p) &lt;= budget) return p; }
+  const v = variants[variants.length - 1];
+  let p = mk(v, items, opts.more ? opts.more(0) : null);
+  // collapse non-live: settled -&gt; title (already), pregame &quot;full&quot; -&gt; &quot;one&quot; -&gt; &quot;title&quot;, bottom-up
+  for (const target of [&quot;one&quot;, &quot;title&quot;]) {
+    for (let i = p.items.length - 1; i &gt;= 0 &amp;&amp; planHeight(p) &gt; budget; i--) {
+      const it = p.items[i];
+      if (isLive(it.t) || it.mode === &quot;title&quot;) continue;
+      if (target === &quot;one&quot; &amp;&amp; it.mode === &quot;full&quot; &amp;&amp; Math.ceil(it.t.legs.length / p.perRow) &gt; 1) it.mode = &quot;one&quot;;
+      else if (target === &quot;title&quot;) it.mode = &quot;title&quot;;
+    }
+    if (planHeight(p) &lt;= budget) return p;
+  }
+  // drop non-live items from the bottom (settled first since they sort last)
+  let dropped = 0;
+  while (planHeight(p) &gt; budget) {
+    let idx = -1;
+    for (let i = p.items.length - 1; i &gt;= 0; i--) if (!isLive(p.items[i].t)) { idx = i; break; }
+    if (idx &lt; 0) break;
+    p.items.splice(idx, 1); dropped++;
+    p.more = &quot;+&quot; + (dropped + (opts.extra || 0)) + &quot; other&quot; + (dropped + (opts.extra || 0) === 1 ? &quot;&quot; : &quot;s&quot;);
+  }
+  let liveDropped = 0;
+  // last resort (live legs alone overflow): trim chip rows off the last ticket, then drop it
+  while (planHeight(p) &gt; budget &amp;&amp; p.items.length) {
+    const last = p.items[p.items.length - 1];
+    const n = last.mode === &quot;full&quot; ? (last.maxLegs || last.t.legs.length) : 0;
+    if (n &gt; p.perRow) last.maxLegs = (Math.ceil(n / p.perRow) - 1) * p.perRow;
+    else { p.items.pop(); liveDropped++; }
+    if (liveDropped) { const o = dropped + (opts.extra || 0); p.more = &quot;+&quot; + liveDropped + &quot; more live&quot; + (o ? &quot;, +&quot; + o + &quot; other&quot; + (o === 1 ? &quot;&quot; : &quot;s&quot;) : &quot;&quot;); }
+  }
+  return p;
+}
+
+function pageParam() {
+  const a = (typeof args !== &quot;undefined&quot; &amp;&amp; args.widgetParameter) ? String(args.widgetParameter) : &quot;&quot;;
+  const m = a.match(/(\d)/); return m ? Number(m[1]) : 0;
+}
+const LARGE_VARIANTS = [{ font: 11, perRow: 3 }, { font: 10, perRow: 3 }, { font: 9, perRow: 4 }];
+
+function planLarge(tickets, budget, page) {
+  const sorted = sortTickets(tickets);
+  if (!page) { // default: live tickets with every leg, everything else one title line
+    const items = sorted.map(t =&gt; ({ t, mode: isLive(t) ? &quot;full&quot; : &quot;title&quot; }));
+    return fit(items, budget, { variants: LARGE_VARIANTS });
+  }
+  // paged: every open ticket with its legs; page 1 takes whole tickets in order until full, page 2 the rest
+  const all = sorted.map(t =&gt; ({ t, mode: isOpen(t) ? &quot;full&quot; : &quot;title&quot; }));
+  const base = { font: 11, perRow: 3, more: null };
+  const p1 = [];
+  for (const it of all) {
+    const trial = Object.assign({}, base, { items: p1.concat([it]) });
+    if (planHeight(trial) &gt; budget &amp;&amp; p1.length) break;
+    p1.push(it);
+  }
+  if (page === 1) return fit(p1, budget, { variants: LARGE_VARIANTS });
+  const rest = all.slice(p1.length);
+  if (!rest.length) return { items: [], font: 11, perRow: 3, more: null, note: &quot;All tickets on widget 1&quot; };
+  return fit(rest, budget, { variants: LARGE_VARIANTS });
+}
+function planMedium(tickets, budget) {
+  const sorted = sortTickets(tickets);
+  const live = sorted.filter(isLive), other = sorted.filter(t =&gt; !isLive(t));
+  const V = [{ font: 11, perRow: 2 }, { font: 10, perRow: 2 }];
+  if (live.length) {
+    const more = n =&gt; other.length ? &quot;+&quot; + other.length + &quot; other&quot; + (other.length === 1 ? &quot;&quot; : &quot;s&quot;) : null;
+    return fit(live.map(t =&gt; ({ t, mode: &quot;full&quot; })), budget, { variants: V, more, extra: other.length });
+  }
+  // nothing live: next-up title lines while they fit, then &quot;+N other&quot;
+  const p = { items: [], font: 11, perRow: 2, more: null };
+  for (let i = 0; i &lt; other.length; i++) {
+    const left = other.length - i - 1;
+    const trial = Object.assign({}, p, { items: p.items.concat([{ t: other[i], mode: &quot;title&quot; }]), more: left ? &quot;+&quot; + left + &quot; other&quot; + (left === 1 ? &quot;&quot; : &quot;s&quot;) : null });
+    if (planHeight(trial) &gt; budget) break;
+    Object.assign(p, trial);
+  }
+  if (p.items.length &lt; other.length) { const n = other.length - p.items.length; p.more = &quot;+&quot; + n + &quot; other&quot; + (n === 1 ? &quot;&quot; : &quot;s&quot;); }
+  return p;
+}
+
+// ---- Drawing -----------------------------------------------------------------------
 function addText(stack, s, size, color, bold) {
   const t = stack.addText(s);
   t.font = bold ? Font.boldSystemFont(size) : Font.systemFont(size);
-  t.textColor = color; t.lineLimit = 1; t.minimumScaleFactor = 0.6;
+  t.textColor = color; t.lineLimit = 1; t.minimumScaleFactor = 0.7;
   return t;
 }
-function footer(w, data, size) {
-  let s = &quot;Updated &quot; + timeStr(data.updated);
-  if (data.error) s += &quot; · retrying&quot;;
-  if (data.ticketsStale) s += &quot; · saved bets&quot;;
-  addText(w, s, size, data.error || data.ticketsStale ? C.yellow : C.dim, false);
+function drawHeader(w, data, view, size, page) {
+  const head = w.addStack(); head.size = new Size(size.w, H.header); head.centerAlignContent();
+  addText(head, view.title, 14, C.text, true);
+  head.addSpacer();
+  addText(head, money(view.cashed) + &quot; cashed&quot;, 11, view.cashed &gt; 0 ? C.green : C.dim, true);
+  head.addSpacer(6);
+  let s = timeStr(data.updated);
+  if (data.error || data.ticketsStale) s += &quot; !&quot;;
+  if (page) s += &quot; · &quot; + page + &quot;/2&quot;;
+  addText(head, s, 10, data.error || data.ticketsStale ? C.yellow : C.dim, false);
+  w.addSpacer(H.afterHeader);
+}
+function drawTitle(w, t, size) {
+  const row = w.addStack(); row.size = new Size(size.w, H.title); row.centerAlignContent();
+  const dot = row.addText(&quot;●&quot;); dot.font = Font.systemFont(10); dot.textColor = STATUS_COLOR[t.status] || C.gray;
+  row.addSpacer(4);
+  addText(row, shortName(t.name), 12, C.text, true);
+  const sub = t.status === &quot;Pregame&quot; ? kickoff(t) : t.status === &quot;Live&quot; ? liveDetail(t) : &quot;&quot;;
+  if (sub &amp;&amp; sub !== shortName(t.name)) { row.addSpacer(5); addText(row, sub, 10, C.dim, false); }
+  row.addSpacer();
+  addText(row, hits(t) + &quot;/&quot; + legCount(t), 11, C.dim, false);
+  row.addSpacer(6);
+  const pc = t.status === &quot;Cashed&quot; ? &quot;WIN&quot; : t.status === &quot;Lost&quot; ? &quot;LOST&quot; : t.status === &quot;Void&quot; ? &quot;VOID&quot; : pct(t.prob);
+  addText(row, pc, 12, STATUS_COLOR[t.status] === C.gray ? C.text : STATUS_COLOR[t.status], true);
+  row.addSpacer(6);
+  addText(row, money(t.pays), 11, t.status === &quot;Cashed&quot; ? C.green : C.dim, false);
+}
+function drawChips(w, it, plan, size, nm) {
+  const legs = it.maxLegs ? it.t.legs.slice(0, it.maxLegs) : it.mode === &quot;one&quot; ? it.t.legs.slice(0, plan.perRow) : it.t.legs;
+  const rh = chipH(plan.font), cw = Math.floor((size.w - 8) / plan.perRow);
+  w.addSpacer(H.afterTitle);
+  for (let i = 0; i &lt; legs.length; i += plan.perRow) {
+    const row = w.addStack(); row.size = new Size(size.w, rh); row.centerAlignContent();
+    row.addSpacer(8); // indent under the dot
+    for (let j = i; j &lt; i + plan.perRow; j++) {
+      const cell = row.addStack(); cell.size = new Size(cw, rh); cell.centerAlignContent();
+      const l = legs[j];
+      if (l) {
+        let s = chipText(l, nm(l));
+        const lastShown = (it.mode === &quot;one&quot; || it.maxLegs) &amp;&amp; j === legs.length - 1 &amp;&amp; it.t.legs.length &gt; legs.length;
+        if (lastShown) s += &quot;  +&quot; + (it.t.legs.length - legs.length);
+        addText(cell, s, plan.font, chipColor(l), l.status === &quot;hit&quot; || l.status === &quot;dead&quot;);
+      }
+      cell.addSpacer();
+    }
+  }
+}
+function drawPlan(w, plan, size, nm) {
+  plan.items.forEach((it, i) =&gt; {
+    if (i) w.addSpacer(H.gap);
+    drawTitle(w, it.t, size);
+    if (it.mode !== &quot;title&quot;) drawChips(w, it, plan, size, nm);
+  });
+  if (plan.note) addText(w, plan.note, 11, C.dim, false);
+  if (plan.more) { w.addSpacer(H.gap); const r = w.addStack(); r.size = new Size(size.w, H.more); addText(r, plan.more, 10, C.dim, false); r.addSpacer(); }
+  w.addSpacer();
 }
 
-// ---- Layouts ----
-function buildSmall(w, data) {
-  const { tickets, cashed } = data.result;
-  const counted = tickets.filter(t =&gt; t.status !== &quot;Void&quot;);
-  const alive = counted.filter(t =&gt; t.status === &quot;Live&quot; || t.status === &quot;Pregame&quot;).length;
-  const best = counted.filter(t =&gt; t.status === &quot;Live&quot; || t.status === &quot;Pregame&quot;).sort((a, b) =&gt; b.prob - a.prob)[0];
-  addText(w, &quot;🎟️ TICKETS&quot;, 11, C.dim, true);
+function buildSmall(w, data, view) {
+  const counted = view.shown.filter(t =&gt; t.status !== &quot;Void&quot;);
+  const open = counted.filter(isOpen);
+  const best = open.slice().sort((a, b) =&gt; b.prob - a.prob)[0];
+  addText(w, &quot;🎟️ &quot; + view.title.toUpperCase(), 10, C.dim, true);
   w.addSpacer(4);
-  addText(w, money(cashed), 26, cashed &gt; 0 ? C.green : C.text, true);
+  addText(w, money(view.cashed), 26, view.cashed &gt; 0 ? C.green : C.text, true);
   addText(w, &quot;cashed&quot;, 10, C.dim, false);
   w.addSpacer(4);
-  addText(w, alive + &quot; of &quot; + counted.length + &quot; alive&quot;, 13, alive ? C.yellow : C.red, true);
-  if (best) addText(w, &quot;Best: &quot; + best.name + &quot; &quot; + pct(best.prob), 11, C.text, false);
+  addText(w, open.length + &quot; of &quot; + counted.length + &quot; alive&quot;, 13, open.length ? C.yellow : C.red, true);
+  if (best) addText(w, &quot;Best: &quot; + shortName(best.name) + &quot; &quot; + pct(best.prob), 11, C.text, false);
   w.addSpacer();
-  footer(w, data, 9);
-}
-
-function ticketRow(w, t, large) {
-  const row = w.addStack(); row.centerAlignContent();
-  const dot = row.addText(&quot;●&quot;); dot.font = Font.systemFont(large ? 13 : 12); dot.textColor = STATUS_COLOR[t.status] || C.gray;
-  row.addSpacer(6);
-  addText(row, t.name, large ? 14 : 13, C.text, true);
-  row.addSpacer();
-  addText(row, hits(t) + &quot;/&quot; + legCount(t), large ? 13 : 12, C.dim, false);
-  row.addSpacer(8);
-  const pc = t.status === &quot;Cashed&quot; ? &quot;WIN&quot; : t.status === &quot;Lost&quot; ? &quot;LOST&quot; : t.status === &quot;Void&quot; ? &quot;VOID&quot; : pct(t.prob);
-  const pt = addText(row, pc, large ? 14 : 13, STATUS_COLOR[t.status] || C.text, true);
-  pt.rightAlignText();
-  if (large) {
-    const sub = w.addStack(); sub.addSpacer(19);
-    addText(sub, nextNeeded(t) + &quot;  ·  pays &quot; + money(t.pays), 11, C.dim, false);
-    sub.addSpacer();
-  }
-}
-
-function buildList(w, data, large) {
-  const { tickets, cashed } = data.result;
-  const head = w.addStack(); head.centerAlignContent();
-  addText(head, &quot;🎟️ &quot; + data.title, large ? 15 : 13, C.text, true);
-  head.addSpacer();
-  addText(head, &quot;Cashed &quot; + money(cashed), large ? 13 : 11, cashed &gt; 0 ? C.green : C.dim, true);
-  w.addSpacer(large ? 8 : 4);
-  const max = large ? 7 : 5;
-  let shown = tickets;
-  if (tickets.length &gt; max) {
-    // keep the ones that matter most (live, then pregame...), in tickets.json order
-    const keep = tickets.map((t, i) =&gt; ({ t, i })).sort((a, b) =&gt; (PRIORITY[a.t.status] - PRIORITY[b.t.status]) || (a.i - b.i))
-      .slice(0, max - 1).sort((a, b) =&gt; a.i - b.i).map(x =&gt; x.t);
-    shown = keep;
-  }
-  if (!tickets.length) addText(w, &quot;No tickets yet&quot;, 13, C.dim, false);
-  shown.forEach((t, i) =&gt; { ticketRow(w, t, large); if (i &lt; shown.length - 1) w.addSpacer(large ? 7 : 2); });
-  if (shown.length &lt; tickets.length) { w.addSpacer(2); addText(w, &quot;+&quot; + (tickets.length - shown.length) + &quot; more in the tracker&quot;, 10, C.dim, false); }
-  w.addSpacer();
-  footer(w, data, large ? 10 : 9);
+  let s = &quot;Updated &quot; + timeStr(data.updated);
+  if (data.error) s += &quot; · retrying&quot;;
+  addText(w, s, 9, data.error || data.ticketsStale ? C.yellow : C.dim, false);
 }
 
 async function main() {
@@ -541,23 +787,36 @@ async function main() {
   try { data = await loadData(); }
   catch (e) {
     const c = readJSON(TICKETS_FILE);
-    data = { result: TT.evaluate(TT.normalizeTickets(c ? c.doc : { tickets: [] }), {}), updated: null, error: true, ticketsStale: true, title: &quot;Tickets&quot; };
+    const result = TT.evaluate(TT.normalizeTickets(c ? c.doc : { tickets: [] }), {});
+    data = { result, view: TT.currentView(result, Date.now()), updated: null, error: true, ticketsStale: true };
   }
+  const view = data.view;
   const w = new ListWidget();
   w.backgroundColor = C.bg;
   w.url = TRACKER_URL;
-  w.setPadding(12, 14, 12, 14);
+  w.setPadding(PAD.v, PAD.h, PAD.v, PAD.h);
   w.refreshAfterDate = new Date(Date.now() + REFRESH_SECONDS * 1000);
   const family = config.runsInWidget ? (config.widgetFamily || &quot;medium&quot;) : &quot;large&quot;;
-  if (family === &quot;small&quot;) buildSmall(w, data);
-  else buildList(w, data, family === &quot;large&quot; || family === &quot;extraLarge&quot;);
+  const size = widgetSize(family);
+  let plan = null;
+  if (family === &quot;small&quot;) buildSmall(w, data, view);
+  else {
+    const large = family !== &quot;medium&quot;;
+    const page = large ? pageParam() : 0;
+    const budget = size.h;
+    plan = large ? planLarge(view.shown, budget, page) : planMedium(view.shown, budget);
+    drawHeader(w, data, view, size, page);
+    if (!view.shown.length) addText(w, &quot;No tickets yet&quot;, 12, C.dim, false);
+    drawPlan(w, plan, size, nameMap(view.shown));
+    plan.height = planHeight(plan); plan.budget = budget;
+  }
+  try { globalThis.__ttLast = { plan, view, family, size }; } catch (e) {}
   if (config.runsInWidget) Script.setWidget(w);
   else await w.presentLarge();
   Script.complete();
-  return { w, data };
 }
 
-main();
+await main();
 </textarea>
 <p class="note"><b>Paste once.</b> New bets load automatically on every refresh, so you never need to re-paste for new tickets. (If you pasted the older version, replace it with this one one time.)</p>
 <p class="note">The widget asks iOS to refresh every minute, but iOS decides the real timing, usually every 5–15 minutes. Tap the widget to open the <a href="./">live tracker</a>, which updates every 30 seconds.</p>

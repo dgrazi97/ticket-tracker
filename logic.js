@@ -126,7 +126,7 @@
         const def = statDef(l.stat, sport);
         const tdp = l.tdProb != null ? l.tdProb : (l.pregameProb != null ? l.pregameProb : l.tdp);
         return {
-          p: l.player || l.p, team: l.team || "", sport, ev, key: gameKey(sport, ev),
+          p: l.player || l.p, short: l.short || undefined, team: l.team || "", sport, ev, key: gameKey(sport, ev),
           stat: def.name, def, line: Number(l.line), tdp: tdp != null ? Number(tdp) : undefined,
           result: l.result ? String(l.result).toLowerCase() : undefined,
         };
@@ -159,6 +159,7 @@
       state: type.state || "pre", completed: !!type.completed,
       detail: type.shortDetail || type.detail || "", period: st.period || 0,
       clock: st.displayClock || "", away, home, sport: sport || DEFAULT_SPORT,
+      date: comp.date ? (Date.parse(comp.date) || null) : null,
     };
     const players = {};
     const bp = (d.boxscore && d.boxscore.players) || [];
@@ -323,9 +324,83 @@
     return { tickets: out, cashed, inPlay, potential };
   }
 
+
+  // ---- Days, titles, roll-off (all in US Eastern) ---------------------------
+  const ET = "America/New_York";
+  const WD = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const HOUR = 3600000;
+  const GAME_LEN = { football: 3.25, basketball: 2.5, hockey: 2.6, baseball: 3, soccer: 2 };
+  let etFmt = null;
+  function etParts(ts) {
+    try {
+      etFmt = etFmt || new Intl.DateTimeFormat("en-US", { timeZone: ET, year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", hourCycle: "h23", weekday: "long" });
+      const o = {}; for (const q of etFmt.formatToParts(new Date(ts))) o[q.type] = q.value;
+      if (!o.year || !o.weekday) throw new Error("no parts");
+      return { y: +o.year, m: +o.month, d: +o.day, h: (+o.hour) % 24, wd: o.weekday };
+    } catch (e) {
+      const d = new Date(ts);
+      return { y: d.getFullYear(), m: d.getMonth() + 1, d: d.getDate(), h: d.getHours(), wd: WD[d.getDay()] };
+    }
+  }
+  const pad2 = n => (n < 10 ? "0" : "") + n;
+  function etDayKey(ts) { const q = etParts(ts); return q.y + "-" + pad2(q.m) + "-" + pad2(q.d); }
+  function next6amET(ts) {
+    let t = Math.floor(ts / HOUR) * HOUR + HOUR; // ET offsets are whole hours, so hour boundaries line up
+    for (let i = 0; i < 30 && etParts(t).h !== 6; i++) t += HOUR;
+    return t;
+  }
+  function placedTs(t) { // placedAt "YYYY-MM-DD" -> 8 PM ET that day (rough "end of slate")
+    if (!t.placedAt) return null;
+    const v = Date.parse(String(t.placedAt).length <= 10 ? t.placedAt + "T20:00:00-04:00" : t.placedAt);
+    return isNaN(v) ? null : v;
+  }
+  // Start / estimated end of a ticket's games (ms), from ESPN dates; falls back to placedAt.
+  function ticketTimes(t) {
+    let first = null, last = null;
+    for (const l of t.legs) {
+      const g = l.game || {};
+      if (!g.date) continue;
+      const end = g.date + (GAME_LEN[sportRoot(g.sport || l.sport)] || 3) * HOUR;
+      if (first == null || g.date < first) first = g.date;
+      if (last == null || end > last) last = end;
+    }
+    const pt = placedTs(t);
+    if (first == null) first = pt;
+    if (last == null) last = pt;
+    return { first, last };
+  }
+  function isSettled(t) {
+    if (t.status === "Cashed" || t.status === "Lost" || t.status === "Void") return true;
+    return t.legs.length > 0 && t.legs.every(l => l.game && l.game.state === "post");
+  }
+  // When a settled ticket drops off the widget: 12h after its last game ends, or the next 6 AM ET, whichever is first.
+  function rollOffAt(t) {
+    const { last } = ticketTimes(t);
+    if (last == null) return null;
+    return Math.min(last + 12 * HOUR, next6amET(last));
+  }
+  // Split evaluated tickets into what the widget shows now vs. rolled-off history.
+  function currentView(result, now) {
+    now = now || Date.now();
+    const shown = [], hidden = [];
+    for (const t of result.tickets) {
+      const r = isSettled(t) ? rollOffAt(t) : null;
+      (r != null && now >= r ? hidden : shown).push(t);
+    }
+    const open = shown.filter(t => t.status === "Live" || t.status === "Pregame");
+    const days = new Set(open.map(t => { const f = ticketTimes(t).first; return f != null ? etDayKey(f) : etDayKey(now); }));
+    let title;
+    if (days.size > 1) title = "My Tickets";
+    else if (days.size === 1) { const k = [...days][0]; title = etParts(Date.parse(k + "T12:00:00-04:00")).wd + " Tickets"; }
+    else title = etParts(now).wd + " Tickets";
+    const cashed = shown.filter(t => t.status === "Cashed").reduce((a, t) => a + t.pays, 0);
+    return { shown, hidden, title, cashed };
+  }
+
   const api = {
     DEFAULT_SPORT, STATS, ALIASES, summaryUrl, gameKey, statDef, normalizeTickets, eventsOf,
     parseSummary, statValue, evaluate, fracLeft, legEstimate, norm,
+    etParts, etDayKey, next6amET, ticketTimes, isSettled, rollOffAt, currentView,
   };
   if (typeof module !== "undefined" && module.exports) module.exports = api; else root.TT = api;
 })(typeof window !== "undefined" ? window : (typeof globalThis !== "undefined" ? globalThis : this));

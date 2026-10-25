@@ -34,6 +34,7 @@ button{background:#232a37;color:var(--txt);border:1px solid var(--line);border-r
 .bar{height:9px;background:#262c38;border-radius:9px;overflow:hidden;margin-top:7px}.bar i{display:block;height:100%;background:var(--b);border-radius:9px;transition:width .5s}
 .leg.hit .bar i{background:var(--g)}.leg.hit .lv{color:var(--g)}.leg.dead .bar i{background:var(--r)}.leg.dead .lv{color:var(--r)}
 .err{color:var(--y);font-size:13px;margin-bottom:10px}
+.settled{margin-top:6px}.settled summary{color:var(--dim);font-size:15px;padding:10px 2px;cursor:pointer}.settled .card{opacity:.8}
 .foot{color:var(--dim);font-size:12px;text-align:center;margin-top:10px}
 </style></head>
 <body><div class="wrap">
@@ -48,7 +49,7 @@ button{background:#232a37;color:var(--txt);border:1px solid var(--line);border-r
 <div id="list"></div>
 <div class="foot">Bets load from tickets.json; live stats from ESPN, refreshed every 30s. Cash % is a rough estimate (simple pace model), not a guarantee.</div>
 </div>
-<script src="logic.js?v=2"></script>
+<script src="logic.js?v=3"></script>
 <script>
 const cache={};
 let ticketDoc=null;
@@ -60,12 +61,7 @@ function gameLine(g){
   const sc=g.state==='pre'?'':` ${g.away.score??''}-${g.home.score??''} ${g.home.abbr}`;
   return g.state==='pre'?`${g.away.abbr} @ ${g.home.abbr} · ${g.detail.replace(/^.*? at /,'')}`:`${g.away.abbr}${sc} · ${g.detail}`;
 }
-function render(res){
-  $('cashed').textContent=money(res.cashed);
-  $('inplay').textContent=money(res.inPlay).replace(/\.00$/,'');
-  $('pot').textContent=money(res.potential);
-  if(!res.tickets.length){$('list').innerHTML='<div class="card">No tickets yet.</div>';return;}
-  $('list').innerHTML=res.tickets.map(t=>{
+function cardHtml(t){
     const probTxt=t.status==='Cashed'?'Cashed ✅':t.status==='Lost'?'Lost ❌':t.status==='Void'?'Void':`Cash chance <b>${Math.round(t.prob*100)}%</b> <span>(estimate)</span>`;
     return `<div class="card ${t.status}"><div class="hd"><div><div class="tn">${esc(t.name)}</div>
       <div class="ts">${money(t.stake)} to pay ${money(t.pays)}${t.time?' · '+esc(t.time):''}</div></div>
@@ -80,7 +76,23 @@ function render(res){
         return `<div class="leg ${l.status}"><div class="lr"><span class="lp">${tag}${esc(l.p)}</span><span class="lv">${val}</span></div>
         <div class="lg"><span>${any1?esc(l.anyText):l.line+'+ '+esc(l.label)} · ${esc(gameLine(l.game))}</span><span>${right}</span></div>
         <div class="bar"><i style="width:${pct}%"></i></div></div>`;}).join('')}
-    </div>`;}).join('');
+    </div>`;
+}
+let settledOpen=false;
+function render(res){
+  const view=TT.currentView(res,Date.now());
+  $('title').textContent='🎟️ '+view.title;document.title=view.title;
+  const open=view.shown.filter(t=>t.status==='Live'||t.status==='Pregame');
+  $('cashed').textContent=money(view.cashed);
+  $('inplay').textContent=money(open.reduce((a,t)=>a+t.stake,0)).replace(/\.00$/,'');
+  $('pot').textContent=money(open.reduce((a,t)=>a+t.pays,0));
+  const det=document.getElementById('settled'); if(det) settledOpen=det.open;
+  let h=view.shown.length?view.shown.map(cardHtml).join(''):'<div class="card">No tickets today.</div>';
+  if(view.hidden.length){
+    const won=view.hidden.filter(t=>t.status==='Cashed').length;
+    h+=`<details id="settled" class="settled"${settledOpen?' open':''}><summary>Settled (${view.hidden.length}) · ${won} cashed</summary>${view.hidden.slice().reverse().map(cardHtml).join('')}</details>`;
+  }
+  $('list').innerHTML=h;
 }
 async function loadTickets(){
   try{
@@ -98,7 +110,6 @@ async function loadTickets(){
 async function refresh(){
   const tOk=await loadTickets();
   const tickets=TT.normalizeTickets(ticketDoc||{tickets:[]});
-  if(ticketDoc&&ticketDoc.title){$('title').textContent='🎟️ '+ticketDoc.title;document.title=ticketDoc.title;}
   const events=TT.eventsOf(tickets);
   let errs=0;
   await Promise.all(events.map(async e=>{
