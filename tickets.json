@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-25T09:36:21-04:00",
+  "updated": "2026-10-25T09:37:05-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -254,6 +254,32 @@
           "stat": "3PM",
           "line": 1,
           "sport": "basketball/nba"
+        }
+      ]
+    },
+    {
+      "id": "TEST_NFL_1025",
+      "name": "TEST NFL",
+      "stake": 2,
+      "payout": 9,
+      "placedAt": "2026-10-25T09:37:05-04:00",
+      "legs": [
+        {
+          "player": "DK Metcalf",
+          "team": "PIT",
+          "event": "401873011",
+          "stat": "recyds",
+          "line": 40,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Chris Olave",
+          "team": "NO",
+          "event": "401873011",
+          "stat": "td",
+          "line": 1,
+          "tdProb": 0.35,
+          "sport": "football/nfl"
         }
       ]
     }
