@@ -231,33 +231,6 @@
       ]
     },
     {
-      "id": "TEST_NFL_1025",
-      "name": "TEST NFL",
-      "stake": 2,
-      "payout": 9,
-      "status": "void",
-      "placedAt": "2026-10-25T09:37:05-04:00",
-      "legs": [
-        {
-          "player": "DK Metcalf",
-          "team": "PIT",
-          "event": "401873011",
-          "stat": "recyds",
-          "line": 40,
-          "sport": "football/nfl"
-        },
-        {
-          "player": "Chris Olave",
-          "team": "NO",
-          "event": "401873011",
-          "stat": "td",
-          "line": 1,
-          "tdProb": 0.35,
-          "sport": "football/nfl"
-        }
-      ]
-    },
-    {
       "id": "TEST_NHL_1025",
       "name": "TEST NHL",
       "stake": 1,
