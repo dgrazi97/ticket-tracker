@@ -1,0 +1,87 @@
+{
+  "schema": 1,
+  "title": "Sunday Tickets",
+  "updated": "2026-10-25T09:40:00-04:00",
+  "tickets": [
+    {
+      "id": "NFL_Paris_SGP_user_placed_1025",
+      "name": "Paris SGP",
+      "time": "9:30 AM",
+      "stake": 5,
+      "payout": 25.80,
+      "placedAt": "2026-10-25",
+      "dkTicket": "DK639285275815412648",
+      "odds": "+320 boosted to +416",
+      "legs": [
+        { "player": "DK Metcalf", "team": "PIT", "sport": "football/nfl", "event": "401873011", "stat": "rec", "line": 4 },
+        { "player": "Devaughn Vele", "team": "NO", "sport": "football/nfl", "event": "401873011", "stat": "rec", "line": 3 },
+        { "player": "Juwan Johnson", "team": "NO", "sport": "football/nfl", "event": "401873011", "stat": "rec", "line": 3 },
+        { "player": "Chris Olave", "team": "NO", "sport": "football/nfl", "event": "401873011", "stat": "rec", "line": 6 },
+        { "player": "Jaylen Warren", "team": "PIT", "sport": "football/nfl", "event": "401873011", "stat": "rec", "line": 2 },
+        { "player": "Pat Freiermuth", "team": "PIT", "sport": "football/nfl", "event": "401873011", "stat": "rec", "line": 2 }
+      ]
+    },
+    {
+      "id": "NFL_TD_SGPx_user_placed_1025",
+      "name": "TD SGPx",
+      "time": "1 PM",
+      "stake": 5,
+      "payout": 71.45,
+      "placedAt": "2026-10-25T01:05:05-04:00",
+      "dkTicket": "DK639285015047465926",
+      "odds": "+1021 boosted to +1329",
+      "legs": [
+        { "player": "Ja'Marr Chase", "team": "CIN", "sport": "football/nfl", "event": "401873012", "stat": "anytimeTD", "line": 1, "tdProb": 0.5 },
+        { "player": "Derrick Henry", "team": "BAL", "sport": "football/nfl", "event": "401873012", "stat": "anytimeTD", "line": 1, "tdProb": 0.58 },
+        { "player": "George Kittle", "team": "SF", "sport": "football/nfl", "event": "401873017", "stat": "anytimeTD", "line": 1, "tdProb": 0.45 },
+        { "player": "Chuba Hubbard", "team": "CAR", "sport": "football/nfl", "event": "401873018", "stat": "anytimeTD", "line": 1, "tdProb": 0.42 }
+      ]
+    },
+    {
+      "id": "NFL_TD_parlay2_1025",
+      "name": "TD parlay #2",
+      "time": "1 PM",
+      "stake": 5,
+      "payout": 68.40,
+      "placedAt": "2026-10-25T01:18:06-04:00",
+      "dkTicket": "DK639285022848941074",
+      "odds": "+974 boosted to +1268",
+      "legs": [
+        { "player": "Nico Collins", "team": "HOU", "sport": "football/nfl", "event": "401873016", "stat": "anytimeTD", "line": 1, "tdProb": 0.45 },
+        { "player": "Jonathan Taylor", "team": "IND", "sport": "football/nfl", "event": "401873014", "stat": "anytimeTD", "line": 1, "tdProb": 0.55 },
+        { "player": "Garrett Wilson", "team": "NYJ", "sport": "football/nfl", "event": "401873015", "stat": "anytimeTD", "line": 1, "tdProb": 0.38 }
+      ]
+    },
+    {
+      "id": "NFL_props_parlay_user_placed_1025",
+      "name": "Props parlay",
+      "time": "1 PM",
+      "stake": 10,
+      "payout": 67.84,
+      "placedAt": "2026-10-25T01:11:38-04:00",
+      "dkTicket": "DK639285018973398776",
+      "odds": "+578",
+      "legs": [
+        { "player": "Aaron Jones", "team": "MIN", "sport": "football/nfl", "event": "401873014", "stat": "rushYds", "line": 39 },
+        { "player": "Isaiah Likely", "team": "NYG", "sport": "football/nfl", "event": "401873016", "stat": "recYds", "line": 50 },
+        { "player": "Tetairoa McMillan", "team": "CAR", "sport": "football/nfl", "event": "401873018", "stat": "recYds", "line": 71 }
+      ]
+    },
+    {
+      "id": "NFL_1PM_SGPx_user_placed_1025",
+      "name": "1 PM SGPx",
+      "time": "1 PM",
+      "stake": 5,
+      "payout": 26.86,
+      "placedAt": "2026-10-25",
+      "dkTicket": "DK639285268166025053",
+      "odds": "+437",
+      "legs": [
+        { "player": "Bijan Robinson", "team": "ATL", "sport": "football/nfl", "event": "401873017", "stat": "rushYds", "line": 80 },
+        { "player": "Michael Penix Jr.", "team": "ATL", "sport": "football/nfl", "event": "401873017", "stat": "passYds", "line": 220 },
+        { "player": "Deshaun Watson", "team": "CLE", "sport": "football/nfl", "event": "401873013", "stat": "rushYds", "line": 25 },
+        { "player": "Carson Schwesinger", "team": "CLE", "sport": "football/nfl", "event": "401873013", "stat": "tackles", "line": 8 }
+      ]
+    }
+  ]
+}

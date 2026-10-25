@@ -37,23 +37,24 @@ button{background:#232a37;color:var(--txt);border:1px solid var(--line);border-r
 .foot{color:var(--dim);font-size:12px;text-align:center;margin-top:10px}
 </style></head>
 <body><div class="wrap">
-<h1>🏈 Ticket Tracker</h1>
+<h1 id="title">🎟️ Ticket Tracker</h1>
 <div class="sum">
- <div class="box"><div class="k">In play</div><div class="v" id="inplay">$30</div></div>
- <div class="box"><div class="k">Potential</div><div class="v" id="pot">$260.35</div></div>
- <div class="box"><div class="k">Cashed</div><div class="v" id="cashed" style="color:var(--g)">$0.00</div></div>
+ <div class="box"><div class="k">In play</div><div class="v" id="inplay">–</div></div>
+ <div class="box"><div class="k">Potential</div><div class="v" id="pot">–</div></div>
+ <div class="box"><div class="k">Cashed</div><div class="v" id="cashed" style="color:var(--g)">–</div></div>
 </div>
 <div class="upd"><span id="upd">Loading…</span><button onclick="refresh()">Refresh</button></div>
 <div id="err" class="err"></div>
 <div id="list"></div>
-<div class="foot">Live stats from ESPN, refreshed every 30s. Cash % is a rough estimate (simple pace model), not a guarantee.</div>
+<div class="foot">Bets load from tickets.json; live stats from ESPN, refreshed every 30s. Cash % is a rough estimate (simple pace model), not a guarantee.</div>
 </div>
-<script src="logic.js"></script>
+<script src="logic.js?v=2"></script>
 <script>
-const EVENTS=[...new Set(TT.TICKETS.flatMap(t=>t.legs.map(l=>l.ev)))];
 const cache={};
+let ticketDoc=null;
 const $=id=>document.getElementById(id);
 const money=n=>'$'+n.toFixed(2);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function gameLine(g){
   if(!g||!g.away||!g.away.abbr) return '';
   const sc=g.state==='pre'?'':` ${g.away.score??''}-${g.home.score??''} ${g.home.abbr}`;
@@ -61,38 +62,62 @@ function gameLine(g){
 }
 function render(res){
   $('cashed').textContent=money(res.cashed);
+  $('inplay').textContent=money(res.inPlay).replace(/\.00$/,'');
+  $('pot').textContent=money(res.potential);
+  if(!res.tickets.length){$('list').innerHTML='<div class="card">No tickets yet.</div>';return;}
   $('list').innerHTML=res.tickets.map(t=>{
-    const probTxt=t.status==='Cashed'?'Cashed ✅':t.status==='Lost'?'Lost ❌':`Cash chance <b>${Math.round(t.prob*100)}%</b> <span>(estimate)</span>`;
-    return `<div class="card ${t.status}"><div class="hd"><div><div class="tn">${t.name}</div>
-      <div class="ts">${money(t.stake)} to pay ${money(t.pays)} · ${t.time}</div></div>
+    const probTxt=t.status==='Cashed'?'Cashed ✅':t.status==='Lost'?'Lost ❌':t.status==='Void'?'Void':`Cash chance <b>${Math.round(t.prob*100)}%</b> <span>(estimate)</span>`;
+    return `<div class="card ${t.status}"><div class="hd"><div><div class="tn">${esc(t.name)}</div>
+      <div class="ts">${money(t.stake)} to pay ${money(t.pays)}${t.time?' · '+esc(t.time):''}</div></div>
       <span class="pill ${t.status}">${t.status}</span></div>
       <div class="prob">${probTxt}</div>
       ${t.legs.map(l=>{
-        const pct=Math.min(100,l.line?l.cur/l.line*100:0);
-        const tag=l.status==='hit'?'✅ ':l.status==='dead'?'❌ ':'';
-        const val=l.stat==='td'?(l.cur>=1?`${l.cur} TD`:'No TD yet'):`${l.cur} / ${l.line}+`;
+        const pct=Math.min(100,l.line?Math.max(0,l.cur)/l.line*100:0);
+        const tag=l.status==='hit'?'✅ ':l.status==='dead'?'❌ ':l.status==='void'?'⚪ ':'';
+        const any1=l.anytime&&l.line===1;
+        const val=l.status==='void'?'Void':any1?(l.cur>=1?`${l.cur} ${esc(l.label)}`:`No ${esc(l.label)} yet`):`${l.cur} / ${l.line}+`;
         const right=l.isOut&&l.status!=='hit'?'Ruled out':(l.status==='live'||l.status==='pending')?`${Math.round(l.prob*100)}% est`:'';
-        return `<div class="leg ${l.status}"><div class="lr"><span class="lp">${tag}${l.p}</span><span class="lv">${val}</span></div>
-        <div class="lg"><span>${l.stat==='td'?'Anytime TD':l.line+'+ '+l.label} · ${gameLine(l.game)}</span><span>${right}</span></div>
+        return `<div class="leg ${l.status}"><div class="lr"><span class="lp">${tag}${esc(l.p)}</span><span class="lv">${val}</span></div>
+        <div class="lg"><span>${any1?esc(l.anyText):l.line+'+ '+esc(l.label)} · ${esc(gameLine(l.game))}</span><span>${right}</span></div>
         <div class="bar"><i style="width:${pct}%"></i></div></div>`;}).join('')}
     </div>`;}).join('');
 }
+async function loadTickets(){
+  try{
+    const r=await fetch(`tickets.json?t=${Date.now()}`,{cache:'no-store'});
+    if(!r.ok) throw new Error(r.status);
+    const d=await r.json();
+    if(!d||!Array.isArray(d.tickets)) throw new Error('bad tickets.json');
+    ticketDoc=d; try{localStorage.setItem('tt_tickets',JSON.stringify(d));}catch(e){}
+    return true;
+  }catch(e){
+    if(!ticketDoc){try{ticketDoc=JSON.parse(localStorage.getItem('tt_tickets'));}catch(_){}}
+    return false;
+  }
+}
 async function refresh(){
+  const tOk=await loadTickets();
+  const tickets=TT.normalizeTickets(ticketDoc||{tickets:[]});
+  if(ticketDoc&&ticketDoc.title){$('title').textContent='🎟️ '+ticketDoc.title;document.title=ticketDoc.title;}
+  const events=TT.eventsOf(tickets);
   let errs=0;
-  await Promise.all(EVENTS.map(async ev=>{
-    const g=cache[ev];
+  await Promise.all(events.map(async e=>{
+    const g=cache[e.key];
     if(g&&g.game.state==='post'&&g._final) return; // finished games don't change
     try{
-      const r=await fetch(`https://site.api.espn.com/apis/site/v2/sports/football/nfl/summary?event=${ev}`,{cache:'no-store'});
+      const r=await fetch(TT.summaryUrl(e.sport,e.ev),{cache:'no-store'});
       if(!r.ok) throw new Error(r.status);
-      const p=TT.parseSummary(await r.json());
+      const p=TT.parseSummary(await r.json(),e.sport);
       if(p.game.state==='post'&&g&&g.game.state==='post') p._final=true;
-      cache[ev]=p;
-    }catch(e){errs++;}
+      cache[e.key]=p;
+    }catch(err){errs++;}
   }));
-  render(TT.evaluate(cache));
+  render(TT.evaluate(tickets,cache));
   $('upd').textContent='Updated '+new Date().toLocaleTimeString('en-US',{timeZone:'America/New_York',hour:'numeric',minute:'2-digit',second:'2-digit'})+' ET';
-  $('err').textContent=errs?`Couldn't reach ESPN for ${errs} game(s); retrying in 30s.`:'';
+  const msgs=[];
+  if(errs) msgs.push(`Couldn't reach ESPN for ${errs} game(s); retrying in 30s.`);
+  if(!tOk) msgs.push(ticketDoc?'Couldn\'t load the latest bets; showing saved ones.':'Couldn\'t load bets; retrying in 30s.');
+  $('err').textContent=msgs.join(' ');
 }
 refresh();setInterval(refresh,30000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh();});
