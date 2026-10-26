@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-26T18:34:51-04:00",
+  "updated": "2026-10-26T18:52:03-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -512,6 +512,57 @@
           "stat": "pts",
           "line": 1,
           "sport": "hockey/nhl"
+        }
+      ]
+    },
+    {
+      "id": "NBA_SGPX30_1026",
+      "name": "NBA 30% SGPx",
+      "time": "7:40 PM",
+      "stake": 5,
+      "payout": 35.05,
+      "placedAt": "2026-10-26T18:52:03-04:00",
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "Lauri Markkanen",
+          "team": "UTAH",
+          "event": "401909875",
+          "stat": "reb",
+          "line": 6,
+          "sport": "basketball/nba"
+        },
+        {
+          "player": "Ace Bailey",
+          "team": "UTAH",
+          "event": "401909875",
+          "stat": "reb",
+          "line": 5,
+          "sport": "basketball/nba"
+        },
+        {
+          "player": "Keyonte George",
+          "team": "UTAH",
+          "event": "401909875",
+          "stat": "pts",
+          "line": 18,
+          "sport": "basketball/nba"
+        },
+        {
+          "player": "Jaylen Wells",
+          "team": "MEM",
+          "event": "401909875",
+          "stat": "pts",
+          "line": 10,
+          "sport": "basketball/nba"
+        },
+        {
+          "player": "Bam Adebayo",
+          "team": "MIA",
+          "event": "401909871",
+          "stat": "ast",
+          "line": 3,
+          "sport": "basketball/nba"
         }
       ]
     }
