@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-25T23:28:36-04:00",
+  "updated": "2026-10-26T11:40:24-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -330,6 +330,25 @@
           "stat": "rec",
           "line": 4,
           "sport": "football/nfl"
+        }
+      ]
+    },
+    {
+      "id": "MEM_UTA_Jerome37PRA_1026",
+      "name": "Ty Jerome 37+ PRA",
+      "time": "9:10 PM",
+      "stake": 8,
+      "payout": 14.89,
+      "placedAt": "2026-10-26T11:39:18-04:00",
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "Ty Jerome",
+          "team": "MEM",
+          "event": "401909875",
+          "stat": "pra",
+          "line": 37,
+          "sport": "basketball/nba"
         }
       ]
     }
