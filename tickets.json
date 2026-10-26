@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-26T16:44:31-04:00",
+  "updated": "2026-10-26T18:34:51-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -493,6 +493,25 @@
           "stat": "passAtt",
           "line": 34,
           "sport": "football/nfl"
+        }
+      ]
+    },
+    {
+      "id": "LA_NYR_Miller1pt_1026",
+      "name": "JT Miller 1+ pt",
+      "time": "7:00 PM",
+      "stake": 5,
+      "payout": 8.33,
+      "placedAt": "2026-10-26T18:34:51-04:00",
+      "sport": "hockey/nhl",
+      "legs": [
+        {
+          "player": "J.T. Miller",
+          "team": "NYR",
+          "event": "401892582",
+          "stat": "pts",
+          "line": 1,
+          "sport": "hockey/nhl"
         }
       ]
     }
