@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-26T11:40:24-04:00",
+  "updated": "2026-10-26T12:18:35-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -349,6 +349,40 @@
           "stat": "pra",
           "line": 37,
           "sport": "basketball/nba"
+        }
+      ]
+    },
+    {
+      "id": "MULTI_EQUINOX50_1026",
+      "name": "Equinox 50% 6-leg (tennis legs Mensik/Ruud/Cirstea not auto-tracked)",
+      "time": "8:10 PM",
+      "stake": 5,
+      "payout": 37.75,
+      "placedAt": "2026-10-26T12:17:56-04:00",
+      "legs": [
+        {
+          "player": "Alperen Sengun",
+          "team": "HOU",
+          "event": "401909874",
+          "sport": "basketball/nba",
+          "stat": "pra",
+          "line": 30
+        },
+        {
+          "player": "Jaime Jaquez Jr.",
+          "team": "MIL",
+          "event": "401909872",
+          "sport": "basketball/nba",
+          "stat": "pts",
+          "line": 15
+        },
+        {
+          "player": "Connor McDavid",
+          "team": "EDM",
+          "event": "401892584",
+          "sport": "hockey/nhl",
+          "stat": "pts",
+          "line": 1
         }
       ]
     }
