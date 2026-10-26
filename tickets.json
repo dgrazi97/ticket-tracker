@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-26T12:18:35-04:00",
+  "updated": "2026-10-26T16:43:59-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -383,6 +383,40 @@
           "sport": "hockey/nhl",
           "stat": "pts",
           "line": 1
+        }
+      ]
+    },
+    {
+      "id": "DAL_PHI_30SGP_1026",
+      "name": "MNF 30% SGP",
+      "time": "8:15 PM",
+      "stake": 10,
+      "payout": 50.3,
+      "placedAt": "2026-10-26T16:43:59-04:00",
+      "legs": [
+        {
+          "player": "Dallas Goedert",
+          "team": "PHI",
+          "event": "401873009",
+          "stat": "rec",
+          "line": 5,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Ryan Flournoy",
+          "team": "DAL",
+          "event": "401873009",
+          "stat": "recYds",
+          "line": 20,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "CeeDee Lamb",
+          "team": "DAL",
+          "event": "401873009",
+          "stat": "recYds",
+          "line": 90,
+          "sport": "football/nfl"
         }
       ]
     }
