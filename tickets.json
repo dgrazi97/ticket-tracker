@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-25T20:16:52-04:00",
+  "updated": "2026-10-25T20:17:42-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -307,6 +307,26 @@
           "event": "401873022",
           "stat": "rec",
           "line": 2,
+          "sport": "football/nfl"
+        }
+      ]
+    },
+    {
+      "id": "KC_SEA_Barner4_1025",
+      "name": "Barner 4+ rec",
+      "time": "8:20 PM",
+      "stake": 10,
+      "payout": 25.8,
+      "placedAt": "2026-10-25T20:17:18-04:00",
+      "dkTicket": "DK639285706384943961",
+      "odds": "+158",
+      "legs": [
+        {
+          "player": "AJ Barner",
+          "team": "SEA",
+          "event": "401873022",
+          "stat": "rec",
+          "line": 4,
           "sport": "football/nfl"
         }
       ]
