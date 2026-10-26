@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-26T16:43:59-04:00",
+  "updated": "2026-10-26T16:44:31-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -474,6 +474,24 @@
           "event": "401873009",
           "stat": "rec",
           "line": 2,
+          "sport": "football/nfl"
+        }
+      ]
+    },
+    {
+      "id": "DAL_PHI_McKee34att_1026",
+      "name": "McKee 34+ att",
+      "time": "8:15 PM",
+      "stake": 5,
+      "payout": 9.67,
+      "placedAt": "2026-10-26T16:44:31-04:00",
+      "legs": [
+        {
+          "player": "Tanner McKee",
+          "team": "PHI",
+          "event": "401873009",
+          "stat": "passAtt",
+          "line": 34,
           "sport": "football/nfl"
         }
       ]
