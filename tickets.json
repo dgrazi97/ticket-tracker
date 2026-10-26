@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-26T18:52:03-04:00",
+  "updated": "2026-10-26T18:53:30-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -562,6 +562,25 @@
           "event": "401909871",
           "stat": "ast",
           "line": 3,
+          "sport": "basketball/nba"
+        }
+      ]
+    },
+    {
+      "id": "DAL_MIA_DMitchell19PA_1026",
+      "name": "Davion Mitchell 19+ P+A",
+      "time": "7:40 PM",
+      "stake": 10,
+      "payout": 19.0,
+      "placedAt": "2026-10-26T18:53:30-04:00",
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "Davion Mitchell",
+          "team": "MIA",
+          "event": "401909871",
+          "stat": "pa",
+          "line": 19,
           "sport": "basketball/nba"
         }
       ]
