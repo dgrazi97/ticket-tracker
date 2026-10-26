@@ -419,6 +419,64 @@
           "sport": "football/nfl"
         }
       ]
+    },
+    {
+      "id": "DAL_PHI_20SGP_1026",
+      "name": "MNF 20% SGP",
+      "time": "8:15 PM",
+      "stake": 5,
+      "payout": 34.4,
+      "placedAt": "2026-10-26T16:43:59-04:00",
+      "legs": [
+        {
+          "player": "Makai Lemon",
+          "team": "PHI",
+          "event": "401873009",
+          "stat": "rec",
+          "line": 3,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Dameon Pierce",
+          "team": "PHI",
+          "event": "401873009",
+          "stat": "rushYds",
+          "line": 10,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Javonte Williams",
+          "team": "DAL",
+          "event": "401873009",
+          "stat": "rushYds",
+          "line": 40,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Dak Prescott",
+          "team": "DAL",
+          "event": "401873009",
+          "stat": "passYds",
+          "line": 250,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Tanner McKee",
+          "team": "PHI",
+          "event": "401873009",
+          "stat": "completions",
+          "line": 20,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Jake Ferguson",
+          "team": "DAL",
+          "event": "401873009",
+          "stat": "rec",
+          "line": 2,
+          "sport": "football/nfl"
+        }
+      ]
     }
   ]
 }
