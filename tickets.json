@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-27T00:07:11-04:00",
+  "updated": "2026-10-27T00:11:40-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -678,6 +678,7 @@
       "time": "Live",
       "stake": 2,
       "payout": 16,
+      "status": "cashed",
       "placedAt": "2026-10-27T00:07:11-04:00",
       "sport": "basketball/nba",
       "legs": [
