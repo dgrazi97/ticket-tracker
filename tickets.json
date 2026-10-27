@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-27T08:18:04-04:00",
+  "updated": "2026-10-27T12:29:42-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -754,6 +754,41 @@
           "stat": "ast",
           "line": 5,
           "sport": "basketball/nba"
+        }
+      ]
+    },
+    {
+      "id": "NHL_BOOST30_FANTILLI_REINHART_PANARIN_1027",
+      "name": "NHL 30% Boost 3-Leg SOG",
+      "time": "7:10 PM",
+      "stake": 10,
+      "payout": 27.6,
+      "placedAt": "2026-10-27T11:36:42-04:00",
+      "sport": "hockey/nhl",
+      "legs": [
+        {
+          "player": "Adam Fantilli",
+          "team": "CBJ",
+          "event": "401892585",
+          "stat": "shots",
+          "line": 2,
+          "sport": "hockey/nhl"
+        },
+        {
+          "player": "Sam Reinhart",
+          "team": "FLA",
+          "event": "401892591",
+          "stat": "shots",
+          "line": 2,
+          "sport": "hockey/nhl"
+        },
+        {
+          "player": "Artemi Panarin",
+          "team": "LA",
+          "event": "401892587",
+          "stat": "shots",
+          "line": 2,
+          "sport": "hockey/nhl"
         }
       ]
     }
