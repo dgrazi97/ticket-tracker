@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-26T20:59:59-04:00",
+  "updated": "2026-10-26T23:50:36-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -339,6 +339,7 @@
       "time": "9:10 PM",
       "stake": 8,
       "payout": 14.89,
+      "status": "lost",
       "placedAt": "2026-10-26T11:39:18-04:00",
       "sport": "basketball/nba",
       "legs": [
@@ -358,6 +359,7 @@
       "time": "8:10 PM",
       "stake": 5,
       "payout": 37.75,
+      "status": "lost",
       "placedAt": "2026-10-26T12:17:56-04:00",
       "legs": [
         {
@@ -392,6 +394,7 @@
       "time": "8:15 PM",
       "stake": 10,
       "payout": 50.3,
+      "status": "lost",
       "placedAt": "2026-10-26T16:43:59-04:00",
       "legs": [
         {
@@ -426,6 +429,7 @@
       "time": "8:15 PM",
       "stake": 5,
       "payout": 34.4,
+      "status": "lost",
       "placedAt": "2026-10-26T16:43:59-04:00",
       "legs": [
         {
@@ -484,6 +488,7 @@
       "time": "8:15 PM",
       "stake": 5,
       "payout": 9.67,
+      "status": "cashed",
       "placedAt": "2026-10-26T16:44:31-04:00",
       "legs": [
         {
@@ -502,6 +507,7 @@
       "time": "7:00 PM",
       "stake": 5,
       "payout": 8.33,
+      "status": "cashed",
       "placedAt": "2026-10-26T18:34:51-04:00",
       "sport": "hockey/nhl",
       "legs": [
@@ -521,6 +527,7 @@
       "time": "7:40 PM",
       "stake": 5,
       "payout": 35.05,
+      "status": "lost",
       "placedAt": "2026-10-26T18:52:03-04:00",
       "sport": "basketball/nba",
       "legs": [
@@ -572,6 +579,7 @@
       "time": "7:40 PM",
       "stake": 10,
       "payout": 19.0,
+      "status": "cashed",
       "placedAt": "2026-10-26T18:53:30-04:00",
       "sport": "basketball/nba",
       "legs": [
@@ -591,6 +599,7 @@
       "time": "8:00 PM",
       "stake": 5,
       "payout": 19.0,
+      "status": "lost",
       "placedAt": "2026-10-26T20:56:00-04:00",
       "sport": "basketball/nba",
       "legs": [
@@ -610,6 +619,7 @@
       "time": "7:00 PM",
       "stake": 5,
       "payout": 11.25,
+      "status": "cashed",
       "placedAt": "2026-10-26T20:59:25-04:00",
       "sport": "basketball/nba",
       "legs": [
@@ -629,6 +639,7 @@
       "time": "7:00 PM",
       "stake": 2,
       "payout": 13.0,
+      "status": "lost",
       "placedAt": "2026-10-26T20:59:25-04:00",
       "sport": "basketball/nba",
       "legs": [
