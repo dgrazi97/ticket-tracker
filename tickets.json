@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-26T20:59:56-04:00",
+  "updated": "2026-10-26T20:59:59-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -619,6 +619,25 @@
           "event": "401909869",
           "stat": "threes",
           "line": 3,
+          "sport": "basketball/nba"
+        }
+      ]
+    },
+    {
+      "id": "MIN_CLE_Harden3PM4_1026",
+      "name": "James Harden 4+ 3PM (live)",
+      "time": "7:00 PM",
+      "stake": 2,
+      "payout": 13.0,
+      "placedAt": "2026-10-26T20:59:25-04:00",
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "James Harden",
+          "team": "CLE",
+          "event": "401909869",
+          "stat": "threes",
+          "line": 4,
           "sport": "basketball/nba"
         }
       ]
