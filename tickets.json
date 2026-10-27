@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-26T23:50:36-04:00",
+  "updated": "2026-10-26T23:56:55-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -649,6 +649,25 @@
           "event": "401909869",
           "stat": "threes",
           "line": 4,
+          "sport": "basketball/nba"
+        }
+      ]
+    },
+    {
+      "id": "GS_DEN_Lendeborg35_1026",
+      "name": "Lendeborg 35+ pts (live)",
+      "time": "Live",
+      "stake": 6.71,
+      "payout": 36.9,
+      "placedAt": "2026-10-26T23:56:55-04:00",
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "Yaxel Lendeborg",
+          "team": "GS",
+          "event": "401909876",
+          "stat": "pts",
+          "line": 35,
           "sport": "basketball/nba"
         }
       ]
