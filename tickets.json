@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-27T18:03:18-04:00",
+  "updated": "2026-10-27T18:03:48-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -807,6 +807,25 @@
           "event": "401909878",
           "stat": "threes",
           "line": 3,
+          "sport": "basketball/nba"
+        }
+      ]
+    },
+    {
+      "id": "POR_LAL_Morant6AST_1027",
+      "name": "Ja Morant 6+ assists",
+      "time": "11:00 PM",
+      "stake": 5,
+      "payout": 8.29,
+      "placedAt": "2026-10-27T18:03:48-04:00",
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "Ja Morant",
+          "team": "POR",
+          "event": "401909880",
+          "stat": "ast",
+          "line": 6,
           "sport": "basketball/nba"
         }
       ]
