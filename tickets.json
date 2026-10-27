@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-27T00:11:40-04:00",
+  "updated": "2026-10-27T00:16:45-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -688,6 +688,25 @@
           "event": "401909876",
           "stat": "threes",
           "line": 1,
+          "sport": "basketball/nba"
+        }
+      ]
+    },
+    {
+      "id": "GS_DEN_Melton3PM2_1026",
+      "name": "Melton 2+ threes (live)",
+      "time": "Live",
+      "stake": 5,
+      "payout": 24,
+      "placedAt": "2026-10-27T00:16:45-04:00",
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "De'Anthony Melton",
+          "team": "GS",
+          "event": "401909876",
+          "stat": "threes",
+          "line": 2,
           "sport": "basketball/nba"
         }
       ]
