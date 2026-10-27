@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-27T12:29:42-04:00",
+  "updated": "2026-10-27T18:03:18-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -789,6 +789,25 @@
           "stat": "shots",
           "line": 2,
           "sport": "hockey/nhl"
+        }
+      ]
+    },
+    {
+      "id": "DET_NY_DRobinson3PM3_1027",
+      "name": "Duncan Robinson 3+ threes",
+      "time": "8:00 PM",
+      "stake": 10,
+      "payout": 16.76,
+      "placedAt": "2026-10-27T18:03:18-04:00",
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "Duncan Robinson",
+          "team": "DET",
+          "event": "401909878",
+          "stat": "threes",
+          "line": 3,
+          "sport": "basketball/nba"
         }
       ]
     }
