@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-28T01:47:56-04:00",
+  "updated": "2026-10-28T01:50:14-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -961,6 +961,26 @@
         }
       ],
       "bet_id": "DK639287632528274184"
+    },
+    {
+      "id": "POR_LAL_Luka42PTS_1027",
+      "name": "LIVE Luka Doncic 42+ pts",
+      "stake": 3,
+      "payout": 6.45,
+      "placedAt": "2026-10-28T01:50:14-04:00",
+      "odds": 115,
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "Luka Doncic",
+          "team": "LAL",
+          "event": "401909880",
+          "stat": "pts",
+          "line": 42,
+          "sport": "basketball/nba"
+        }
+      ],
+      "bet_id": "DK639287633937561030"
     }
   ]
 }
