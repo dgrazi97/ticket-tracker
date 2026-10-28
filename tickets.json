@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-28T00:57:05-04:00",
+  "updated": "2026-10-28T01:10:29-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -848,6 +848,33 @@
           "stat": "pts",
           "line": 266.5,
           "side": "over",
+          "sport": "basketball/nba"
+        }
+      ]
+    },
+    {
+      "id": "POR_LAL_KESSLER14_LUKA45_1027",
+      "name": "LIVE SGP Kessler 14+ pts + Luka Doncic 45+ pts",
+      "stake": 2,
+      "payout": 9.9,
+      "placedAt": "2026-10-28T01:10:29-04:00",
+      "odds": 395,
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "Walker Kessler",
+          "team": "LAL",
+          "event": "401909880",
+          "stat": "pts",
+          "line": 14,
+          "sport": "basketball/nba"
+        },
+        {
+          "player": "Luka Doncic",
+          "team": "LAL",
+          "event": "401909880",
+          "stat": "pts",
+          "line": 45,
           "sport": "basketball/nba"
         }
       ]
