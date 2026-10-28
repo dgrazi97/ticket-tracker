@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-28T01:57:51-04:00",
+  "updated": "2026-10-28T08:41:58-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -987,6 +987,42 @@
         }
       ],
       "bet_id": "DK639287633937561030"
+    },
+    {
+      "id": "NHL_BOOST30_LEONARD_DRAISAITL_CORONATO_1028",
+      "name": "NHL 30% boost SGPx: Leonard 2+ SOG, Draisaitl 3+ SOG, Coronato 2+ SOG",
+      "stake": 7,
+      "payout": 26.81,
+      "placedAt": "2026-10-28T08:41:58-04:00",
+      "odds": 283,
+      "sport": "hockey/nhl",
+      "legs": [
+        {
+          "player": "Ryan Leonard",
+          "team": "WSH",
+          "sport": "hockey/nhl",
+          "event": "401892596",
+          "stat": "shots",
+          "line": 2
+        },
+        {
+          "player": "Leon Draisaitl",
+          "team": "EDM",
+          "sport": "hockey/nhl",
+          "event": "401892597",
+          "stat": "shots",
+          "line": 3
+        },
+        {
+          "player": "Matt Coronato",
+          "team": "CGY",
+          "sport": "hockey/nhl",
+          "event": "401892597",
+          "stat": "shots",
+          "line": 2
+        }
+      ],
+      "dk_id": "DK639287880696700214"
     }
   ]
 }
