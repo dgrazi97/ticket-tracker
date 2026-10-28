@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-28T01:57:48-04:00",
+  "updated": "2026-10-28T01:57:51-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -972,6 +972,7 @@
       "name": "LIVE Luka Doncic 42+ pts",
       "stake": 3,
       "payout": 6.45,
+      "status": "lost",
       "placedAt": "2026-10-28T01:50:14-04:00",
       "odds": 115,
       "sport": "basketball/nba",
