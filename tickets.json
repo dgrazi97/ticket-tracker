@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-27T18:03:48-04:00",
+  "updated": "2026-10-28T00:44:00-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -763,6 +763,7 @@
       "time": "7:10 PM",
       "stake": 10,
       "payout": 27.6,
+      "status": "lost",
       "placedAt": "2026-10-27T11:36:42-04:00",
       "sport": "hockey/nhl",
       "legs": [
