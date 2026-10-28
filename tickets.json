@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-28T01:57:38-04:00",
+  "updated": "2026-10-28T01:57:41-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -859,6 +859,7 @@
       "name": "LIVE SGP Kessler 14+ pts + Luka Doncic 45+ pts",
       "stake": 2,
       "payout": 11.5,
+      "status": "lost",
       "placedAt": "2026-10-28T01:11:00-04:00",
       "odds": 475,
       "sport": "basketball/nba",
