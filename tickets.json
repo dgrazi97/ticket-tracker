@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-28T01:34:54-04:00",
+  "updated": "2026-10-28T01:41:56-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -920,6 +920,26 @@
         }
       ],
       "bet_id": "DK639287624658972210"
+    },
+    {
+      "id": "POR_LAL_Holiday19PTS_1027",
+      "name": "LIVE Jrue Holiday over 18.5 pts",
+      "stake": 5,
+      "payout": 13.25,
+      "placedAt": "2026-10-28T01:41:56-04:00",
+      "odds": 165,
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "Jrue Holiday",
+          "team": "POR",
+          "event": "401909880",
+          "stat": "pts",
+          "line": 19,
+          "sport": "basketball/nba"
+        }
+      ],
+      "bet_id": "DK639287628552072252"
     }
   ]
 }
