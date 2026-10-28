@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-28T00:55:34-04:00",
+  "updated": "2026-10-28T00:57:05-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -828,6 +828,26 @@
           "event": "401909880",
           "stat": "ast",
           "line": 6,
+          "sport": "basketball/nba"
+        }
+      ]
+    },
+    {
+      "id": "POR_LAL_OVER266_5_1027",
+      "name": "LIVE POR@LAL Over 266.5",
+      "stake": 4,
+      "payout": 15.0,
+      "placedAt": "2026-10-28T00:57:05-04:00",
+      "odds": 275,
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "Game Total",
+          "team": "LAL",
+          "event": "401909880",
+          "stat": "pts",
+          "line": 266.5,
+          "side": "over",
           "sport": "basketball/nba"
         }
       ]
