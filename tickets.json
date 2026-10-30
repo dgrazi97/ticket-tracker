@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-28T08:41:58-04:00",
+  "updated": "2026-10-30T08:04:09-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -993,6 +993,7 @@
       "name": "NHL 30% boost SGPx: Leonard 2+ SOG, Draisaitl 3+ SOG, Coronato 2+ SOG",
       "stake": 7,
       "payout": 26.81,
+      "status": "lost",
       "placedAt": "2026-10-28T08:41:58-04:00",
       "odds": 283,
       "sport": "hockey/nhl",
