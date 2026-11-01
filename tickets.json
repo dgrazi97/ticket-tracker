@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-31T21:40:40-04:00",
+  "updated": "2026-10-31T22:15:36-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -1240,6 +1240,27 @@
         }
       ],
       "dk_id": "DK639290940055566122"
+    },
+    {
+      "id": "MIN_SA_MIN_ML_LIVE_1031",
+      "name": "Live ML: Timberwolves",
+      "time": "LIVE",
+      "stake": 5.45,
+      "payout": 38.15,
+      "placedAt": "2026-10-31T22:12:37-04:00",
+      "odds": 600,
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "Minnesota Timberwolves",
+          "team": "MIN",
+          "event": "401909901",
+          "stat": "ml",
+          "line": 0,
+          "sport": "basketball/nba"
+        }
+      ],
+      "dk_id": "DK639290959567265600"
     }
   ]
 }
