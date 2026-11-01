@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-11-01T01:29:32-05:00",
+  "updated": "2026-11-01T08:44:41-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -1342,6 +1342,27 @@
         }
       ],
       "dk_id": "DK639290977317691631"
+    },
+    {
+      "id": "MIN_DET_HOCKENSON_ATD_BOOST_1101",
+      "name": "T.J. Hockenson Anytime TD (Boost)",
+      "time": "1:00 PM",
+      "stake": 10,
+      "payout": 41.2,
+      "placedAt": "2026-11-01T08:44:00-05:00",
+      "odds": 312,
+      "sport": "football/nfl",
+      "legs": [
+        {
+          "player": "T.J. Hockenson",
+          "team": "MIN",
+          "event": "401873030",
+          "stat": "anytimeTD",
+          "line": 1,
+          "tdProb": 0.29,
+          "sport": "football/nfl"
+        }
+      ]
     }
   ]
 }
