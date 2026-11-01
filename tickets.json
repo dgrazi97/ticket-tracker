@@ -1045,6 +1045,27 @@
         }
       ],
       "dk_id": "DK639290867812442886"
+    },
+    {
+      "id": "PHI_CHA_Schroder2THREES_1031",
+      "name": "LIVE Dennis Schroder 2+ threes",
+      "time": "7:00 PM",
+      "stake": 3,
+      "payout": 25.5,
+      "placedAt": "2026-10-31T19:21:00-04:00",
+      "odds": 750,
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "Dennis Schroder",
+          "team": "CHA",
+          "event": "401909897",
+          "stat": "threes",
+          "line": 2,
+          "sport": "basketball/nba"
+        }
+      ],
+      "dk_id": "DK639290867980020476"
     }
   ]
 }
