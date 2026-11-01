@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-11-01T16:57:38-05:00",
+  "updated": "2026-11-01T17:15:27-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -1753,6 +1753,24 @@
           "stat": "rec",
           "line": 3,
           "event": "401873035",
+          "sport": "football/nfl"
+        }
+      ]
+    },
+    {
+      "id": "BOS_ORL_PGEORGE_2PLUS3PM_LIVE_1101",
+      "name": "Paul George 2+ threes (live)",
+      "stake": 19.97,
+      "payout": 34.23,
+      "placedAt": "2026-11-01T17:15:27-05:00",
+      "odds": "-140",
+      "legs": [
+        {
+          "player": "Paul George",
+          "team": "BOS",
+          "stat": "threePointFieldGoalsMade",
+          "line": 2,
+          "event": "401909903",
           "sport": "football/nfl"
         }
       ]
