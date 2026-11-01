@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-30T08:04:09-04:00",
+  "updated": "2026-10-31T20:08:26-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -1024,6 +1024,27 @@
         }
       ],
       "dk_id": "DK639287880696700214"
+    },
+    {
+      "id": "PHI_CHA_Schroder1THREES_1031",
+      "name": "LIVE Dennis Schroder 1+ threes",
+      "time": "7:00 PM",
+      "stake": 7,
+      "payout": 16.8,
+      "placedAt": "2026-10-31T19:20:00-04:00",
+      "odds": 140,
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "Dennis Schroder",
+          "team": "CHA",
+          "event": "401909897",
+          "stat": "threes",
+          "line": 1,
+          "sport": "basketball/nba"
+        }
+      ],
+      "dk_id": "DK639290867812442886"
     }
   ]
 }
