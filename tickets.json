@@ -1430,6 +1430,35 @@
         }
       ],
       "dk_id": "DK639291377051690510"
+    },
+    {
+      "id": "LV_NYJ_SGP_BOWERS_JEANTY_1101",
+      "name": "Bowers/Jeanty SGP",
+      "time": "1:00 PM",
+      "stake": 10,
+      "payout": 30.2,
+      "placedAt": "2026-11-01T08:50:00-05:00",
+      "odds": 202,
+      "sport": "football/nfl",
+      "legs": [
+        {
+          "player": "Brock Bowers",
+          "team": "LV",
+          "event": "401873029",
+          "stat": "rec",
+          "line": 6,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Ashton Jeanty",
+          "team": "LV",
+          "event": "401873029",
+          "stat": "recYds",
+          "line": 30,
+          "sport": "football/nfl"
+        }
+      ],
+      "dk_id": "DK639291378176448328"
     }
   ]
 }
