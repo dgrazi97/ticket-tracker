@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-11-01T11:29:59-05:00",
+  "updated": "2026-11-01T11:51:24-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -1559,6 +1559,91 @@
         }
       ],
       "dk_id": "DK639291470818278244"
+    },
+    {
+      "id": "LONGEST_9LEG_FLIER_1101",
+      "name": "9-Leg Longest Rush/Rec Flier",
+      "time": "1:00 PM",
+      "stake": 5,
+      "payout": 621.12,
+      "placedAt": "2026-11-01T11:50:47-05:00",
+      "odds": 12322,
+      "sport": "football/nfl",
+      "legs": [
+        {
+          "player": "Sam LaPorta",
+          "team": "DET",
+          "event": "401873030",
+          "stat": "longRec",
+          "line": 15,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Aaron Jones Sr.",
+          "team": "MIN",
+          "event": "401873030",
+          "stat": "longRush",
+          "line": 10,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Justin Jefferson",
+          "team": "MIN",
+          "event": "401873030",
+          "stat": "longRec",
+          "line": 20,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Zay Flowers",
+          "team": "BAL",
+          "event": "401873026",
+          "stat": "longRec",
+          "line": 30,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Josh Allen",
+          "team": "BUF",
+          "event": "401873026",
+          "stat": "longRush",
+          "line": 15,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Josh Downs",
+          "team": "IND",
+          "event": "401873028",
+          "stat": "longRec",
+          "line": 20,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Tony Pollard",
+          "team": "TEN",
+          "event": "401873031",
+          "stat": "longRush",
+          "line": 15,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Trey McBride",
+          "team": "ARI",
+          "event": "401873024",
+          "stat": "longRec",
+          "line": 20,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Kenneth Walker III",
+          "team": "KC",
+          "event": "401873033",
+          "stat": "longRush",
+          "line": 15,
+          "sport": "football/nfl"
+        }
+      ],
+      "dk_id": "DK639291486471378351"
     }
   ]
 }
