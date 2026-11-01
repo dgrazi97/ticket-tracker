@@ -138,6 +138,7 @@ const TT = (function () {
           p: l.player || l.p, short: l.short || undefined, team: l.team || "", sport, ev, key: gameKey(sport, ev),
           stat: def.name, def, line: Number(l.line), tdp: tdp != null ? Number(tdp) : undefined,
           result: l.result ? String(l.result).toLowerCase() : undefined,
+          ml: String(l.stat || "").toLowerCase() === "ml" || undefined,
         };
       });
       return {
@@ -307,10 +308,15 @@ const TT = (function () {
         if (leg.result === "void") status = "void";
         else if (leg.result === "hit" || leg.result === "won") status = "hit";
         else if (leg.result === "dead" || leg.result === "lost") status = "dead";
+        else if (leg.ml) {
+          const me = (g.away && g.away.abbr === leg.team) ? g.away : g.home, op = me === g.away ? g.home : g.away;
+          const won = me && op && +me.score > +op.score;
+          status = g.state === "post" ? (won ? "hit" : "dead") : g.state === "in" ? "live" : "pending";
+        }
         else if (cur >= leg.line) status = "hit";
         else if (isOut || g.state === "post") status = "dead";
         else if (g.state === "in") status = "live";
-        const prob = status === "hit" || status === "void" ? 1 : status === "dead" ? 0 : legEstimate(leg, cur, g);
+        const prob = leg.ml && status === "live" ? 0.5 : status === "hit" || status === "void" ? 1 : status === "dead" ? 0 : legEstimate(leg, cur, g);
         const def = leg.def;
         return Object.assign({}, leg, {
           label: def.label, anytime: !!def.anytime, anyText: def.anyText || ("Anytime " + def.label),
