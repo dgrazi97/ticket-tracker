@@ -1124,6 +1124,27 @@
         }
       ],
       "dk_id": "DK639290874960795476"
+    },
+    {
+      "id": "CGY_COL_MacKinnonGOAL_1031",
+      "name": "Nathan MacKinnon anytime goal",
+      "time": "10:00 PM",
+      "stake": 10,
+      "payout": 18.69,
+      "placedAt": "2026-10-31T19:55:00-04:00",
+      "odds": -115,
+      "sport": "hockey/nhl",
+      "legs": [
+        {
+          "player": "Nathan MacKinnon",
+          "team": "COL",
+          "event": "401892623",
+          "stat": "goals",
+          "line": 1,
+          "sport": "hockey/nhl"
+        }
+      ],
+      "dk_id": "DK639290877207699326"
     }
   ]
 }
