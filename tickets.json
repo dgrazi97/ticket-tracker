@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-11-01T15:48:46-05:00",
+  "updated": "2026-11-01T16:05:56-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -1659,6 +1659,40 @@
           "stat": "recYds",
           "line": 19,
           "event": "401873028",
+          "sport": "football/nfl"
+        }
+      ]
+    },
+    {
+      "id": "BKN_IND_SGP_NEMBHARD_SIAKAM_RANDLE_BOOST_1101",
+      "name": "BKN@IND SGP Nembhard/Siakam/Randle (50% boost)",
+      "stake": 15,
+      "payout": 58.65,
+      "placedAt": "2026-11-01T16:05:56-05:00",
+      "odds": "+291",
+      "legs": [
+        {
+          "player": "Andrew Nembhard",
+          "team": "IND",
+          "stat": "ast",
+          "line": 8,
+          "event": "401909904",
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Pascal Siakam",
+          "team": "IND",
+          "stat": "pts",
+          "line": 20,
+          "event": "401909904",
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Julius Randle",
+          "team": "BKN",
+          "stat": "reb",
+          "line": 7,
+          "event": "401909904",
           "sport": "football/nfl"
         }
       ]
