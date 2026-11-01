@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-31T20:08:27-04:00",
+  "updated": "2026-10-31T21:40:40-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -1211,6 +1211,35 @@
         }
       ],
       "dk_id": "DK639290880109255921"
+    },
+    {
+      "id": "MIN_SA_SGP_Dosunmu_Kuminga_2THREES_1031",
+      "name": "Live SGP: Dosunmu 2+ 3PM, Kuminga 2+ 3PM",
+      "time": "LIVE",
+      "stake": 10,
+      "payout": 38.6,
+      "placedAt": "2026-10-31T21:40:05-04:00",
+      "odds": 286,
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "Ayo Dosunmu",
+          "team": "MIN",
+          "event": "401909901",
+          "stat": "3pm",
+          "line": 2,
+          "sport": "basketball/nba"
+        },
+        {
+          "player": "Jonathan Kuminga",
+          "team": "MIN",
+          "event": "401909901",
+          "stat": "3pm",
+          "line": 2,
+          "sport": "basketball/nba"
+        }
+      ],
+      "dk_id": "DK639290940055566122"
     }
   ]
 }
