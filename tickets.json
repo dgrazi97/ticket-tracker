@@ -1519,6 +1519,46 @@
       ],
       "dk_id": "DK639291470451357158",
       "note": "Over 49.5 game total leg tracked manually"
+    },
+    {
+      "id": "TD_PARLAY_KYREN_JAVONTE_HENRY_1101",
+      "name": "Kyren/Javonte/Henry TD Parlay",
+      "time": "1:00 PM",
+      "stake": 10,
+      "payout": 37.22,
+      "placedAt": "2026-11-01T11:24:00-05:00",
+      "odds": 272,
+      "sport": "football/nfl",
+      "legs": [
+        {
+          "player": "Kyren Williams",
+          "team": "LAR",
+          "event": "401873032",
+          "stat": "anytimeTD",
+          "line": 1,
+          "sport": "football/nfl",
+          "tdProb": 0.55
+        },
+        {
+          "player": "Javonte Williams",
+          "team": "DAL",
+          "event": "401873024",
+          "stat": "anytimeTD",
+          "line": 1,
+          "sport": "football/nfl",
+          "tdProb": 0.67
+        },
+        {
+          "player": "Derrick Henry",
+          "team": "BAL",
+          "event": "401873026",
+          "stat": "anytimeTD",
+          "line": 1,
+          "sport": "football/nfl",
+          "tdProb": 0.62
+        }
+      ],
+      "dk_id": "DK639291470818278244"
     }
   ]
 }
