@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-11-01T08:52:59-05:00",
+  "updated": "2026-11-01T11:29:59-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -1488,6 +1488,37 @@
         }
       ],
       "dk_id": "DK639291378646211904"
+    },
+    {
+      "id": "BAL_BUF_SGP_FLOWERS_OVER_COOK_1101",
+      "name": "Flowers/Over 49.5/Cook SGP",
+      "time": "1:00 PM",
+      "stake": 5,
+      "payout": 16.2,
+      "placedAt": "2026-11-01T11:24:00-05:00",
+      "odds": 224,
+      "sport": "football/nfl",
+      "legs": [
+        {
+          "player": "Zay Flowers",
+          "team": "BAL",
+          "event": "401873026",
+          "stat": "recYds",
+          "line": 80,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "James Cook",
+          "team": "BUF",
+          "event": "401873026",
+          "stat": "anytimeTD",
+          "line": 1,
+          "sport": "football/nfl",
+          "tdProb": 0.6
+        }
+      ],
+      "dk_id": "DK639291470451357158",
+      "note": "Over 49.5 game total leg tracked manually"
     }
   ]
 }
