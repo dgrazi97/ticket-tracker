@@ -1087,6 +1087,43 @@
         }
       ],
       "dk_id": "DK639290872123248797"
+    },
+    {
+      "id": "MIN_SA_SGP_Wemby_Castle_1031",
+      "name": "SGP: Wembanyama 11+ reb, Castle 15+ pts, Castle 4+ reb",
+      "time": "8:00 PM",
+      "stake": 10,
+      "payout": 30.8,
+      "placedAt": "2026-10-31T19:52:00-04:00",
+      "odds": 208,
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "Victor Wembanyama",
+          "team": "SA",
+          "event": "401909901",
+          "stat": "reb",
+          "line": 11,
+          "sport": "basketball/nba"
+        },
+        {
+          "player": "Stephon Castle",
+          "team": "SA",
+          "event": "401909901",
+          "stat": "pts",
+          "line": 15,
+          "sport": "basketball/nba"
+        },
+        {
+          "player": "Stephon Castle",
+          "team": "SA",
+          "event": "401909901",
+          "stat": "reb",
+          "line": 4,
+          "sport": "basketball/nba"
+        }
+      ],
+      "dk_id": "DK639290874960795476"
     }
   ]
 }
