@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-31T20:08:26-04:00",
+  "updated": "2026-10-31T20:08:27-04:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -1145,6 +1145,27 @@
         }
       ],
       "dk_id": "DK639290877207699326"
+    },
+    {
+      "id": "MIN_SA_Wemby25PTS_1031",
+      "name": "Superboost: Victor Wembanyama 25+ pts",
+      "time": "8:00 PM",
+      "stake": 10,
+      "payout": 25.0,
+      "placedAt": "2026-10-31T19:58:00-04:00",
+      "odds": 150,
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "Victor Wembanyama",
+          "team": "SA",
+          "event": "401909901",
+          "stat": "pts",
+          "line": 25,
+          "sport": "basketball/nba"
+        }
+      ],
+      "dk_id": "DK639290879270393781"
     }
   ]
 }
