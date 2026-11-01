@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-11-01T17:15:27-05:00",
+  "updated": "2026-11-01T18:04:41-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -1771,6 +1771,40 @@
           "stat": "threePointFieldGoalsMade",
           "line": 2,
           "event": "401909903",
+          "sport": "football/nfl"
+        }
+      ]
+    },
+    {
+      "id": "PHI_WAS_SGP_GOEDERT_DANIELS_LEMON_BOOST_1101",
+      "name": "PHI@WAS SGP Goedert/Daniels/Lemon",
+      "stake": 10,
+      "payout": 51.0,
+      "placedAt": "2026-11-01T18:04:41-05:00",
+      "odds": "+410",
+      "legs": [
+        {
+          "player": "Dallas Goedert",
+          "team": "PHI",
+          "stat": "rec",
+          "line": 5,
+          "event": "401873035",
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Jayden Daniels",
+          "team": "WSH",
+          "stat": "rushYds",
+          "line": 30,
+          "event": "401873035",
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Makai Lemon",
+          "team": "PHI",
+          "stat": "rec",
+          "line": 5,
+          "event": "401873035",
           "sport": "football/nfl"
         }
       ]
