@@ -1166,6 +1166,51 @@
         }
       ],
       "dk_id": "DK639290879270393781"
+    },
+    {
+      "id": "OKC_HOU_SGP_Amen_Jabari_KD_Sengun_1031",
+      "name": "SGP: Amen 15+ pts, Jabari 12+ pts, Durant 4+ reb, Sengun 12+ reb+ast",
+      "time": "8:30 PM",
+      "stake": 10,
+      "payout": 37.6,
+      "placedAt": "2026-10-31T20:00:00-04:00",
+      "odds": 276,
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "Amen Thompson",
+          "team": "HOU",
+          "event": "401909902",
+          "stat": "pts",
+          "line": 15,
+          "sport": "basketball/nba"
+        },
+        {
+          "player": "Jabari Smith Jr.",
+          "team": "HOU",
+          "event": "401909902",
+          "stat": "pts",
+          "line": 12,
+          "sport": "basketball/nba"
+        },
+        {
+          "player": "Kevin Durant",
+          "team": "HOU",
+          "event": "401909902",
+          "stat": "reb",
+          "line": 4,
+          "sport": "basketball/nba"
+        },
+        {
+          "player": "Alperen Sengun",
+          "team": "HOU",
+          "event": "401909902",
+          "stat": "ra",
+          "line": 12,
+          "sport": "basketball/nba"
+        }
+      ],
+      "dk_id": "DK639290880109255921"
     }
   ]
 }
