@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-10-31T22:15:36-04:00",
+  "updated": "2026-11-01T01:29:32-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -1261,6 +1261,28 @@
         }
       ],
       "dk_id": "DK639290959567265600"
+    },
+    {
+      "id": "KC_DEN_COLEMAN_ATD_1101",
+      "name": "Jonah Coleman Anytime TD",
+      "time": "4:25 PM",
+      "stake": 10,
+      "payout": 26.5,
+      "placedAt": "2026-11-01T00:26:21-04:00",
+      "odds": 165,
+      "sport": "football/nfl",
+      "legs": [
+        {
+          "player": "Jonah Coleman",
+          "team": "DEN",
+          "event": "401873033",
+          "stat": "anytimeTD",
+          "line": 1,
+          "tdProb": 0.377,
+          "sport": "football/nfl"
+        }
+      ],
+      "dk_id": "DK639291039812711714"
     }
   ]
 }
