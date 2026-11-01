@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-11-01T16:48:02-05:00",
+  "updated": "2026-11-01T16:57:38-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -1727,6 +1727,32 @@
           "stat": "ml",
           "line": 0,
           "event": "401873033",
+          "sport": "football/nfl"
+        }
+      ]
+    },
+    {
+      "id": "PHI_WAS_SGP_DIGGS_BURKS_BOOST_1101",
+      "name": "PHI@WAS SGP Diggs 4+/Burks 3+ rec (30% boost)",
+      "stake": 10,
+      "payout": 58.8,
+      "placedAt": "2026-11-01T16:57:38-05:00",
+      "odds": "+488",
+      "legs": [
+        {
+          "player": "Stefon Diggs",
+          "team": "WSH",
+          "stat": "rec",
+          "line": 4,
+          "event": "401873035",
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Treylon Burks",
+          "team": "WSH",
+          "stat": "rec",
+          "line": 3,
+          "event": "401873035",
           "sport": "football/nfl"
         }
       ]
