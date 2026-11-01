@@ -1305,6 +1305,43 @@
         }
       ],
       "dk_id": "DK639291039527498680"
+    },
+    {
+      "id": "ARI_DAL_SGP_BRISSETT_PICKENS_MCBRIDE_1101",
+      "name": "ARI@DAL SGP (30% boost)",
+      "time": "1:00 PM",
+      "stake": 10,
+      "payout": 50.3,
+      "placedAt": "2026-10-31T22:42:12-04:00",
+      "odds": 403,
+      "sport": "football/nfl",
+      "legs": [
+        {
+          "player": "Jacoby Brissett",
+          "team": "ARI",
+          "event": "401873024",
+          "stat": "passAtt",
+          "line": 36,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "George Pickens",
+          "team": "DAL",
+          "event": "401873024",
+          "stat": "recYds",
+          "line": 50,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Trey McBride",
+          "team": "ARI",
+          "event": "401873024",
+          "stat": "rec",
+          "line": 9,
+          "sport": "football/nfl"
+        }
+      ],
+      "dk_id": "DK639290977317691631"
     }
   ]
 }
