@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-11-01T08:44:41-05:00",
+  "updated": "2026-11-01T08:52:59-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -1362,7 +1362,37 @@
           "tdProb": 0.29,
           "sport": "football/nfl"
         }
-      ]
+      ],
+      "dk_id": "DK639291374416319431"
+    },
+    {
+      "id": "CLE_PIT_SGP_WATSON_JUDKINS_1101",
+      "name": "Watson/Judkins SGP",
+      "time": "1:00 PM",
+      "stake": 10,
+      "payout": 21.4,
+      "placedAt": "2026-11-01T08:50:00-05:00",
+      "odds": 114,
+      "sport": "football/nfl",
+      "legs": [
+        {
+          "player": "Deshaun Watson",
+          "team": "CLE",
+          "event": "401873027",
+          "stat": "rushYds",
+          "line": 20,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Quinshon Judkins",
+          "team": "CLE",
+          "event": "401873027",
+          "stat": "rec",
+          "line": 2,
+          "sport": "football/nfl"
+        }
+      ],
+      "dk_id": "DK639291377336963396"
     }
   ]
 }
