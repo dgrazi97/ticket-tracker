@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-11-01T18:04:41-05:00",
+  "updated": "2026-11-01T18:17:42-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -1804,6 +1804,24 @@
           "team": "PHI",
           "stat": "rec",
           "line": 5,
+          "event": "401873035",
+          "sport": "football/nfl"
+        }
+      ]
+    },
+    {
+      "id": "PHI_WAS_MCKEE_40PLUS_ATT_1101",
+      "name": "McKee 40+ pass att",
+      "stake": 5,
+      "payout": 20.85,
+      "placedAt": "2026-11-01T18:17:42-05:00",
+      "odds": "+317",
+      "legs": [
+        {
+          "player": "Tanner McKee",
+          "team": "PHI",
+          "stat": "passAtt",
+          "line": 40,
           "event": "401873035",
           "sport": "football/nfl"
         }
