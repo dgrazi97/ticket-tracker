@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-11-01T16:05:56-05:00",
+  "updated": "2026-11-01T16:48:02-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -1693,6 +1693,40 @@
           "stat": "reb",
           "line": 7,
           "event": "401909904",
+          "sport": "football/nfl"
+        }
+      ]
+    },
+    {
+      "id": "KC_DEN_LIVE_SGP_MAHOMES_WALKER_KCML_BOOST_1101",
+      "name": "KC@DEN live SGP Mahomes rush/Walker TD/KC ML (30% boost)",
+      "stake": 10,
+      "payout": 65.3,
+      "placedAt": "2026-11-01T16:48:02-05:00",
+      "odds": "+553",
+      "legs": [
+        {
+          "player": "Patrick Mahomes",
+          "team": "KC",
+          "stat": "rushYds",
+          "line": 15,
+          "event": "401873033",
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Kenneth Walker III",
+          "team": "KC",
+          "stat": "anytimeTD",
+          "line": 1,
+          "event": "401873033",
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Kansas City Chiefs",
+          "team": "KC",
+          "stat": "ml",
+          "line": 0,
+          "event": "401873033",
           "sport": "football/nfl"
         }
       ]
