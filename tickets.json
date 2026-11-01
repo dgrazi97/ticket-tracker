@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "title": "Sunday Tickets",
-  "updated": "2026-11-01T11:51:24-05:00",
+  "updated": "2026-11-01T15:48:46-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -1644,6 +1644,24 @@
         }
       ],
       "dk_id": "DK639291486471378351"
+    },
+    {
+      "id": "IND_JAX_TREADWELL_19REC_LIVE_1101",
+      "name": "Treadwell 19+ Rec Yds (live, bonus)",
+      "stake": 5,
+      "payout": 18.5,
+      "placedAt": "2026-11-01T15:48:46-05:00",
+      "odds": "+370",
+      "legs": [
+        {
+          "player": "Laquon Treadwell",
+          "team": "IND",
+          "stat": "recYds",
+          "line": 19,
+          "event": "401873028",
+          "sport": "football/nfl"
+        }
+      ]
     }
   ]
 }
