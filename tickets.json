@@ -1283,6 +1283,28 @@
         }
       ],
       "dk_id": "DK639291039812711714"
+    },
+    {
+      "id": "NE_MIA_DOUGLAS_ATD_1101",
+      "name": "Demario Douglas Anytime TD",
+      "time": "4:25 PM",
+      "stake": 10,
+      "payout": 34.0,
+      "placedAt": "2026-11-01T00:25:52-04:00",
+      "odds": 240,
+      "sport": "football/nfl",
+      "legs": [
+        {
+          "player": "Demario Douglas",
+          "team": "NE",
+          "event": "401873034",
+          "stat": "anytimeTD",
+          "line": 1,
+          "tdProb": 0.294,
+          "sport": "football/nfl"
+        }
+      ],
+      "dk_id": "DK639291039527498680"
     }
   ]
 }
