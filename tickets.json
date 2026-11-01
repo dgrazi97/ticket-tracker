@@ -1459,6 +1459,35 @@
         }
       ],
       "dk_id": "DK639291378176448328"
+    },
+    {
+      "id": "TEN_CIN_SGP_BURROW_HIGGINS_1101",
+      "name": "Burrow/Higgins SGP",
+      "time": "1:00 PM",
+      "stake": 5,
+      "payout": 12.9,
+      "placedAt": "2026-11-01T08:50:00-05:00",
+      "odds": 158,
+      "sport": "football/nfl",
+      "legs": [
+        {
+          "player": "Joe Burrow",
+          "team": "CIN",
+          "event": "401873031",
+          "stat": "passYds",
+          "line": 250,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Tee Higgins",
+          "team": "CIN",
+          "event": "401873031",
+          "stat": "recYds",
+          "line": 80,
+          "sport": "football/nfl"
+        }
+      ],
+      "dk_id": "DK639291378646211904"
     }
   ]
 }
