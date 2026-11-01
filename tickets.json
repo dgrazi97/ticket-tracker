@@ -1393,6 +1393,43 @@
         }
       ],
       "dk_id": "DK639291377336963396"
+    },
+    {
+      "id": "IND_JAX_SGP_JONES_TUTEN_WARREN_BOOST_1101",
+      "name": "Jones/Tuten/Warren SGP (30% boost)",
+      "time": "1:00 PM",
+      "stake": 10,
+      "payout": 54.9,
+      "placedAt": "2026-11-01T08:50:00-05:00",
+      "odds": 449,
+      "sport": "football/nfl",
+      "legs": [
+        {
+          "player": "Daniel Jones",
+          "team": "IND",
+          "event": "401873028",
+          "stat": "passAtt",
+          "line": 30,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Bhayshul Tuten",
+          "team": "JAX",
+          "event": "401873028",
+          "stat": "recYds",
+          "line": 15,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Tyler Warren",
+          "team": "IND",
+          "event": "401873028",
+          "stat": "rec",
+          "line": 5,
+          "sport": "football/nfl"
+        }
+      ],
+      "dk_id": "DK639291377051690510"
     }
   ]
 }
