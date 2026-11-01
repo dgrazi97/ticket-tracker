@@ -1066,6 +1066,27 @@
         }
       ],
       "dk_id": "DK639290867980020476"
+    },
+    {
+      "id": "SAC_MEM_Sabonis15REB_1031",
+      "name": "50% boost: Domantas Sabonis 15+ reb",
+      "time": "8:00 PM",
+      "stake": 20,
+      "payout": 50.0,
+      "placedAt": "2026-10-31T19:50:00-04:00",
+      "odds": 150,
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "Domantas Sabonis",
+          "team": "SAC",
+          "event": "401909899",
+          "stat": "reb",
+          "line": 15,
+          "sport": "basketball/nba"
+        }
+      ],
+      "dk_id": "DK639290872123248797"
     }
   ]
 }
