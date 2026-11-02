@@ -1,7 +1,7 @@
 {
   "schema": 2,
   "title": "Sunday Tickets",
-  "updated": "2026-11-02T18:23:11-05:00",
+  "updated": "2026-11-02T18:23:15-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -2469,6 +2469,36 @@
       "state": "pending",
       "profit": null,
       "day": "2026-11-02"
+    },
+    {
+      "id": "NBA_KNICKS_KAT_UNDER_1102",
+      "name": "Knicks Boosted SGP",
+      "time": "7:40 PM",
+      "stake": 10,
+      "payout": 32.9,
+      "placedAt": "2026-11-02T18:14:20-05:00",
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "Karl-Anthony Towns",
+          "team": "NY",
+          "event": "401909910",
+          "stat": "reb",
+          "line": 11,
+          "sport": "basketball/nba"
+        },
+        {
+          "player": "Under 218.5 total (manual)",
+          "team": "NY",
+          "event": "401909910",
+          "stat": "manual",
+          "line": 9999,
+          "sport": "basketball/nba"
+        }
+      ],
+      "state": "pending",
+      "profit": null,
+      "day": "2026-11-02"
     }
   ],
   "days": [
@@ -2478,7 +2508,7 @@
       "won": 0,
       "lost": 0,
       "live": 0,
-      "pending": 5,
+      "pending": 6,
       "staked": 0,
       "net": 0
     },
