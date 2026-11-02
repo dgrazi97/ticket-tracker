@@ -1,7 +1,7 @@
 {
   "schema": 2,
   "title": "Sunday Tickets",
-  "updated": "2026-11-01T19:46:46-05:00",
+  "updated": "2026-11-01T23:37:47-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -2068,9 +2068,11 @@
         }
       ],
       "sport": "basketball/nba",
-      "state": "live",
-      "profit": null,
-      "day": "2026-11-01"
+      "state": "lost",
+      "profit": -15,
+      "day": "2026-11-01",
+      "status": "lost",
+      "settledAt": "2026-11-01T21:05:56.000Z"
     },
     {
       "id": "KC_DEN_LIVE_SGP_MAHOMES_WALKER_KCML_BOOST_1101",
@@ -2128,7 +2130,8 @@
           "stat": "rec",
           "line": 4,
           "event": "401873035",
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead"
         },
         {
           "player": "Treylon Burks",
@@ -2136,12 +2139,15 @@
           "stat": "rec",
           "line": 3,
           "event": "401873035",
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "hit"
         }
       ],
-      "state": "pending",
-      "profit": null,
-      "day": "2026-11-01"
+      "state": "lost",
+      "profit": -10,
+      "day": "2026-11-01",
+      "status": "lost",
+      "settledAt": "2026-11-02T04:35:00.000Z"
     },
     {
       "id": "BOS_ORL_PGEORGE_2PLUS3PM_LIVE_1101",
@@ -2182,7 +2188,8 @@
           "stat": "rec",
           "line": 5,
           "event": "401873035",
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead"
         },
         {
           "player": "Jayden Daniels",
@@ -2190,7 +2197,8 @@
           "stat": "rushYds",
           "line": 30,
           "event": "401873035",
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead"
         },
         {
           "player": "Makai Lemon",
@@ -2198,12 +2206,15 @@
           "stat": "rec",
           "line": 5,
           "event": "401873035",
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "hit"
         }
       ],
-      "state": "pending",
-      "profit": null,
-      "day": "2026-11-01"
+      "state": "lost",
+      "profit": -10,
+      "day": "2026-11-01",
+      "status": "lost",
+      "settledAt": "2026-11-02T04:35:00.000Z"
     },
     {
       "id": "PHI_WAS_MCKEE_40PLUS_ATT_1101",
@@ -2219,12 +2230,15 @@
           "stat": "passAtt",
           "line": 40,
           "event": "401873035",
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead"
         }
       ],
-      "state": "pending",
-      "profit": null,
-      "day": "2026-11-01"
+      "state": "lost",
+      "profit": -5,
+      "day": "2026-11-01",
+      "status": "lost",
+      "settledAt": "2026-11-02T04:35:00.000Z"
     },
     {
       "id": "PHI_WAS_MCKEE_36PLUS_ATT_1101",
@@ -2240,12 +2254,15 @@
           "stat": "passAtt",
           "line": 36,
           "event": "401873035",
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead"
         }
       ],
-      "state": "pending",
-      "profit": null,
-      "day": "2026-11-01"
+      "state": "lost",
+      "profit": -10,
+      "day": "2026-11-01",
+      "status": "lost",
+      "settledAt": "2026-11-02T04:35:00.000Z"
     },
     {
       "id": "PHI_WAS_MCKEE_38PLUS_ATT_1101",
@@ -2261,12 +2278,15 @@
           "stat": "passAtt",
           "line": 38,
           "event": "401873035",
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead"
         }
       ],
-      "state": "pending",
-      "profit": null,
-      "day": "2026-11-01"
+      "state": "lost",
+      "profit": -19.23,
+      "day": "2026-11-01",
+      "status": "lost",
+      "settledAt": "2026-11-02T04:35:00.000Z"
     }
   ],
   "days": [
@@ -2274,11 +2294,11 @@
       "day": "2026-11-01",
       "label": "Today · Sun Nov 1",
       "won": 6,
-      "lost": 8,
-      "live": 1,
-      "pending": 5,
-      "staked": 124.97,
-      "net": 54.06
+      "lost": 14,
+      "live": 0,
+      "pending": 0,
+      "staked": 194.2,
+      "net": -15.17
     },
     {
       "day": "2026-10-31",
