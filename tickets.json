@@ -1,7 +1,7 @@
 {
   "schema": 2,
   "title": "Sunday Tickets",
-  "updated": "2026-11-02T10:19:54-05:00",
+  "updated": "2026-11-02T10:21:21-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -2325,6 +2325,44 @@
       "state": "pending",
       "profit": null,
       "day": "2026-11-02"
+    },
+    {
+      "id": "NBA_1Q_FOX_CADE_HERRO_1102",
+      "name": "NBA 1Q Boosted Parlay",
+      "time": "7:40 PM",
+      "stake": 10,
+      "payout": 46.5,
+      "placedAt": "2026-11-02T10:21:20-05:00",
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "De'Aaron Fox",
+          "team": "SA",
+          "event": "401909917",
+          "stat": "q1pts",
+          "line": 3,
+          "sport": "basketball/nba"
+        },
+        {
+          "player": "Cade Cunningham",
+          "team": "DET",
+          "event": "401909908",
+          "stat": "q1pts",
+          "line": 6,
+          "sport": "basketball/nba"
+        },
+        {
+          "player": "Tyler Herro",
+          "team": "MIL",
+          "event": "401909915",
+          "stat": "q1pts",
+          "line": 6,
+          "sport": "basketball/nba"
+        }
+      ],
+      "state": "pending",
+      "profit": null,
+      "day": "2026-11-02"
     }
   ],
   "days": [
@@ -2334,7 +2372,7 @@
       "won": 0,
       "lost": 0,
       "live": 0,
-      "pending": 1,
+      "pending": 2,
       "staked": 0,
       "net": 0
     },
