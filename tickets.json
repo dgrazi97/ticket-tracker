@@ -1,7 +1,7 @@
 {
   "schema": 2,
   "title": "Sunday Tickets",
-  "updated": "2026-11-01T23:40:20-05:00",
+  "updated": "2026-11-02T10:19:54-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -2287,12 +2287,60 @@
       "day": "2026-11-01",
       "status": "lost",
       "settledAt": "2026-11-02T04:35:00.000Z"
+    },
+    {
+      "id": "MNF_SGP_DARNOLD_JSN_SIMMONS_1102",
+      "name": "MNF Boosted SGP",
+      "time": "8:20 PM",
+      "stake": 10,
+      "payout": 78.3,
+      "placedAt": "2026-11-02T10:19:53-05:00",
+      "sport": "football/nfl",
+      "legs": [
+        {
+          "player": "Sam Darnold",
+          "team": "SEA",
+          "event": "401873036",
+          "stat": "ints",
+          "line": 1,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Jaxon Smith-Njigba",
+          "team": "SEA",
+          "event": "401873036",
+          "stat": "recYds",
+          "line": 80,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Jeffery Simmons",
+          "team": "CHI",
+          "event": "401873036",
+          "stat": "sacks",
+          "line": 1,
+          "sport": "football/nfl"
+        }
+      ],
+      "state": "pending",
+      "profit": null,
+      "day": "2026-11-02"
     }
   ],
   "days": [
     {
+      "day": "2026-11-02",
+      "label": "Today · Mon Nov 2",
+      "won": 0,
+      "lost": 0,
+      "live": 0,
+      "pending": 1,
+      "staked": 0,
+      "net": 0
+    },
+    {
       "day": "2026-11-01",
-      "label": "Today · Sun Nov 1",
+      "label": "Yesterday · Sun Nov 1",
       "won": 6,
       "lost": 14,
       "live": 0,
@@ -2302,7 +2350,7 @@
     },
     {
       "day": "2026-10-31",
-      "label": "Yesterday · Sat Oct 31",
+      "label": "Sat Oct 31",
       "won": 3,
       "lost": 6,
       "live": 0,
