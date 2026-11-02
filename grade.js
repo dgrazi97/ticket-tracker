@@ -101,7 +101,10 @@ async function fetchJson(url) {
       else if (l.status === "dead" && l.game && l.game.state === "post") rl.result = "dead";
     });
     // day: first game's ET date; fall back to the placed date
-    const day = TT.ticketDay(Object.assign({}, et, { day: null })) || (t.placedAt ? TT.etDayKey(Date.parse(t.placedAt)) : null);
+    // (game dates only exist for games fetched this run, so keep an earlier game-based day otherwise)
+    const gameDated = et.legs.some(l => l.game && l.game.date);
+    const day = gameDated ? TT.ticketDay(Object.assign({}, et, { day: null }))
+      : (t.day || (t.placedAt ? TT.etDayKey(Date.parse(String(t.placedAt).length <= 10 ? t.placedAt + "T12:00:00-04:00" : t.placedAt)) : null));
     if (day) t.day = day;
     if (state === "won" || state === "lost" || state === "void") {
       if (!t.settledAt) { const last = TT.ticketTimes(et).last; t.settledAt = new Date(Math.min(now, last || now)).toISOString(); }
