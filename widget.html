@@ -278,8 +278,9 @@ const TT = (function () {
     const c = clockFor(sport) || { per: 4, len: 900 };
     const total = c.per * c.len;
     const per = g.period || 1;
-    const [m, s] = String(g.clock || (c.len / 60) + &quot;:00&quot;).split(&quot;:&quot;).map(Number);
-    const secLeftQ = (m || 0) * 60 + (s || 0);
+    const ck = String(g.clock || (c.len / 60) + &quot;:00&quot;);
+    // ESPN shows the last minute as plain seconds (&quot;39.4&quot;), otherwise &quot;m:ss&quot;
+    const secLeftQ = ck.indexOf(&quot;:&quot;) &gt;= 0 ? (([m, s]) =&gt; (m || 0) * 60 + (s || 0))(ck.split(&quot;:&quot;).map(Number)) : (parseFloat(ck) || 0);
     if (per &gt; c.per) return Math.max(0.02, secLeftQ / total);
     if ((c.half || /halftime/i).test(g.detail)) return 0.5;
     return Math.max(0, ((c.per - per) * c.len + secLeftQ) / total);
@@ -643,9 +644,9 @@ async function loadData() {
   const isFinal = k =&gt; cached[k] &amp;&amp; cached[k].game &amp;&amp; cached[k].game.state === &quot;post&quot;;
   const need = events.filter(e =&gt; openKeys.has(e.key) &amp;&amp; !isFinal(e.key));
   // settled tickets: one-time fill (for leg counts) only if never cached, after the live ones
-  const backfill = events.filter(e =&gt; !openKeys.has(e.key) &amp;&amp; curKeys.has(e.key) &amp;&amp; !cached[e.key]);
+  const backfill = []; // widget shows live bets only, so settled tickets need no stats
   const games = {};
-  for (const e of events) if (cached[e.key] &amp;&amp; (openKeys.has(e.key) || curKeys.has(e.key))) games[e.key] = cached[e.key]; // prune old days
+  for (const e of events) if (cached[e.key] &amp;&amp; openKeys.has(e.key)) games[e.key] = cached[e.key]; // prune old days
   let res = { ok: 0, failures: 0 };
   try { res = await fetchGames(need, wanted, games); } catch (e) { res = { ok: 0, failures: need.length || 1 }; }
   if (backfill.length &amp;&amp; Date.now() - RUN_START &lt; RUN_BUDGET_MS / 2) {
@@ -839,25 +840,12 @@ const LARGE_VARIANTS = [{ font: 11, perRow: 3 }, { font: 10, perRow: 3 }, { font
 
 // Relevance order: [day header, LIVE (every leg), upcoming, WIN/LOSS lines] for live days + today + upcoming days,
 // then one summary line per earlier day (newest first). history=true lists earlier days&#x27; tickets too.
-function buildItems(sections, summaryOnly) {
-  const items = [];
-  for (const sec of sections) {
-    const showTickets = !summaryOnly || sec.live || sec.isToday || sec.key &gt; summaryOnly;
-    items.push({ day: sec, keep: !!(sec.live || sec.isToday) &amp;&amp; showTickets });
-    if (showTickets) for (const t of sec.tickets) items.push({ t, mode: isLive(t) ? &quot;full&quot; : &quot;title&quot;, secKey: sec.key });
-  }
-  return items;
-}
+// The widget shows ONLY live bets (game in progress), every leg with progress. Nothing else.
+const liveTickets = view =&gt; view.sections.reduce((a, sec) =&gt; a.concat(sec.tickets.filter(isLive)), []);
+const liveItems = view =&gt; liveTickets(view).map(t =&gt; ({ t, mode: &quot;full&quot; }));
 const MEDIUM_VARIANTS = [{ font: 11, perRow: 2 }, { font: 10, perRow: 3 }];
-// page 0/1: live days + today + upcoming with tickets, earlier days as one summary line each.
-// page 2 (widget parameter &quot;2&quot; or &quot;history&quot;): earlier days with their tickets.
-function planLarge(view, budget, page) {
-  if (page === 2) return fit(buildItems(view.past, null), budget, { variants: LARGE_VARIANTS });
-  return fit(buildItems(view.sections, view.today), budget, { variants: LARGE_VARIANTS });
-}
-function planMedium(view, budget) {
-  return fit(buildItems(view.sections, view.today), budget, { variants: MEDIUM_VARIANTS });
-}
+function planLarge(view, budget) { return fit(liveItems(view), budget, { variants: LARGE_VARIANTS }); }
+function planMedium(view, budget) { return fit(liveItems(view), budget, { variants: MEDIUM_VARIANTS }); }
 
 // ---- Drawing -----------------------------------------------------------------------
 function addText(stack, s, size, color, bold) {
@@ -870,10 +858,11 @@ const signed = n =&gt; TT.signedMoney(n);
 const netColor = n =&gt; n &gt; 0 ? C.green : n &lt; 0 ? C.red : C.dim;
 function drawHeader(w, data, view, size, page) {
   const head = w.addStack(); head.size = new Size(size.w, H.header); head.centerAlignContent();
-  addText(head, page === 2 ? &quot;Ticket History&quot; : view.title, 14, C.text, true);
+  const nLive = liveTickets(view).length;
+  addText(head, nLive ? &quot;🔴 Live Bets · &quot; + nLive : &quot;Live Bets&quot;, 14, C.text, true);
   head.addSpacer();
   const ts = view.todaySec;
-  if (page !== 2 &amp;&amp; (ts.won || ts.lost)) addText(head, signed(ts.net) + &quot; today&quot;, 11, netColor(ts.net), true);
+  if (ts.won || ts.lost) addText(head, signed(ts.net) + &quot; today&quot;, 11, netColor(ts.net), true);
   head.addSpacer(6);
   let s = timeStr(data.updated);
   if (data.error || data.ticketsStale) s += &quot; !&quot;;
@@ -966,21 +955,15 @@ function drawPlan(w, plan, size, nm) {
 
 function buildSmall(w, data, view) {
   const ts = view.todaySec;
-  const open = view.shown.filter(isOpen);
-  const live = open.filter(isLive);
-  const best = (live.length ? live : open).slice().sort((a, b) =&gt; b.prob - a.prob)[0];
-  addText(w, &quot;🎟️ &quot; + view.title.toUpperCase(), 10, C.dim, true);
+  const live = liveTickets(view);
+  const best = live.slice().sort((a, b) =&gt; b.prob - a.prob)[0];
+  addText(w, &quot;🎟️ LIVE BETS&quot;, 10, C.dim, true);
   w.addSpacer(4);
-  addText(w, signed(ts.net), 26, netColor(ts.net), true);
-  addText(w, &quot;today · &quot; + ts.won + &quot;W-&quot; + ts.lost + &quot;L&quot;, 10, C.dim, false);
+  addText(w, live.length ? String(live.length) + &quot; live&quot; : &quot;No live bets&quot;, live.length ? 22 : 15, live.length ? C.yellow : C.text, true);
+  if (best) addText(w, &quot;Best: &quot; + shortName(best.name) + &quot; &quot; + pct(best.prob), 11, C.text, false);
   w.addSpacer(4);
-  const parts = [];
-  if (live.length) parts.push(live.length + &quot; live&quot;);
-  if (open.length - live.length) parts.push((open.length - live.length) + &quot; next&quot;);
-  addText(w, parts.length ? parts.join(&quot; · &quot;) : &quot;Nothing open&quot;, 13, live.length ? C.yellow : C.text, true);
-  if (best) addText(w, (isLive(best) ? &quot;Best: &quot; : &quot;Next: &quot;) + shortName(best.name) + &quot; &quot; + pct(best.prob), 11, C.text, false);
-  const y = view.past[0];
-  if (y &amp;&amp; (y.won || y.lost)) addText(w, y.label.split(&quot; · &quot;)[0].replace(/^(\w{3}) .*/, &quot;$1&quot;) + &quot; &quot; + signed(y.net), 10, netColor(y.net), false);
+  addText(w, signed(ts.net) + &quot; today&quot;, 13, netColor(ts.net), true);
+  addText(w, ts.won + &quot;W-&quot; + ts.lost + &quot;L&quot;, 10, C.dim, false);
   w.addSpacer();
   let s = &quot;Updated &quot; + timeStr(data.updated);
   if (data.error) s += &quot; · retrying&quot;;
@@ -1007,12 +990,19 @@ async function main() {
   if (family === &quot;small&quot;) buildSmall(w, data, view);
   else {
     const large = family !== &quot;medium&quot;;
-    const page = large ? pageParam() : 0;
     const budget = size.h;
-    plan = large ? planLarge(view, budget, page) : planMedium(view, budget);
-    drawHeader(w, data, view, size, page);
-    if (!view.sections.length) addText(w, &quot;No tickets yet&quot;, 12, C.dim, false);
-    drawPlan(w, plan, size, nameMap(page === 2 ? data.result.tickets : view.shown));
+    plan = large ? planLarge(view, budget) : planMedium(view, budget);
+    drawHeader(w, data, view, size, 0);
+    if (!plan.items.length) {
+      const ts = view.todaySec;
+      w.addSpacer();
+      const r1 = w.addStack(); r1.addSpacer(); addText(r1, &quot;No live bets&quot;, 16, C.dim, true); r1.addSpacer();
+      w.addSpacer(4);
+      const r2 = w.addStack(); r2.addSpacer();
+      addText(r2, &quot;Today &quot; + signed(ts.net) + (ts.won || ts.lost ? &quot;  ·  &quot; + ts.won + &quot;W-&quot; + ts.lost + &quot;L&quot; : &quot;&quot;), 12, netColor(ts.net), true);
+      r2.addSpacer();
+    }
+    drawPlan(w, plan, size, nameMap(liveTickets(view)));
     plan.height = planHeight(plan); plan.budget = budget;
   }
   try { globalThis.__ttLast = { plan, view, family, size }; } catch (e) {}

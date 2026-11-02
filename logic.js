@@ -245,8 +245,9 @@
     const c = clockFor(sport) || { per: 4, len: 900 };
     const total = c.per * c.len;
     const per = g.period || 1;
-    const [m, s] = String(g.clock || (c.len / 60) + ":00").split(":").map(Number);
-    const secLeftQ = (m || 0) * 60 + (s || 0);
+    const ck = String(g.clock || (c.len / 60) + ":00");
+    // ESPN shows the last minute as plain seconds ("39.4"), otherwise "m:ss"
+    const secLeftQ = ck.indexOf(":") >= 0 ? (([m, s]) => (m || 0) * 60 + (s || 0))(ck.split(":").map(Number)) : (parseFloat(ck) || 0);
     if (per > c.per) return Math.max(0.02, secLeftQ / total);
     if ((c.half || /halftime/i).test(g.detail)) return 0.5;
     return Math.max(0, ((c.per - per) * c.len + secLeftQ) / total);

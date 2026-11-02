@@ -41,6 +41,13 @@ button{background:#232a37;color:var(--txt);border:1px solid var(--line);border-r
 .past{margin-top:4px}.past>summary{list-style:none;cursor:pointer}.past>summary::-webkit-details-marker{display:none}
 .past>summary .dl:before{content:"▸ ";color:var(--dim)}.past[open]>summary .dl:before{content:"▾ "}
 .pill.Pregame{}.res{font-weight:700;margin-left:6px}
+.sec{display:flex;justify-content:space-between;align-items:baseline;margin:18px 2px 10px;font-size:17px;font-weight:700}
+.sec .dr{font-size:14px;font-weight:400;color:var(--dim)}.sec .dr b{font-size:16px;margin-left:6px}
+details.grp>summary{list-style:none;cursor:pointer}details.grp>summary::-webkit-details-marker{display:none}
+details.grp>summary .dl:before{content:"▸ ";color:var(--dim)}details.grp[open]>summary .dl:before{content:"▾ "}
+details.top{background:#121620;border:1px solid var(--line);border-radius:14px;padding:0 10px;margin-bottom:10px}
+details.top>summary{margin:12px 2px}details.sub{margin-left:4px}details.sub>summary{margin:10px 2px 8px}
+.card.empty{color:var(--dim);text-align:center}.settledh{margin-top:26px}
 .foot{color:var(--dim);font-size:12px;text-align:center;margin-top:10px}
 </style></head>
 <body><div class="wrap">
@@ -55,7 +62,7 @@ button{background:#232a37;color:var(--txt);border:1px solid var(--line);border-r
 <div id="list"></div>
 <div class="foot">Bets load from tickets.json; live stats from ESPN, refreshed every 30s. Cash % is a rough estimate (simple pace model), not a guarantee.</div>
 </div>
-<script src="logic.js?v=5"></script>
+<script src="logic.js?v=6"></script>
 <script>
 const cache={};
 let ticketDoc=null;
@@ -86,28 +93,46 @@ function cardHtml(t){
         <div class="bar"><i style="width:${pct}%"></i></div></div>`;}).join('')}
     </div>`;
 }
-const openPast={};
-function dayHead(s){
-  const bits=[];
-  if(s.live) bits.push(`${s.live} live`);
-  if(s.pending) bits.push(`${s.pending} upcoming`);
-  if(s.won||s.lost) bits.push(`${s.won}W-${s.lost}L <b class="${s.net>0?'pos':s.net<0?'neg':''}">${TT.signedMoney(s.net)}</b>`);
-  return `<span class="dl">${esc(s.label)}</span><span class="dr">${bits.join(' · ')}</span>`;
+const openState={};
+function netCls(n){return n>0?'pos':n<0?'neg':'';}
+// Settled -> Wins / Losses dropdowns, each sub-grouped by day (newest first) with count + net
+function settledGroup(kind,list){
+  const label=kind==='won'?'✅ Wins':'❌ Losses';
+  const net=list.reduce((a,t)=>a+(t.profit||0),0);
+  const byDay={};
+  for(const t of list){const k=TT.ticketDay(t)||'undated';(byDay[k]=byDay[k]||[]).push(t);}
+  const today=TT.currentDayKey(Date.now());
+  const days=Object.keys(byDay).sort().reverse().map(k=>{
+    const ts=byDay[k], n=ts.reduce((a,t)=>a+(t.profit||0),0), id=kind+':'+k;
+    const open=id in openState?openState[id]:k===today;
+    return `<details class="grp sub" data-k="${id}"${open?' open':''}><summary class="day"><span class="dl">${esc(TT.dayLabel(k==='undated'?null:k,today))}</span><span class="dr">${ts.length} ${kind==='won'?'win':'loss'}${ts.length===1?'':kind==='won'?'s':'es'} <b class="${netCls(n)}">${TT.signedMoney(n)}</b></span></summary>${ts.map(cardHtml).join('')}</details>`;
+  }).join('');
+  const id='top:'+kind, open=id in openState?openState[id]:false;
+  return `<details class="grp top" data-k="${id}"${open?' open':''}><summary class="sec"><span class="dl">${label} (${list.length})</span><span class="dr"><b class="${netCls(net)}">${TT.signedMoney(net)}</b></span></summary>${days||'<div class="card">None yet.</div>'}</details>`;
 }
 function render(res){
   const view=TT.currentView(res,Date.now());
   $('title').textContent='🎟️ '+view.title;document.title=view.title;
-  const open=view.shown.filter(t=>t.status==='Live'||t.status==='Pregame');
+  const all=res.tickets;
+  const live=all.filter(t=>t.status==='Live'), up=all.filter(t=>t.status==='Pregame');
+  const won=all.filter(t=>t.status==='Cashed'), lost=all.filter(t=>t.status==='Lost'||t.status==='Void');
+  const bySettle=(a,b)=>(Date.parse(b.settledAt||'')||0)-(Date.parse(a.settledAt||'')||0);
+  won.sort(bySettle);lost.sort(bySettle);
+  up.sort((a,b)=>(TT.ticketTimes(a).first||0)-(TT.ticketTimes(b).first||0));
   const ts=view.todaySec;
   $('cashed').textContent=(ts.won||ts.lost)?TT.signedMoney(ts.net):'$0';
   $('cashed').style.color=ts.net>0?'var(--g)':ts.net<0?'var(--r)':'';
+  const open=live.concat(up);
   $('inplay').textContent=money(open.reduce((a,t)=>a+t.stake,0)).replace(/\.00$/,'');
   $('pot').textContent=money(open.reduce((a,t)=>a+t.pays,0));
-  document.querySelectorAll('details.past').forEach(d=>{openPast[d.dataset.k]=d.open;});
-  let h='';
-  for(const s of view.current) h+=`<div class="day">${dayHead(s)}</div>`+s.tickets.map(cardHtml).join('');
-  if(!view.current.length) h+='<div class="card">No tickets today.</div>';
-  for(const s of view.past) h+=`<details class="past" data-k="${s.key}"${openPast[s.key]?' open':''}><summary class="day">${dayHead(s)}</summary>${s.tickets.map(cardHtml).join('')}</details>`;
+  document.querySelectorAll('details.grp').forEach(d=>{openState[d.dataset.k]=d.open;});
+  let h=`<div class="sec"><span class="dl">🔴 Live (${live.length})</span><span class="dr">Today ${ts.won}W-${ts.lost}L <b class="${netCls(ts.net)}">${TT.signedMoney(ts.net)}</b></span></div>`;
+  h+=live.length?live.map(cardHtml).join(''):'<div class="card empty">No live bets right now.</div>';
+  if(up.length){
+    const id='top:up', o=id in openState?openState[id]:true;
+    h+=`<details class="grp top" data-k="${id}"${o?' open':''}><summary class="sec"><span class="dl">⏳ Upcoming (${up.length})</span><span class="dr">${money(up.reduce((a,t)=>a+t.stake,0))} to pay ${money(up.reduce((a,t)=>a+t.pays,0))}</span></summary>${up.map(cardHtml).join('')}</details>`;
+  }
+  h+=`<div class="sec settledh"><span class="dl">Settled</span></div>`+settledGroup('won',won)+settledGroup('lost',lost);
   $('list').innerHTML=h;
 }
 async function loadTickets(){
