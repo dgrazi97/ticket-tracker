@@ -1,7 +1,7 @@
 {
   "schema": 2,
   "title": "Sunday Tickets",
-  "updated": "2026-11-02T18:23:07-05:00",
+  "updated": "2026-11-02T18:23:11-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -2423,6 +2423,52 @@
       "state": "pending",
       "profit": null,
       "day": "2026-11-02"
+    },
+    {
+      "id": "MNF_SWEEP_SEA_BURDEN_SWIFT_U_1102",
+      "name": "MNF Sweepstakes SGP",
+      "time": "8:20 PM",
+      "stake": 10,
+      "payout": 42,
+      "placedAt": "2026-11-02T18:16:36-05:00",
+      "sport": "football/nfl",
+      "legs": [
+        {
+          "player": "SEA Seahawks",
+          "team": "SEA",
+          "event": "401873036",
+          "stat": "ml",
+          "line": 0,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Luther Burden III",
+          "team": "CHI",
+          "event": "401873036",
+          "stat": "recYds",
+          "line": 10,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Swift u58.5 rush yds (manual)",
+          "team": "CHI",
+          "event": "401873036",
+          "stat": "manual",
+          "line": 9999,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Under 46.5 total (manual)",
+          "team": "SEA",
+          "event": "401873036",
+          "stat": "manual",
+          "line": 9999,
+          "sport": "football/nfl"
+        }
+      ],
+      "state": "pending",
+      "profit": null,
+      "day": "2026-11-02"
     }
   ],
   "days": [
@@ -2432,7 +2478,7 @@
       "won": 0,
       "lost": 0,
       "live": 0,
-      "pending": 4,
+      "pending": 5,
       "staked": 0,
       "net": 0
     },
