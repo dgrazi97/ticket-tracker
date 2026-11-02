@@ -62,7 +62,7 @@ details.top>summary{margin:12px 2px}details.sub{margin-left:4px}details.sub>summ
 <div id="list"></div>
 <div class="foot">Bets load from tickets.json; live stats from ESPN, refreshed every 30s. Cash % is a rough estimate (simple pace model), not a guarantee.</div>
 </div>
-<script src="logic.js?v=6"></script>
+<script src="logic.js?v=7"></script>
 <script>
 const cache={};
 let ticketDoc=null;
@@ -95,20 +95,22 @@ function cardHtml(t){
 }
 const openState={};
 function netCls(n){return n>0?'pos':n<0?'neg':'';}
-// Settled -> Wins / Losses dropdowns, each sub-grouped by day (newest first) with count + net
-function settledGroup(kind,list){
-  const label=kind==='won'?'✅ Wins':'❌ Losses';
-  const net=list.reduce((a,t)=>a+(t.profit||0),0);
+// Settled -> one dropdown per day (newest first, record + net, today open) -> Wins, then Losses inside
+function settledByDay(list){
   const byDay={};
   for(const t of list){const k=TT.ticketDay(t)||'undated';(byDay[k]=byDay[k]||[]).push(t);}
   const today=TT.currentDayKey(Date.now());
-  const days=Object.keys(byDay).sort().reverse().map(k=>{
-    const ts=byDay[k], n=ts.reduce((a,t)=>a+(t.profit||0),0), id=kind+':'+k;
+  return Object.keys(byDay).sort().reverse().map(k=>{
+    const ts=byDay[k], won=ts.filter(t=>t.status==='Cashed'), lost=ts.filter(t=>t.status!=='Cashed');
+    const net=ts.reduce((a,t)=>a+(t.profit||0),0), id='day:'+k;
     const open=id in openState?openState[id]:k===today;
-    return `<details class="grp sub" data-k="${id}"${open?' open':''}><summary class="day"><span class="dl">${esc(TT.dayLabel(k==='undated'?null:k,today))}</span><span class="dr">${ts.length} ${kind==='won'?'win':'loss'}${ts.length===1?'':kind==='won'?'s':'es'} <b class="${netCls(n)}">${TT.signedMoney(n)}</b></span></summary>${ts.map(cardHtml).join('')}</details>`;
-  }).join('');
-  const id='top:'+kind, open=id in openState?openState[id]:false;
-  return `<details class="grp top" data-k="${id}"${open?' open':''}><summary class="sec"><span class="dl">${label} (${list.length})</span><span class="dr"><b class="${netCls(net)}">${TT.signedMoney(net)}</b></span></summary>${days||'<div class="card">None yet.</div>'}</details>`;
+    const sub=(kind,arr)=>{
+      if(!arr.length) return '';
+      const n=arr.reduce((a,t)=>a+(t.profit||0),0), sid=kind+':'+k, so=sid in openState?openState[sid]:true;
+      return `<details class="grp sub" data-k="${sid}"${so?' open':''}><summary class="day"><span class="dl">${kind==='won'?'✅ Wins':'❌ Losses'} (${arr.length})</span><span class="dr"><b class="${netCls(n)}">${TT.signedMoney(n)}</b></span></summary>${arr.map(cardHtml).join('')}</details>`;
+    };
+    return `<details class="grp top" data-k="${id}"${open?' open':''}><summary class="sec"><span class="dl">${esc(TT.dayLabel(k==='undated'?null:k,today))}</span><span class="dr">${won.length}W-${lost.length}L <b class="${netCls(net)}">${TT.signedMoney(net)}</b></span></summary>${sub('won',won)}${sub('lost',lost)}</details>`;
+  }).join('')||'<div class="card empty">Nothing settled yet.</div>';
 }
 function render(res){
   const view=TT.currentView(res,Date.now());
@@ -132,7 +134,7 @@ function render(res){
     const id='top:up', o=id in openState?openState[id]:true;
     h+=`<details class="grp top" data-k="${id}"${o?' open':''}><summary class="sec"><span class="dl">⏳ Upcoming (${up.length})</span><span class="dr">${money(up.reduce((a,t)=>a+t.stake,0))} to pay ${money(up.reduce((a,t)=>a+t.pays,0))}</span></summary>${up.map(cardHtml).join('')}</details>`;
   }
-  h+=`<div class="sec settledh"><span class="dl">Settled</span></div>`+settledGroup('won',won)+settledGroup('lost',lost);
+  h+=`<div class="sec settledh"><span class="dl">Settled</span></div>`+settledByDay(won.concat(lost));
   $('list').innerHTML=h;
 }
 async function loadTickets(){
