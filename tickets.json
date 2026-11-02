@@ -1,7 +1,7 @@
 {
   "schema": 2,
   "title": "Sunday Tickets",
-  "updated": "2026-11-02T10:21:21-05:00",
+  "updated": "2026-11-02T16:02:25-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -2363,6 +2363,28 @@
       "state": "pending",
       "profit": null,
       "day": "2026-11-02"
+    },
+    {
+      "id": "MNF_LOVELAND_ATD_1102",
+      "name": "Loveland ATD (King of the End Zone)",
+      "time": "8:20 PM",
+      "stake": 5,
+      "payout": 15.75,
+      "placedAt": "2026-11-02T16:02:24-05:00",
+      "sport": "football/nfl",
+      "legs": [
+        {
+          "player": "Colston Loveland",
+          "team": "CHI",
+          "event": "401873036",
+          "stat": "anytimeTD",
+          "line": 1,
+          "sport": "football/nfl"
+        }
+      ],
+      "state": "pending",
+      "profit": null,
+      "day": "2026-11-02"
     }
   ],
   "days": [
@@ -2372,7 +2394,7 @@
       "won": 0,
       "lost": 0,
       "live": 0,
-      "pending": 2,
+      "pending": 3,
       "staked": 0,
       "net": 0
     },
