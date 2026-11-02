@@ -1,7 +1,7 @@
 {
   "schema": 2,
   "title": "Sunday Tickets",
-  "updated": "2026-11-01T19:36:16-05:00",
+  "updated": "2026-11-01T19:46:46-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -1998,7 +1998,8 @@
           "event": "401873033",
           "stat": "longRush",
           "line": 15,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead"
         }
       ],
       "dk_id": "DK639291486471378351",
@@ -2085,7 +2086,8 @@
           "stat": "rushYds",
           "line": 15,
           "event": "401873033",
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead"
         },
         {
           "player": "Kenneth Walker III",
@@ -2093,7 +2095,8 @@
           "stat": "anytimeTD",
           "line": 1,
           "event": "401873033",
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead"
         },
         {
           "player": "Kansas City Chiefs",
@@ -2101,12 +2104,15 @@
           "stat": "ml",
           "line": 0,
           "event": "401873033",
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead"
         }
       ],
-      "state": "live",
-      "profit": null,
-      "day": "2026-11-01"
+      "state": "lost",
+      "profit": -10,
+      "day": "2026-11-01",
+      "status": "lost",
+      "settledAt": "2026-11-02T00:40:00.000Z"
     },
     {
       "id": "PHI_WAS_SGP_DIGGS_BURKS_BOOST_1101",
@@ -2268,11 +2274,11 @@
       "day": "2026-11-01",
       "label": "Today · Sun Nov 1",
       "won": 6,
-      "lost": 7,
-      "live": 2,
+      "lost": 8,
+      "live": 1,
       "pending": 5,
-      "staked": 114.97,
-      "net": 64.06
+      "staked": 124.97,
+      "net": 54.06
     },
     {
       "day": "2026-10-31",
