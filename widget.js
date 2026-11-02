@@ -146,6 +146,9 @@ const TT = (function () {
         stake: Number(t.stake) || 0, pays: Number(t.payout != null ? t.payout : t.pays) || 0,
         override: t.status ? String(t.status).toLowerCase() : undefined,
         placedAt: t.placedAt || null, legs,
+        // written by grade.js (optional; older tickets.json files simply lack them)
+        state: t.state ? String(t.state).toLowerCase() : undefined,
+        day: t.day || null, bonus: !!t.bonus, settledAt: t.settledAt || null,
       };
     });
   }
@@ -292,6 +295,22 @@ const TT = (function () {
     return normAtLeast(muRem, sd, need);
   }
 
+  // Net result of a ticket. payout includes the stake, except on bonus bets (DK pays winnings only, stake not at risk).
+  function profitOf(t, status) {
+    const r = n => Math.round(n * 100) / 100;
+    if (status === "Cashed") return r(t.bonus ? t.pays : t.pays - t.stake);
+    if (status === "Lost") return r(t.bonus ? 0 : -t.stake);
+    if (status === "Void") return 0;
+    return null;
+  }
+  // Ticket-level override: manual status (cashed/won/lost/void) wins, else the graded state from grade.js
+  // ("won"/"lost"/"void"); "live"/"pending" are informational and never override live ESPN grading.
+  function overrideOf(t) {
+    if (t.override) return t.override;
+    if (t.state === "won" || t.state === "lost" || t.state === "void") return t.state;
+    return undefined;
+  }
+
   // ---- Evaluate tickets against parsed games ({gameKey: parsedSummary}) -------
   const OPEN = { Pregame: 1, Live: 1 };
   function evaluate(tickets, games) {
@@ -325,16 +344,17 @@ const TT = (function () {
       });
       const live = legs.filter(l => l.status !== "void");
       let status = "Pregame";
-      if (t.override === "void" || !live.length) status = "Void";
-      else if (t.override === "cashed" || t.override === "won") status = "Cashed";
-      else if (t.override === "lost") status = "Lost";
+      const ov = overrideOf(t);
+      if (ov === "void" || !live.length) status = "Void";
+      else if (ov === "cashed" || ov === "won") status = "Cashed";
+      else if (ov === "lost") status = "Lost";
       else if (live.some(l => l.status === "dead")) status = "Lost";
       else if (live.every(l => l.status === "hit")) status = "Cashed";
       else if (live.some(l => l.game.state !== "pre")) status = "Live";
       const prob = status === "Cashed" ? 1 : (status === "Lost" || status === "Void") ? 0 : live.reduce((a, l) => a * l.prob, 1);
       if (status === "Cashed") cashed += t.pays;
       if (OPEN[status]) { inPlay += t.stake; potential += t.pays; }
-      return Object.assign({}, t, { legs, status, prob });
+      return Object.assign({}, t, { legs, status, prob, profit: profitOf(t, status) });
     });
     return { tickets: out, cashed, inPlay, potential };
   }
@@ -394,28 +414,94 @@ const TT = (function () {
     if (last == null) return null;
     return Math.min(last + 12 * HOUR, next6amET(last));
   }
-  // Split evaluated tickets into what the widget shows now vs. rolled-off history.
+  // Split evaluated tickets into what the widget shows now (live days, today, upcoming) vs. past days.
+  // Also returns the day-by-day sections (see dayGroups) and today's net / record.
   function currentView(result, now) {
     now = now || Date.now();
-    const shown = [], hidden = [];
-    for (const t of result.tickets) {
-      const r = isSettled(t) ? rollOffAt(t) : null;
-      (r != null && now >= r ? hidden : shown).push(t);
+    const g = dayGroups(result, now);
+    const shown = [], hidden = [], current = [], past = [];
+    for (const s of g.sections) {
+      const isCur = s.live || s.isToday || s.key > g.today;
+      (isCur ? current : past).push(s);
+      for (const t of s.tickets) (isCur ? shown : hidden).push(t);
     }
     const open = shown.filter(t => t.status === "Live" || t.status === "Pregame");
-    const days = new Set(open.map(t => { const f = ticketTimes(t).first; return f != null ? etDayKey(f) : etDayKey(now); }));
+    const days = new Set(open.map(t => ticketDay(t) || g.today));
     let title;
     if (days.size > 1) title = "My Tickets";
     else if (days.size === 1) { const k = [...days][0]; title = etParts(Date.parse(k + "T12:00:00-04:00")).wd + " Tickets"; }
-    else title = etParts(now).wd + " Tickets";
+    else title = etParts(now - 6 * HOUR).wd + " Tickets";
     const cashed = shown.filter(t => t.status === "Cashed").reduce((a, t) => a + t.pays, 0);
-    return { shown, hidden, title, cashed };
+    const todaySec = g.sections.find(s => s.isToday) || { won: 0, lost: 0, net: 0, live: 0, pending: 0, tickets: [] };
+    return { shown, hidden, title, cashed, today: g.today, todaySec, sections: g.sections, current, past };
   }
+
+  // ---- Day-by-day grouping (relevance order) ---------------------------------
+  // The "current day" flips at 6 AM ET, so late games still count as tonight's slate after midnight.
+  const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  function currentDayKey(now) { return etDayKey((now || Date.now()) - 6 * HOUR); }
+  function ticketDay(t) {
+    if (t.day) return t.day;
+    const f = ticketTimes(t).first;
+    return f != null ? etDayKey(f) : null;
+  }
+  function dayLabel(key, today) {
+    if (!key) return "Undated";
+    const [y, m, d] = key.split("-").map(Number);
+    const wd = WD[new Date(Date.UTC(y, m - 1, d, 12)).getUTCDay()];
+    const base = wd.slice(0, 3) + " " + MON[m - 1] + " " + d;
+    if (key === today) return "Today · " + base;
+    const yest = etDayKey(Date.parse(today + "T12:00:00Z") - 24 * HOUR);
+    if (key === yest) return "Yesterday · " + base;
+    return base;
+  }
+  const RANK = { Live: 0, Pregame: 1, Cashed: 2, Lost: 3, Void: 4 };
+  function inTicketOrder(a, b) {
+    const ra = RANK[a.status], rb = RANK[b.status];
+    if (ra !== rb) return ra - rb;
+    const ta = ticketTimes(a), tb = ticketTimes(b);
+    if (a.status === "Pregame") return (ta.first || 0) - (tb.first || 0);      // next kickoff first
+    if (a.status === "Live") return (ta.first || 0) - (tb.first || 0);
+    const sa = Date.parse(a.settledAt || "") || ta.last || 0, sb = Date.parse(b.settledAt || "") || tb.last || 0;
+    return sb - sa;                                                              // most recently settled first
+  }
+  const round2 = n => Math.round(n * 100) / 100;
+  // Returns sections newest/most relevant first:
+  //   any day with a LIVE ticket, then today, then future days (soonest first), then past days (newest first).
+  // Each: { key, label, isToday, tickets (Live, Pregame, Cashed, Lost, Void), won, lost, live, pending, staked, net }
+  function dayGroups(result, now) {
+    now = now || Date.now();
+    const today = currentDayKey(now);
+    const by = {};
+    for (const t of result.tickets) {
+      let k = ticketDay(t);
+      if (!k) k = today;
+      (by[k] = by[k] || []).push(t);
+    }
+    const secs = Object.keys(by).map(k => {
+      const ts = by[k].slice().sort(inTicketOrder);
+      const won = ts.filter(t => t.status === "Cashed"), lost = ts.filter(t => t.status === "Lost");
+      const settled = won.concat(lost);
+      return {
+        key: k, label: dayLabel(k, today), isToday: k === today, tickets: ts,
+        won: won.length, lost: lost.length,
+        live: ts.filter(t => t.status === "Live").length, pending: ts.filter(t => t.status === "Pregame").length,
+        staked: round2(settled.reduce((a, t) => a + (t.bonus ? 0 : t.stake), 0)),
+        net: round2(settled.reduce((a, t) => a + (t.profit || 0), 0)),
+      };
+    });
+    const tier = s => s.live ? 0 : s.isToday ? 1 : s.key > today ? 2 : 3;
+    secs.sort((a, b) => (tier(a) - tier(b)) || (tier(a) === 2 ? (a.key < b.key ? -1 : 1) : (a.key < b.key ? 1 : -1)));
+    return { today, sections: secs };
+  }
+  const signedMoney = n => (n > 0 ? "+$" : n < 0 ? "−$" : "$") + Math.abs(n).toFixed(2);
+  const record = s => s.won + "-" + s.lost;
 
   const api = {
     DEFAULT_SPORT, STATS, ALIASES, summaryUrl, gameKey, statDef, normalizeTickets, eventsOf,
     parseSummary, statValue, evaluate, fracLeft, legEstimate, norm,
     etParts, etDayKey, next6amET, ticketTimes, isSettled, rollOffAt, currentView,
+    profitOf, currentDayKey, ticketDay, dayLabel, dayGroups, signedMoney, record,
   };
   if (typeof module !== "undefined" && module.exports) module.exports = api; else root.TT = api;
 })(typeof window !== "undefined" ? window : (typeof globalThis !== "undefined" ? globalThis : this));
@@ -525,13 +611,17 @@ async function loadData() {
   }
   // events with an unsettled ticket, minus games already final in the cache
   const openKeys = new Set();
-  for (const tk of tickets) if (!SETTLED_OVERRIDES[tk.override]) for (const l of tk.legs) openKeys.add(l.key);
+  const settledTk = tk => SETTLED_OVERRIDES[tk.override] || SETTLED_OVERRIDES[tk.state];
+  for (const tk of tickets) if (!settledTk(tk)) for (const l of tk.legs) openKeys.add(l.key);
+  // settled tickets from the current day only (older days show as one summary line, no stats needed)
+  const today = TT.currentDayKey(Date.now()), curKeys = new Set();
+  for (const tk of tickets) if (settledTk(tk) && (!tk.day || tk.day >= today)) for (const l of tk.legs) curKeys.add(l.key);
   const isFinal = k => cached[k] && cached[k].game && cached[k].game.state === "post";
   const need = events.filter(e => openKeys.has(e.key) && !isFinal(e.key));
   // settled tickets: one-time fill (for leg counts) only if never cached, after the live ones
-  const backfill = events.filter(e => !openKeys.has(e.key) && !cached[e.key]);
+  const backfill = events.filter(e => !openKeys.has(e.key) && curKeys.has(e.key) && !cached[e.key]);
   const games = {};
-  for (const e of events) if (cached[e.key]) games[e.key] = cached[e.key];
+  for (const e of events) if (cached[e.key] && (openKeys.has(e.key) || curKeys.has(e.key))) games[e.key] = cached[e.key]; // prune old days
   let res = { ok: 0, failures: 0 };
   try { res = await fetchGames(need, wanted, games); } catch (e) { res = { ok: 0, failures: need.length || 1 }; }
   if (backfill.length && Date.now() - RUN_START < RUN_BUDGET_MS / 2) {
@@ -554,13 +644,12 @@ const C = {
   gray: new Color("#6e7681"), white: new Color("#ffffff"),
 };
 const STATUS_COLOR = { Cashed: C.green, Live: C.yellow, Lost: C.red, Pregame: C.gray, Void: C.gray };
-const PRIORITY = { Live: 0, Pregame: 1, Cashed: 2, Lost: 3, Void: 4 };
 const pct = p => Math.round(p * 100) + "%";
 const money = n => "$" + n.toFixed(2);
 const fmtNum = n => Number.isInteger(n) ? String(n) : n.toFixed(1);
 
 // Row heights (pt) used by the fitting algorithm; rows are drawn with these exact heights.
-const H = { header: 18, afterHeader: 4, title: 15, afterTitle: 1, chip11: 13, chip10: 12, chip9: 11, gap: 4, more: 12 };
+const H = { header: 18, afterHeader: 4, title: 15, afterTitle: 1, chip11: 13, chip10: 12, chip9: 11, gap: 4, more: 12, day: 14, dayGap: 5 };
 const PAD = { v: 10, h: 12 };
 // Widget sizes (pt) by screen width, from Apple's published widget dimensions.
 function widgetSize(family) {
@@ -636,105 +725,114 @@ function chipColor(l) {
 // ---- Fitting ---------------------------------------------------------------------
 // plan = { items: [{ t, mode: "full"|"one"|"title" }], font, perRow, more: "+N ..." | null }
 function chipH(font) { return font >= 11 ? H.chip11 : font >= 10 ? H.chip10 : H.chip9; }
+// Items are tickets { t, mode } or day headers { day: section }.
+const isDay = it => !!it.day;
 function itemH(it, plan) {
+  if (isDay(it)) return H.day;
+  if (it.chips) return chipH(plan.font);
   let h = H.title;
   const n = it.mode === "full" ? Math.ceil((it.maxLegs || it.t.legs.length) / plan.perRow) : it.mode === "one" ? 1 : 0;
   if (n) h += H.afterTitle + n * chipH(plan.font);
   return h;
 }
+function gapBefore(it, i, prev) { return !i ? 0 : isDay(it) ? H.dayGap : (it.chips && prev && prev.chips) ? 1 : H.gap; }
 function planHeight(plan) {
   let h = H.header + H.afterHeader;
-  plan.items.forEach((it, i) => { h += itemH(it, plan) + (i ? H.gap : 0); });
+  plan.items.forEach((it, i) => { h += itemH(it, plan) + gapBefore(it, i, plan.items[i - 1]); });
   if (plan.more) h += H.gap + H.more;
   return h;
 }
-const sortTickets = ts => ts.map((t, i) => ({ t, i })).sort((a, b) => (PRIORITY[a.t.status] - PRIORITY[b.t.status]) || (a.i - b.i)).map(x => x.t);
 const isLive = t => t.status === "Live";
 const isOpen = t => t.status === "Live" || t.status === "Pregame";
+const liveItem = it => isDay(it) ? !!it.keep : !it.chips && isLive(it.t);
+const settledT = t => t.status === "Cashed" || t.status === "Lost" || t.status === "Void";
+// Collapse one day's settled title lines into compact result chips ("✓ Coleman +$16.50"), wins first.
+function chipify(p, secKey) {
+  const idx = p.items.map((it, i) => i).filter(i => p.items[i].secKey === secKey && p.items[i].t && settledT(p.items[i].t) && p.items[i].mode === "title");
+  if (idx.length < 2) return false;
+  const ts = idx.map(i => p.items[i].t);
+  const rows = [];
+  const per = Math.min(3, p.perRow);
+  for (let i = 0; i < ts.length; i += per) rows.push({ chips: ts.slice(i, i + per), secKey });
+  const at = idx[0];
+  p.items = p.items.filter((it, i) => !idx.includes(i));
+  p.items.splice(at, 0, ...rows);
+  return true;
+}
 
-// Generic shrink: try fonts/columns, then collapse non-live items (settled first, from the bottom),
-// then drop non-live items into "+N other". Live legs are only trimmed if nothing else is left.
+// Shrink: try fonts/columns, then collapse non-live tickets, then drop items from the bottom
+// (oldest days first, then today's losses, wins, upcoming). Live tickets go last.
 function fit(items, budget, opts) {
   const variants = opts.variants;
-  const mk = (v, its, more) => ({ items: its.map(x => Object.assign({}, x)), font: v.font, perRow: v.perRow, more });
-  for (const v of variants) { const p = mk(v, items, opts.more ? opts.more(0) : null); if (planHeight(p) <= budget) return p; }
+  const mk = (v, its) => ({ items: its.map(x => Object.assign({}, x)), font: v.font, perRow: v.perRow, more: null });
+  for (const v of variants) { const p = mk(v, items); if (planHeight(p) <= budget) return p; }
   const v = variants[variants.length - 1];
-  let p = mk(v, items, opts.more ? opts.more(0) : null);
-  // collapse non-live: settled -> title (already), pregame "full" -> "one" -> "title", bottom-up
+  const p = mk(v, items);
   for (const target of ["one", "title"]) {
     for (let i = p.items.length - 1; i >= 0 && planHeight(p) > budget; i--) {
       const it = p.items[i];
-      if (isLive(it.t) || it.mode === "title") continue;
+      if (isDay(it) || isLive(it.t) || it.mode === "title") continue;
       if (target === "one" && it.mode === "full" && Math.ceil(it.t.legs.length / p.perRow) > 1) it.mode = "one";
       else if (target === "title") it.mode = "title";
     }
     if (planHeight(p) <= budget) return p;
   }
-  // drop non-live items from the bottom (settled first since they sort last)
-  let dropped = 0;
+  // settled results -> chips, oldest day first
+  const secKeys = [...new Set(p.items.filter(it => it.secKey).map(it => it.secKey))].reverse();
+  for (const k of secKeys) { if (planHeight(p) <= budget) break; chipify(p, k); }
+  if (planHeight(p) <= budget) return p;
+  let tk = 0, days = 0;
+  const setMore = () => {
+    const bits = [];
+    if (tk) bits.push("+" + tk + " more ticket" + (tk === 1 ? "" : "s"));
+    if (days) bits.push(days + " earlier day" + (days === 1 ? "" : "s"));
+    p.more = bits.join(" · ") + (opts.moreHint || "");
+  };
   while (planHeight(p) > budget) {
     let idx = -1;
-    for (let i = p.items.length - 1; i >= 0; i--) if (!isLive(p.items[i].t)) { idx = i; break; }
+    for (let i = p.items.length - 1; i >= 0; i--) if (!liveItem(p.items[i])) { idx = i; break; }
     if (idx < 0) break;
-    p.items.splice(idx, 1); dropped++;
-    p.more = "+" + (dropped + (opts.extra || 0)) + " other" + (dropped + (opts.extra || 0) === 1 ? "" : "s");
+    const [gone] = p.items.splice(idx, 1);
+    if (isDay(gone)) { if (!gone.day.isToday && !gone.day.live) days++; } else tk += gone.chips ? gone.chips.length : 1;
+    // a header left with nothing under it and nothing to say is noise
+    setMore();
   }
-  let liveDropped = 0;
-  // last resort (live legs alone overflow): trim chip rows off the last ticket, then drop it
-  while (planHeight(p) > budget && p.items.length) {
+  while (planHeight(p) > budget && p.items.length) { // last resort: trim legs off the last live ticket
     const last = p.items[p.items.length - 1];
     const n = last.mode === "full" ? (last.maxLegs || last.t.legs.length) : 0;
     if (n > p.perRow) last.maxLegs = (Math.ceil(n / p.perRow) - 1) * p.perRow;
-    else { p.items.pop(); liveDropped++; }
-    if (liveDropped) { const o = dropped + (opts.extra || 0); p.more = "+" + liveDropped + " more live" + (o ? ", +" + o + " other" + (o === 1 ? "" : "s") : ""); }
+    else { const g = p.items.pop(); if (!isDay(g)) tk += g.chips ? g.chips.length : 1; setMore(); }
   }
   return p;
 }
 
 function pageParam() {
   const a = (typeof args !== "undefined" && args.widgetParameter) ? String(args.widgetParameter) : "";
+  if (/hist|past|day/i.test(a)) return 2;
   const m = a.match(/(\d)/); return m ? Number(m[1]) : 0;
 }
 const LARGE_VARIANTS = [{ font: 11, perRow: 3 }, { font: 10, perRow: 3 }, { font: 9, perRow: 4 }];
 
-function planLarge(tickets, budget, page) {
-  const sorted = sortTickets(tickets);
-  if (!page) { // default: live tickets with every leg, everything else one title line
-    const items = sorted.map(t => ({ t, mode: isLive(t) ? "full" : "title" }));
-    return fit(items, budget, { variants: LARGE_VARIANTS });
+// Relevance order: [day header, LIVE (every leg), upcoming, WIN/LOSS lines] for live days + today + upcoming days,
+// then one summary line per earlier day (newest first). history=true lists earlier days' tickets too.
+function buildItems(sections, summaryOnly) {
+  const items = [];
+  for (const sec of sections) {
+    const showTickets = !summaryOnly || sec.live || sec.isToday || sec.key > summaryOnly;
+    items.push({ day: sec, keep: !!(sec.live || sec.isToday) && showTickets });
+    if (showTickets) for (const t of sec.tickets) items.push({ t, mode: isLive(t) ? "full" : "title", secKey: sec.key });
   }
-  // paged: every open ticket with its legs; page 1 takes whole tickets in order until full, page 2 the rest
-  const all = sorted.map(t => ({ t, mode: isOpen(t) ? "full" : "title" }));
-  const base = { font: 11, perRow: 3, more: null };
-  const p1 = [];
-  for (const it of all) {
-    const trial = Object.assign({}, base, { items: p1.concat([it]) });
-    if (planHeight(trial) > budget && p1.length) break;
-    p1.push(it);
-  }
-  if (page === 1) return fit(p1, budget, { variants: LARGE_VARIANTS });
-  const rest = all.slice(p1.length);
-  if (!rest.length) return { items: [], font: 11, perRow: 3, more: null, note: "All tickets on widget 1" };
-  return fit(rest, budget, { variants: LARGE_VARIANTS });
+  return items;
 }
-function planMedium(tickets, budget) {
-  const sorted = sortTickets(tickets);
-  const live = sorted.filter(isLive), other = sorted.filter(t => !isLive(t));
-  const V = [{ font: 11, perRow: 2 }, { font: 10, perRow: 2 }];
-  if (live.length) {
-    const more = n => other.length ? "+" + other.length + " other" + (other.length === 1 ? "" : "s") : null;
-    return fit(live.map(t => ({ t, mode: "full" })), budget, { variants: V, more, extra: other.length });
-  }
-  // nothing live: next-up title lines while they fit, then "+N other"
-  const p = { items: [], font: 11, perRow: 2, more: null };
-  for (let i = 0; i < other.length; i++) {
-    const left = other.length - i - 1;
-    const trial = Object.assign({}, p, { items: p.items.concat([{ t: other[i], mode: "title" }]), more: left ? "+" + left + " other" + (left === 1 ? "" : "s") : null });
-    if (planHeight(trial) > budget) break;
-    Object.assign(p, trial);
-  }
-  if (p.items.length < other.length) { const n = other.length - p.items.length; p.more = "+" + n + " other" + (n === 1 ? "" : "s"); }
-  return p;
+const MEDIUM_VARIANTS = [{ font: 11, perRow: 2 }, { font: 10, perRow: 3 }];
+// page 0/1: live days + today + upcoming with tickets, earlier days as one summary line each.
+// page 2 (widget parameter "2" or "history"): earlier days with their tickets.
+function planLarge(view, budget, page) {
+  if (page === 2) return fit(buildItems(view.past, null), budget, { variants: LARGE_VARIANTS });
+  return fit(buildItems(view.sections, view.today), budget, { variants: LARGE_VARIANTS });
+}
+function planMedium(view, budget) {
+  return fit(buildItems(view.sections, view.today), budget, { variants: MEDIUM_VARIANTS });
 }
 
 // ---- Drawing -----------------------------------------------------------------------
@@ -744,32 +842,50 @@ function addText(stack, s, size, color, bold) {
   t.textColor = color; t.lineLimit = 1; t.minimumScaleFactor = 0.7;
   return t;
 }
+const signed = n => TT.signedMoney(n);
+const netColor = n => n > 0 ? C.green : n < 0 ? C.red : C.dim;
 function drawHeader(w, data, view, size, page) {
   const head = w.addStack(); head.size = new Size(size.w, H.header); head.centerAlignContent();
-  addText(head, view.title, 14, C.text, true);
+  addText(head, page === 2 ? "Ticket History" : view.title, 14, C.text, true);
   head.addSpacer();
-  addText(head, money(view.cashed) + " cashed", 11, view.cashed > 0 ? C.green : C.dim, true);
+  const ts = view.todaySec;
+  if (page !== 2 && (ts.won || ts.lost)) addText(head, signed(ts.net) + " today", 11, netColor(ts.net), true);
   head.addSpacer(6);
   let s = timeStr(data.updated);
   if (data.error || data.ticketsStale) s += " !";
-  if (page) s += " · " + page + "/2";
   addText(head, s, 10, data.error || data.ticketsStale ? C.yellow : C.dim, false);
   w.addSpacer(H.afterHeader);
+}
+// Day header: "TODAY · SUN NOV 1 ─── 2 live · 6-7  +$64.06"
+function drawDay(w, sec, size) {
+  const row = w.addStack(); row.size = new Size(size.w, H.day); row.centerAlignContent();
+  addText(row, sec.label.toUpperCase(), 10, sec.isToday ? C.text : C.dim, true);
+  row.addSpacer();
+  const bits = [];
+  if (sec.live) bits.push(sec.live + " live");
+  if (sec.pending) bits.push(sec.pending + " next");
+  if (bits.length) { addText(row, bits.join(" · "), 10, sec.live ? C.yellow : C.dim, false); row.addSpacer(6); }
+  if (sec.won || sec.lost) {
+    addText(row, sec.won + "W-" + sec.lost + "L", 10, C.dim, false);
+    row.addSpacer(6);
+    addText(row, signed(sec.net), 11, netColor(sec.net), true);
+  }
 }
 function drawTitle(w, t, size) {
   const row = w.addStack(); row.size = new Size(size.w, H.title); row.centerAlignContent();
   const dot = row.addText("●"); dot.font = Font.systemFont(10); dot.textColor = STATUS_COLOR[t.status] || C.gray;
   row.addSpacer(4);
-  addText(row, shortName(t.name), 12, C.text, true);
+  addText(row, shortName(t.name), 12, t.status === "Lost" || t.status === "Void" ? C.dim : C.text, true);
   const sub = t.status === "Pregame" ? kickoff(t) : t.status === "Live" ? liveDetail(t) : "";
   if (sub && sub !== shortName(t.name)) { row.addSpacer(5); addText(row, sub, 10, C.dim, false); }
   row.addSpacer();
-  addText(row, hits(t) + "/" + legCount(t), 11, C.dim, false);
-  row.addSpacer(6);
-  const pc = t.status === "Cashed" ? "WIN" : t.status === "Lost" ? "LOST" : t.status === "Void" ? "VOID" : pct(t.prob);
+  const settled = t.status === "Cashed" || t.status === "Lost" || t.status === "Void";
+  if (!settled || hits(t)) { addText(row, hits(t) + "/" + legCount(t), 11, C.dim, false); row.addSpacer(6); }
+  const pc = t.status === "Cashed" ? "WIN" : t.status === "Lost" ? "LOSS" : t.status === "Void" ? "VOID" : pct(t.prob);
   addText(row, pc, 12, STATUS_COLOR[t.status] === C.gray ? C.text : STATUS_COLOR[t.status], true);
   row.addSpacer(6);
-  addText(row, money(t.pays), 11, t.status === "Cashed" ? C.green : C.dim, false);
+  if (settled) addText(row, signed(t.profit || 0), 11, netColor(t.profit || 0), true);
+  else addText(row, money(t.pays), 11, C.dim, false);
 }
 function drawChips(w, it, plan, size, nm) {
   const legs = it.maxLegs ? it.t.legs.slice(0, it.maxLegs) : it.mode === "one" ? it.t.legs.slice(0, plan.perRow) : it.t.legs;
@@ -791,9 +907,31 @@ function drawChips(w, it, plan, size, nm) {
     }
   }
 }
+function resultLabel(t) {
+  const names = [...new Set(t.legs.map(l => l.short || lastName(l.p)))];
+  if (!names.length) return shortName(t.name);
+  return names.length <= 2 ? names.join("/") : names[0] + "+" + (names.length - 1);
+}
+function drawResultChips(w, it, plan, size) {
+  const per = Math.min(3, plan.perRow);
+  const rh = chipH(plan.font), cw = Math.floor((size.w - 8) / per);
+  const row = w.addStack(); row.size = new Size(size.w, rh); row.centerAlignContent();
+  row.addSpacer(8);
+  for (let j = 0; j < per; j++) {
+    const cell = row.addStack(); cell.size = new Size(cw, rh); cell.centerAlignContent();
+    const t = it.chips[j];
+    if (t) {
+      const mk = t.status === "Cashed" ? "✓ " : t.status === "Lost" ? "✗ " : "• ";
+      addText(cell, mk + resultLabel(t) + " " + signed(t.profit || 0), plan.font, t.status === "Cashed" ? C.green : t.status === "Lost" ? C.red : C.gray, t.status === "Cashed");
+    }
+    cell.addSpacer();
+  }
+}
 function drawPlan(w, plan, size, nm) {
   plan.items.forEach((it, i) => {
-    if (i) w.addSpacer(H.gap);
+    const g = gapBefore(it, i, plan.items[i - 1]); if (g) w.addSpacer(g);
+    if (isDay(it)) { drawDay(w, it.day, size); return; }
+    if (it.chips) { drawResultChips(w, it, plan, size); return; }
     drawTitle(w, it.t, size);
     if (it.mode !== "title") drawChips(w, it, plan, size, nm);
   });
@@ -803,16 +941,22 @@ function drawPlan(w, plan, size, nm) {
 }
 
 function buildSmall(w, data, view) {
-  const counted = view.shown.filter(t => t.status !== "Void");
-  const open = counted.filter(isOpen);
-  const best = open.slice().sort((a, b) => b.prob - a.prob)[0];
+  const ts = view.todaySec;
+  const open = view.shown.filter(isOpen);
+  const live = open.filter(isLive);
+  const best = (live.length ? live : open).slice().sort((a, b) => b.prob - a.prob)[0];
   addText(w, "🎟️ " + view.title.toUpperCase(), 10, C.dim, true);
   w.addSpacer(4);
-  addText(w, money(view.cashed), 26, view.cashed > 0 ? C.green : C.text, true);
-  addText(w, "cashed", 10, C.dim, false);
+  addText(w, signed(ts.net), 26, netColor(ts.net), true);
+  addText(w, "today · " + ts.won + "W-" + ts.lost + "L", 10, C.dim, false);
   w.addSpacer(4);
-  addText(w, open.length + " of " + counted.length + " alive", 13, open.length ? C.yellow : C.red, true);
-  if (best) addText(w, "Best: " + shortName(best.name) + " " + pct(best.prob), 11, C.text, false);
+  const parts = [];
+  if (live.length) parts.push(live.length + " live");
+  if (open.length - live.length) parts.push((open.length - live.length) + " next");
+  addText(w, parts.length ? parts.join(" · ") : "Nothing open", 13, live.length ? C.yellow : C.text, true);
+  if (best) addText(w, (isLive(best) ? "Best: " : "Next: ") + shortName(best.name) + " " + pct(best.prob), 11, C.text, false);
+  const y = view.past[0];
+  if (y && (y.won || y.lost)) addText(w, y.label.split(" · ")[0].replace(/^(\w{3}) .*/, "$1") + " " + signed(y.net), 10, netColor(y.net), false);
   w.addSpacer();
   let s = "Updated " + timeStr(data.updated);
   if (data.error) s += " · retrying";
@@ -841,10 +985,10 @@ async function main() {
     const large = family !== "medium";
     const page = large ? pageParam() : 0;
     const budget = size.h;
-    plan = large ? planLarge(view.shown, budget, page) : planMedium(view.shown, budget);
+    plan = large ? planLarge(view, budget, page) : planMedium(view, budget);
     drawHeader(w, data, view, size, page);
-    if (!view.shown.length) addText(w, "No tickets yet", 12, C.dim, false);
-    drawPlan(w, plan, size, nameMap(view.shown));
+    if (!view.sections.length) addText(w, "No tickets yet", 12, C.dim, false);
+    drawPlan(w, plan, size, nameMap(page === 2 ? data.result.tickets : view.shown));
     plan.height = planHeight(plan); plan.budget = budget;
   }
   try { globalThis.__ttLast = { plan, view, family, size }; } catch (e) {}

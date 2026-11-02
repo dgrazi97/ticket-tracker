@@ -1,7 +1,7 @@
 {
-  "schema": 1,
+  "schema": 2,
   "title": "Sunday Tickets",
-  "updated": "2026-11-01T18:17:49-05:00",
+  "updated": "2026-11-01T19:34:43-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -20,7 +20,8 @@
           "sport": "football/nfl",
           "event": "401873011",
           "stat": "rec",
-          "line": 4
+          "line": 4,
+          "result": "dead"
         },
         {
           "player": "Devaughn Vele",
@@ -28,7 +29,8 @@
           "sport": "football/nfl",
           "event": "401873011",
           "stat": "rec",
-          "line": 3
+          "line": 3,
+          "result": "hit"
         },
         {
           "player": "Juwan Johnson",
@@ -36,7 +38,8 @@
           "sport": "football/nfl",
           "event": "401873011",
           "stat": "rec",
-          "line": 3
+          "line": 3,
+          "result": "dead"
         },
         {
           "player": "Chris Olave",
@@ -44,7 +47,8 @@
           "sport": "football/nfl",
           "event": "401873011",
           "stat": "rec",
-          "line": 6
+          "line": 6,
+          "result": "hit"
         },
         {
           "player": "Jaylen Warren",
@@ -52,7 +56,8 @@
           "sport": "football/nfl",
           "event": "401873011",
           "stat": "rec",
-          "line": 2
+          "line": 2,
+          "result": "hit"
         },
         {
           "player": "Pat Freiermuth",
@@ -60,9 +65,14 @@
           "sport": "football/nfl",
           "event": "401873011",
           "stat": "rec",
-          "line": 2
+          "line": 2,
+          "result": "hit"
         }
-      ]
+      ],
+      "state": "lost",
+      "profit": -5,
+      "day": "2026-10-25",
+      "settledAt": "2026-10-25T16:45:00.000Z"
     },
     {
       "id": "NFL_TD_SGPx_user_placed_1025",
@@ -82,7 +92,8 @@
           "event": "401873012",
           "stat": "anytimeTD",
           "line": 1,
-          "tdProb": 0.5
+          "tdProb": 0.5,
+          "result": "hit"
         },
         {
           "player": "Derrick Henry",
@@ -91,7 +102,8 @@
           "event": "401873012",
           "stat": "anytimeTD",
           "line": 1,
-          "tdProb": 0.58
+          "tdProb": 0.58,
+          "result": "dead"
         },
         {
           "player": "George Kittle",
@@ -100,7 +112,8 @@
           "event": "401873017",
           "stat": "anytimeTD",
           "line": 1,
-          "tdProb": 0.45
+          "tdProb": 0.45,
+          "result": "dead"
         },
         {
           "player": "Chuba Hubbard",
@@ -109,9 +122,14 @@
           "event": "401873018",
           "stat": "anytimeTD",
           "line": 1,
-          "tdProb": 0.42
+          "tdProb": 0.42,
+          "result": "dead"
         }
-      ]
+      ],
+      "state": "lost",
+      "profit": -5,
+      "day": "2026-10-25",
+      "settledAt": "2026-10-25T20:15:00.000Z"
     },
     {
       "id": "NFL_TD_parlay2_1025",
@@ -131,7 +149,8 @@
           "event": "401873016",
           "stat": "anytimeTD",
           "line": 1,
-          "tdProb": 0.45
+          "tdProb": 0.45,
+          "result": "dead"
         },
         {
           "player": "Jonathan Taylor",
@@ -140,7 +159,8 @@
           "event": "401873014",
           "stat": "anytimeTD",
           "line": 1,
-          "tdProb": 0.55
+          "tdProb": 0.55,
+          "result": "hit"
         },
         {
           "player": "Garrett Wilson",
@@ -149,9 +169,14 @@
           "event": "401873015",
           "stat": "anytimeTD",
           "line": 1,
-          "tdProb": 0.38
+          "tdProb": 0.38,
+          "result": "dead"
         }
-      ]
+      ],
+      "state": "lost",
+      "profit": -5,
+      "day": "2026-10-25",
+      "settledAt": "2026-10-25T20:15:00.000Z"
     },
     {
       "id": "NFL_props_parlay_user_placed_1025",
@@ -170,7 +195,8 @@
           "sport": "football/nfl",
           "event": "401873014",
           "stat": "rushYds",
-          "line": 39
+          "line": 39,
+          "result": "dead"
         },
         {
           "player": "Isaiah Likely",
@@ -178,7 +204,8 @@
           "sport": "football/nfl",
           "event": "401873016",
           "stat": "recYds",
-          "line": 50
+          "line": 50,
+          "result": "dead"
         },
         {
           "player": "Tetairoa McMillan",
@@ -186,9 +213,14 @@
           "sport": "football/nfl",
           "event": "401873018",
           "stat": "recYds",
-          "line": 71
+          "line": 71,
+          "result": "dead"
         }
-      ]
+      ],
+      "state": "lost",
+      "profit": -10,
+      "day": "2026-10-25",
+      "settledAt": "2026-10-25T20:15:00.000Z"
     },
     {
       "id": "NFL_1PM_SGPx_user_placed_1025",
@@ -207,7 +239,8 @@
           "sport": "football/nfl",
           "event": "401873017",
           "stat": "rushYds",
-          "line": 80
+          "line": 80,
+          "result": "dead"
         },
         {
           "player": "Michael Penix Jr.",
@@ -215,7 +248,8 @@
           "sport": "football/nfl",
           "event": "401873017",
           "stat": "passYds",
-          "line": 220
+          "line": 220,
+          "result": "dead"
         },
         {
           "player": "Deshaun Watson",
@@ -223,7 +257,8 @@
           "sport": "football/nfl",
           "event": "401873013",
           "stat": "rushYds",
-          "line": 25
+          "line": 25,
+          "result": "dead"
         },
         {
           "player": "Carson Schwesinger",
@@ -231,9 +266,14 @@
           "sport": "football/nfl",
           "event": "401873013",
           "stat": "tackles",
-          "line": 8
+          "line": 8,
+          "result": "hit"
         }
-      ]
+      ],
+      "state": "lost",
+      "profit": -5,
+      "day": "2026-10-25",
+      "settledAt": "2026-10-25T20:15:00.000Z"
     },
     {
       "id": "GB_DET_SGP_1025",
@@ -252,7 +292,8 @@
           "event": "401873020",
           "stat": "recYds",
           "line": 60,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead"
         },
         {
           "player": "Tucker Kraft",
@@ -260,9 +301,14 @@
           "event": "401873020",
           "stat": "rec",
           "line": 5,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead"
         }
-      ]
+      ],
+      "state": "lost",
+      "profit": -25,
+      "day": "2026-10-25",
+      "settledAt": "2026-10-25T23:40:00.000Z"
     },
     {
       "id": "GB_DET_LIVE_1stTD_1025",
@@ -280,9 +326,14 @@
           "event": "401873020",
           "stat": "rushYds",
           "line": 10,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "hit"
         }
-      ]
+      ],
+      "state": "lost",
+      "profit": -5,
+      "day": "2026-10-25",
+      "settledAt": "2026-10-25T23:40:00.000Z"
     },
     {
       "id": "KC_SEA_SGP_1025",
@@ -300,7 +351,8 @@
           "event": "401873022",
           "stat": "recYds",
           "line": 30,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "hit"
         },
         {
           "player": "Emmett Johnson",
@@ -308,9 +360,14 @@
           "event": "401873022",
           "stat": "rec",
           "line": 2,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "hit"
         }
-      ]
+      ],
+      "state": "won",
+      "profit": 51.2,
+      "day": "2026-10-25",
+      "settledAt": "2026-10-26T03:35:00.000Z"
     },
     {
       "id": "KC_SEA_Barner4_1025",
@@ -329,9 +386,14 @@
           "event": "401873022",
           "stat": "rec",
           "line": 4,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "hit"
         }
-      ]
+      ],
+      "state": "won",
+      "profit": 15.8,
+      "day": "2026-10-25",
+      "settledAt": "2026-10-26T03:35:00.000Z"
     },
     {
       "id": "MEM_UTA_Jerome37PRA_1026",
@@ -349,9 +411,14 @@
           "event": "401909875",
           "stat": "pra",
           "line": 37,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         }
-      ]
+      ],
+      "state": "lost",
+      "profit": -8,
+      "day": "2026-10-26",
+      "settledAt": "2026-10-27T03:30:00.000Z"
     },
     {
       "id": "MULTI_EQUINOX50_1026",
@@ -368,7 +435,8 @@
           "event": "401909874",
           "sport": "basketball/nba",
           "stat": "pra",
-          "line": 30
+          "line": 30,
+          "result": "hit"
         },
         {
           "player": "Jaime Jaquez Jr.",
@@ -376,7 +444,8 @@
           "event": "401909872",
           "sport": "basketball/nba",
           "stat": "pts",
-          "line": 15
+          "line": 15,
+          "result": "dead"
         },
         {
           "player": "Connor McDavid",
@@ -384,9 +453,14 @@
           "event": "401892584",
           "sport": "hockey/nhl",
           "stat": "pts",
-          "line": 1
+          "line": 1,
+          "result": "hit"
         }
-      ]
+      ],
+      "state": "lost",
+      "profit": -5,
+      "day": "2026-10-26",
+      "settledAt": "2026-10-27T04:06:00.000Z"
     },
     {
       "id": "DAL_PHI_30SGP_1026",
@@ -403,7 +477,8 @@
           "event": "401873009",
           "stat": "rec",
           "line": 5,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "hit"
         },
         {
           "player": "Ryan Flournoy",
@@ -411,7 +486,8 @@
           "event": "401873009",
           "stat": "recYds",
           "line": 20,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "hit"
         },
         {
           "player": "CeeDee Lamb",
@@ -419,9 +495,14 @@
           "event": "401873009",
           "stat": "recYds",
           "line": 90,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead"
         }
-      ]
+      ],
+      "state": "lost",
+      "profit": -10,
+      "day": "2026-10-26",
+      "settledAt": "2026-10-27T03:30:00.000Z"
     },
     {
       "id": "DAL_PHI_20SGP_1026",
@@ -438,7 +519,8 @@
           "event": "401873009",
           "stat": "rec",
           "line": 3,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "hit"
         },
         {
           "player": "Dameon Pierce",
@@ -446,7 +528,8 @@
           "event": "401873009",
           "stat": "rushYds",
           "line": 10,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "hit"
         },
         {
           "player": "Javonte Williams",
@@ -454,7 +537,8 @@
           "event": "401873009",
           "stat": "rushYds",
           "line": 40,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "hit"
         },
         {
           "player": "Dak Prescott",
@@ -462,7 +546,8 @@
           "event": "401873009",
           "stat": "passYds",
           "line": 250,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead"
         },
         {
           "player": "Tanner McKee",
@@ -470,7 +555,8 @@
           "event": "401873009",
           "stat": "completions",
           "line": 20,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "hit"
         },
         {
           "player": "Jake Ferguson",
@@ -478,9 +564,14 @@
           "event": "401873009",
           "stat": "rec",
           "line": 2,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead"
         }
-      ]
+      ],
+      "state": "lost",
+      "profit": -5,
+      "day": "2026-10-26",
+      "settledAt": "2026-10-27T03:30:00.000Z"
     },
     {
       "id": "DAL_PHI_McKee34att_1026",
@@ -497,9 +588,14 @@
           "event": "401873009",
           "stat": "passAtt",
           "line": 34,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "hit"
         }
-      ]
+      ],
+      "state": "won",
+      "profit": 4.67,
+      "day": "2026-10-26",
+      "settledAt": "2026-10-27T03:30:00.000Z"
     },
     {
       "id": "LA_NYR_Miller1pt_1026",
@@ -517,9 +613,14 @@
           "event": "401892582",
           "stat": "pts",
           "line": 1,
-          "sport": "hockey/nhl"
+          "sport": "hockey/nhl",
+          "result": "hit"
         }
-      ]
+      ],
+      "state": "won",
+      "profit": 3.33,
+      "day": "2026-10-26",
+      "settledAt": "2026-10-27T01:36:00.000Z"
     },
     {
       "id": "NBA_SGPX30_1026",
@@ -537,7 +638,8 @@
           "event": "401909875",
           "stat": "reb",
           "line": 6,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         },
         {
           "player": "Ace Bailey",
@@ -545,7 +647,8 @@
           "event": "401909875",
           "stat": "reb",
           "line": 5,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "hit"
         },
         {
           "player": "Keyonte George",
@@ -553,7 +656,8 @@
           "event": "401909875",
           "stat": "pts",
           "line": 18,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "hit"
         },
         {
           "player": "Jaylen Wells",
@@ -561,7 +665,8 @@
           "event": "401909875",
           "stat": "pts",
           "line": 10,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "hit"
         },
         {
           "player": "Bam Adebayo",
@@ -569,16 +674,21 @@
           "event": "401909871",
           "stat": "ast",
           "line": 3,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "hit"
         }
-      ]
+      ],
+      "state": "won",
+      "profit": 30.05,
+      "day": "2026-10-26",
+      "settledAt": "2026-10-27T03:30:00.000Z"
     },
     {
       "id": "DAL_MIA_DMitchell19PA_1026",
       "name": "Davion Mitchell 19+ P+A",
       "time": "7:40 PM",
       "stake": 10,
-      "payout": 19.0,
+      "payout": 19,
       "status": "cashed",
       "placedAt": "2026-10-26T18:53:30-04:00",
       "sport": "basketball/nba",
@@ -589,16 +699,21 @@
           "event": "401909871",
           "stat": "pa",
           "line": 19,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "hit"
         }
-      ]
+      ],
+      "state": "won",
+      "profit": 9,
+      "day": "2026-10-26",
+      "settledAt": "2026-10-27T02:00:00.000Z"
     },
     {
       "id": "PHX_OKC_Booker20_1026",
       "name": "Devin Booker 20+ Pts (live)",
       "time": "8:00 PM",
       "stake": 5,
-      "payout": 19.0,
+      "payout": 19,
       "status": "lost",
       "placedAt": "2026-10-26T20:56:00-04:00",
       "sport": "basketball/nba",
@@ -609,9 +724,14 @@
           "event": "401909873",
           "stat": "pts",
           "line": 20,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         }
-      ]
+      ],
+      "state": "lost",
+      "profit": -5,
+      "day": "2026-10-26",
+      "settledAt": "2026-10-27T02:30:00.000Z"
     },
     {
       "id": "MIN_CLE_Harden3PM3_1026",
@@ -629,16 +749,21 @@
           "event": "401909869",
           "stat": "threes",
           "line": 3,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "hit"
         }
-      ]
+      ],
+      "state": "won",
+      "profit": 6.25,
+      "day": "2026-10-26",
+      "settledAt": "2026-10-27T01:30:00.000Z"
     },
     {
       "id": "MIN_CLE_Harden3PM4_1026",
       "name": "James Harden 4+ 3PM (live)",
       "time": "7:00 PM",
       "stake": 2,
-      "payout": 13.0,
+      "payout": 13,
       "status": "lost",
       "placedAt": "2026-10-26T20:59:25-04:00",
       "sport": "basketball/nba",
@@ -649,9 +774,14 @@
           "event": "401909869",
           "stat": "threes",
           "line": 4,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         }
-      ]
+      ],
+      "state": "lost",
+      "profit": -2,
+      "day": "2026-10-26",
+      "settledAt": "2026-10-27T01:30:00.000Z"
     },
     {
       "id": "GS_DEN_Lendeborg35_1026",
@@ -668,9 +798,15 @@
           "event": "401909876",
           "stat": "pts",
           "line": 35,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         }
-      ]
+      ],
+      "state": "lost",
+      "status": "lost",
+      "profit": -6.71,
+      "day": "2026-10-26",
+      "settledAt": "2026-10-27T04:30:00.000Z"
     },
     {
       "id": "GS_DEN_Melton3PM1_1026",
@@ -688,9 +824,14 @@
           "event": "401909876",
           "stat": "threes",
           "line": 1,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "hit"
         }
-      ]
+      ],
+      "state": "won",
+      "profit": 14,
+      "day": "2026-10-26",
+      "settledAt": "2026-10-27T04:30:00.000Z"
     },
     {
       "id": "GS_DEN_Melton3PM2_1026",
@@ -707,9 +848,15 @@
           "event": "401909876",
           "stat": "threes",
           "line": 2,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         }
-      ]
+      ],
+      "state": "lost",
+      "status": "lost",
+      "profit": -5,
+      "day": "2026-10-26",
+      "settledAt": "2026-10-27T04:30:00.000Z"
     },
     {
       "id": "GS_DEN_Melton3PM3_1026",
@@ -726,9 +873,15 @@
           "event": "401909876",
           "stat": "threes",
           "line": 3,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         }
-      ]
+      ],
+      "state": "lost",
+      "status": "lost",
+      "profit": -3,
+      "day": "2026-10-26",
+      "settledAt": "2026-10-27T04:30:00.000Z"
     },
     {
       "id": "NBA_BOOST50_KAT_AVDIJA_1027",
@@ -746,7 +899,8 @@
           "event": "401909878",
           "stat": "reb",
           "line": 10,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "hit"
         },
         {
           "player": "Deni Avdija",
@@ -754,9 +908,14 @@
           "event": "401909880",
           "stat": "ast",
           "line": 5,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "hit"
         }
-      ]
+      ],
+      "state": "won",
+      "profit": 35.2,
+      "day": "2026-10-27",
+      "settledAt": "2026-10-28T05:30:00.000Z"
     },
     {
       "id": "NHL_BOOST30_FANTILLI_REINHART_PANARIN_1027",
@@ -774,7 +933,8 @@
           "event": "401892585",
           "stat": "shots",
           "line": 2,
-          "sport": "hockey/nhl"
+          "sport": "hockey/nhl",
+          "result": "hit"
         },
         {
           "player": "Sam Reinhart",
@@ -782,7 +942,8 @@
           "event": "401892591",
           "stat": "shots",
           "line": 2,
-          "sport": "hockey/nhl"
+          "sport": "hockey/nhl",
+          "result": "hit"
         },
         {
           "player": "Artemi Panarin",
@@ -790,9 +951,14 @@
           "event": "401892587",
           "stat": "shots",
           "line": 2,
-          "sport": "hockey/nhl"
+          "sport": "hockey/nhl",
+          "result": "dead"
         }
-      ]
+      ],
+      "state": "lost",
+      "profit": -10,
+      "day": "2026-10-27",
+      "settledAt": "2026-10-28T02:36:00.000Z"
     },
     {
       "id": "DET_NY_DRobinson3PM3_1027",
@@ -809,9 +975,15 @@
           "event": "401909878",
           "stat": "threes",
           "line": 3,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         }
-      ]
+      ],
+      "state": "lost",
+      "status": "lost",
+      "profit": -10,
+      "day": "2026-10-27",
+      "settledAt": "2026-10-28T02:30:00.000Z"
     },
     {
       "id": "POR_LAL_Morant6AST_1027",
@@ -829,9 +1001,14 @@
           "event": "401909880",
           "stat": "ast",
           "line": 6,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         }
-      ]
+      ],
+      "state": "lost",
+      "profit": -5,
+      "day": "2026-10-27",
+      "settledAt": "2026-10-28T05:30:00.000Z"
     },
     {
       "id": "POR_LAL_OVER266_5_1027",
@@ -850,9 +1027,14 @@
           "stat": "pts",
           "line": 266.5,
           "side": "over",
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         }
-      ]
+      ],
+      "state": "lost",
+      "profit": -4,
+      "day": "2026-10-27",
+      "settledAt": "2026-10-28T05:30:00.000Z"
     },
     {
       "id": "POR_LAL_KESSLER14_LUKA45_1027",
@@ -870,7 +1052,8 @@
           "event": "401909880",
           "stat": "pts",
           "line": 14,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         },
         {
           "player": "Luka Doncic",
@@ -878,10 +1061,15 @@
           "event": "401909880",
           "stat": "pts",
           "line": 45,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         }
       ],
-      "bet_id": "DK639287610129163930"
+      "bet_id": "DK639287610129163930",
+      "state": "lost",
+      "profit": -2,
+      "day": "2026-10-27",
+      "settledAt": "2026-10-28T05:30:00.000Z"
     },
     {
       "id": "POR_LAL_RWilliams12PTS_1027",
@@ -899,16 +1087,21 @@
           "event": "401909880",
           "stat": "pts",
           "line": 12,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "hit"
         }
       ],
-      "bet_id": "DK639287613568494956"
+      "bet_id": "DK639287613568494956",
+      "state": "won",
+      "profit": 7.61,
+      "day": "2026-10-27",
+      "settledAt": "2026-10-28T05:30:00.000Z"
     },
     {
       "id": "POR_LAL_Camara13PTS_1027",
       "name": "LIVE Toumani Camara over 12.5 pts",
       "stake": 5,
-      "payout": 10.0,
+      "payout": 10,
       "status": "lost",
       "placedAt": "2026-10-28T01:34:54-04:00",
       "odds": 100,
@@ -920,10 +1113,15 @@
           "event": "401909880",
           "stat": "pts",
           "line": 13,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         }
       ],
-      "bet_id": "DK639287624658972210"
+      "bet_id": "DK639287624658972210",
+      "state": "lost",
+      "profit": -5,
+      "day": "2026-10-27",
+      "settledAt": "2026-10-28T05:30:00.000Z"
     },
     {
       "id": "POR_LAL_Holiday19PTS_1027",
@@ -941,16 +1139,21 @@
           "event": "401909880",
           "stat": "pts",
           "line": 19,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "hit"
         }
       ],
-      "bet_id": "DK639287628552072252"
+      "bet_id": "DK639287628552072252",
+      "state": "won",
+      "profit": 8.25,
+      "day": "2026-10-27",
+      "settledAt": "2026-10-28T05:30:00.000Z"
     },
     {
       "id": "POR_LAL_Avdija25PTS_1027",
       "name": "LIVE Deni Avdija 25+ pts",
       "stake": 3,
-      "payout": 6.0,
+      "payout": 6,
       "status": "lost",
       "placedAt": "2026-10-28T01:47:56-04:00",
       "odds": 100,
@@ -962,10 +1165,15 @@
           "event": "401909880",
           "stat": "pts",
           "line": 25,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         }
       ],
-      "bet_id": "DK639287632528274184"
+      "bet_id": "DK639287632528274184",
+      "state": "lost",
+      "profit": -3,
+      "day": "2026-10-27",
+      "settledAt": "2026-10-28T05:30:00.000Z"
     },
     {
       "id": "POR_LAL_Luka42PTS_1027",
@@ -983,10 +1191,15 @@
           "event": "401909880",
           "stat": "pts",
           "line": 42,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         }
       ],
-      "bet_id": "DK639287633937561030"
+      "bet_id": "DK639287633937561030",
+      "state": "lost",
+      "profit": -3,
+      "day": "2026-10-27",
+      "settledAt": "2026-10-28T05:30:00.000Z"
     },
     {
       "id": "NHL_BOOST30_LEONARD_DRAISAITL_CORONATO_1028",
@@ -1004,7 +1217,8 @@
           "sport": "hockey/nhl",
           "event": "401892596",
           "stat": "shots",
-          "line": 2
+          "line": 2,
+          "result": "hit"
         },
         {
           "player": "Leon Draisaitl",
@@ -1012,7 +1226,8 @@
           "sport": "hockey/nhl",
           "event": "401892597",
           "stat": "shots",
-          "line": 3
+          "line": 3,
+          "result": "dead"
         },
         {
           "player": "Matt Coronato",
@@ -1020,10 +1235,15 @@
           "sport": "hockey/nhl",
           "event": "401892597",
           "stat": "shots",
-          "line": 2
+          "line": 2,
+          "result": "hit"
         }
       ],
-      "dk_id": "DK639287880696700214"
+      "dk_id": "DK639287880696700214",
+      "state": "lost",
+      "profit": -7,
+      "day": "2026-10-28",
+      "settledAt": "2026-10-29T03:06:00.000Z"
     },
     {
       "id": "PHI_CHA_Schroder1THREES_1031",
@@ -1041,10 +1261,16 @@
           "event": "401909897",
           "stat": "threes",
           "line": 1,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         }
       ],
-      "dk_id": "DK639290867812442886"
+      "dk_id": "DK639290867812442886",
+      "state": "lost",
+      "status": "lost",
+      "profit": -7,
+      "day": "2026-10-31",
+      "settledAt": "2026-11-01T00:30:00.000Z"
     },
     {
       "id": "PHI_CHA_Schroder2THREES_1031",
@@ -1062,17 +1288,23 @@
           "event": "401909897",
           "stat": "threes",
           "line": 2,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         }
       ],
-      "dk_id": "DK639290867980020476"
+      "dk_id": "DK639290867980020476",
+      "state": "lost",
+      "status": "lost",
+      "profit": -3,
+      "day": "2026-10-31",
+      "settledAt": "2026-11-01T00:30:00.000Z"
     },
     {
       "id": "SAC_MEM_Sabonis15REB_1031",
       "name": "50% boost: Domantas Sabonis 15+ reb",
       "time": "8:00 PM",
       "stake": 20,
-      "payout": 50.0,
+      "payout": 50,
       "placedAt": "2026-10-31T19:50:00-04:00",
       "odds": 150,
       "sport": "basketball/nba",
@@ -1083,10 +1315,16 @@
           "event": "401909899",
           "stat": "reb",
           "line": 15,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         }
       ],
-      "dk_id": "DK639290872123248797"
+      "dk_id": "DK639290872123248797",
+      "state": "lost",
+      "status": "lost",
+      "profit": -20,
+      "day": "2026-10-31",
+      "settledAt": "2026-11-01T02:30:00.000Z"
     },
     {
       "id": "MIN_SA_SGP_Wemby_Castle_1031",
@@ -1104,7 +1342,8 @@
           "event": "401909901",
           "stat": "reb",
           "line": 11,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         },
         {
           "player": "Stephon Castle",
@@ -1112,7 +1351,8 @@
           "event": "401909901",
           "stat": "pts",
           "line": 15,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         },
         {
           "player": "Stephon Castle",
@@ -1120,10 +1360,16 @@
           "event": "401909901",
           "stat": "reb",
           "line": 4,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "hit"
         }
       ],
-      "dk_id": "DK639290874960795476"
+      "dk_id": "DK639290874960795476",
+      "state": "lost",
+      "status": "lost",
+      "profit": -10,
+      "day": "2026-10-31",
+      "settledAt": "2026-11-01T02:30:00.000Z"
     },
     {
       "id": "CGY_COL_MacKinnonGOAL_1031",
@@ -1141,17 +1387,23 @@
           "event": "401892623",
           "stat": "goals",
           "line": 1,
-          "sport": "hockey/nhl"
+          "sport": "hockey/nhl",
+          "result": "hit"
         }
       ],
-      "dk_id": "DK639290877207699326"
+      "dk_id": "DK639290877207699326",
+      "state": "won",
+      "status": "cashed",
+      "profit": 8.69,
+      "day": "2026-10-31",
+      "settledAt": "2026-11-01T04:36:00.000Z"
     },
     {
       "id": "MIN_SA_Wemby25PTS_1031",
       "name": "Superboost: Victor Wembanyama 25+ pts",
       "time": "8:00 PM",
       "stake": 10,
-      "payout": 25.0,
+      "payout": 25,
       "placedAt": "2026-10-31T19:58:00-04:00",
       "odds": 150,
       "sport": "basketball/nba",
@@ -1162,10 +1414,16 @@
           "event": "401909901",
           "stat": "pts",
           "line": 25,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "hit"
         }
       ],
-      "dk_id": "DK639290879270393781"
+      "dk_id": "DK639290879270393781",
+      "state": "won",
+      "status": "cashed",
+      "profit": 15,
+      "day": "2026-10-31",
+      "settledAt": "2026-11-01T02:30:00.000Z"
     },
     {
       "id": "OKC_HOU_SGP_Amen_Jabari_KD_Sengun_1031",
@@ -1183,7 +1441,8 @@
           "event": "401909902",
           "stat": "pts",
           "line": 15,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         },
         {
           "player": "Jabari Smith Jr.",
@@ -1191,7 +1450,8 @@
           "event": "401909902",
           "stat": "pts",
           "line": 12,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "hit"
         },
         {
           "player": "Kevin Durant",
@@ -1199,7 +1459,8 @@
           "event": "401909902",
           "stat": "reb",
           "line": 4,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         },
         {
           "player": "Alperen Sengun",
@@ -1207,10 +1468,16 @@
           "event": "401909902",
           "stat": "ra",
           "line": 12,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "hit"
         }
       ],
-      "dk_id": "DK639290880109255921"
+      "dk_id": "DK639290880109255921",
+      "state": "lost",
+      "status": "lost",
+      "profit": -10,
+      "day": "2026-10-31",
+      "settledAt": "2026-11-01T03:00:00.000Z"
     },
     {
       "id": "MIN_SA_SGP_Dosunmu_Kuminga_2THREES_1031",
@@ -1228,7 +1495,8 @@
           "event": "401909901",
           "stat": "3pm",
           "line": 2,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "hit"
         },
         {
           "player": "Jonathan Kuminga",
@@ -1236,10 +1504,16 @@
           "event": "401909901",
           "stat": "3pm",
           "line": 2,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "hit"
         }
       ],
-      "dk_id": "DK639290940055566122"
+      "dk_id": "DK639290940055566122",
+      "state": "won",
+      "status": "cashed",
+      "profit": 28.6,
+      "day": "2026-10-31",
+      "settledAt": "2026-11-01T02:30:00.000Z"
     },
     {
       "id": "MIN_SA_MIN_ML_LIVE_1031",
@@ -1257,10 +1531,16 @@
           "event": "401909901",
           "stat": "ml",
           "line": 0,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         }
       ],
-      "dk_id": "DK639290959567265600"
+      "dk_id": "DK639290959567265600",
+      "status": "lost",
+      "state": "lost",
+      "profit": -5.45,
+      "day": "2026-10-31",
+      "settledAt": "2026-11-01T02:30:00.000Z"
     },
     {
       "id": "KC_DEN_COLEMAN_ATD_1101",
@@ -1279,17 +1559,23 @@
           "stat": "anytimeTD",
           "line": 1,
           "tdProb": 0.377,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "hit"
         }
       ],
-      "dk_id": "DK639291039812711714"
+      "dk_id": "DK639291039812711714",
+      "state": "won",
+      "status": "cashed",
+      "profit": 16.5,
+      "day": "2026-11-01",
+      "settledAt": "2026-11-02T00:34:43.797Z"
     },
     {
       "id": "NE_MIA_DOUGLAS_ATD_1101",
       "name": "Demario Douglas Anytime TD",
       "time": "4:25 PM",
       "stake": 10,
-      "payout": 34.0,
+      "payout": 34,
       "placedAt": "2026-11-01T00:25:52-04:00",
       "odds": 240,
       "sport": "football/nfl",
@@ -1301,10 +1587,16 @@
           "stat": "anytimeTD",
           "line": 1,
           "tdProb": 0.294,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "hit"
         }
       ],
-      "dk_id": "DK639291039527498680"
+      "dk_id": "DK639291039527498680",
+      "state": "won",
+      "status": "cashed",
+      "profit": 24,
+      "day": "2026-11-01",
+      "settledAt": "2026-11-02T00:34:43.797Z"
     },
     {
       "id": "ARI_DAL_SGP_BRISSETT_PICKENS_MCBRIDE_1101",
@@ -1322,7 +1614,8 @@
           "event": "401873024",
           "stat": "passAtt",
           "line": 36,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead"
         },
         {
           "player": "George Pickens",
@@ -1330,7 +1623,8 @@
           "event": "401873024",
           "stat": "recYds",
           "line": 50,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead"
         },
         {
           "player": "Trey McBride",
@@ -1338,10 +1632,16 @@
           "event": "401873024",
           "stat": "rec",
           "line": 9,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead"
         }
       ],
-      "dk_id": "DK639290977317691631"
+      "dk_id": "DK639290977317691631",
+      "state": "lost",
+      "status": "lost",
+      "profit": -10,
+      "day": "2026-11-01",
+      "settledAt": "2026-11-01T21:15:00.000Z"
     },
     {
       "id": "MIN_DET_HOCKENSON_ATD_BOOST_1101",
@@ -1360,10 +1660,16 @@
           "stat": "anytimeTD",
           "line": 1,
           "tdProb": 0.29,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "hit"
         }
       ],
-      "dk_id": "DK639291374416319431"
+      "dk_id": "DK639291374416319431",
+      "state": "won",
+      "status": "cashed",
+      "profit": 31.2,
+      "day": "2026-11-01",
+      "settledAt": "2026-11-01T21:15:00.000Z"
     },
     {
       "id": "CLE_PIT_SGP_WATSON_JUDKINS_1101",
@@ -1381,7 +1687,8 @@
           "event": "401873027",
           "stat": "rushYds",
           "line": 20,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead"
         },
         {
           "player": "Quinshon Judkins",
@@ -1389,10 +1696,16 @@
           "event": "401873027",
           "stat": "rec",
           "line": 2,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "hit"
         }
       ],
-      "dk_id": "DK639291377336963396"
+      "dk_id": "DK639291377336963396",
+      "state": "lost",
+      "status": "lost",
+      "profit": -10,
+      "day": "2026-11-01",
+      "settledAt": "2026-11-01T21:15:00.000Z"
     },
     {
       "id": "IND_JAX_SGP_JONES_TUTEN_WARREN_BOOST_1101",
@@ -1410,7 +1723,8 @@
           "event": "401873028",
           "stat": "passAtt",
           "line": 30,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead"
         },
         {
           "player": "Bhayshul Tuten",
@@ -1418,7 +1732,8 @@
           "event": "401873028",
           "stat": "recYds",
           "line": 15,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "hit"
         },
         {
           "player": "Tyler Warren",
@@ -1426,10 +1741,16 @@
           "event": "401873028",
           "stat": "rec",
           "line": 5,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead"
         }
       ],
-      "dk_id": "DK639291377051690510"
+      "dk_id": "DK639291377051690510",
+      "state": "lost",
+      "status": "lost",
+      "profit": -10,
+      "day": "2026-11-01",
+      "settledAt": "2026-11-01T21:15:00.000Z"
     },
     {
       "id": "LV_NYJ_SGP_BOWERS_JEANTY_1101",
@@ -1447,7 +1768,8 @@
           "event": "401873029",
           "stat": "rec",
           "line": 6,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "hit"
         },
         {
           "player": "Ashton Jeanty",
@@ -1455,10 +1777,16 @@
           "event": "401873029",
           "stat": "recYds",
           "line": 30,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "hit"
         }
       ],
-      "dk_id": "DK639291378176448328"
+      "dk_id": "DK639291378176448328",
+      "state": "won",
+      "status": "cashed",
+      "profit": 20.2,
+      "day": "2026-11-01",
+      "settledAt": "2026-11-01T21:15:00.000Z"
     },
     {
       "id": "TEN_CIN_SGP_BURROW_HIGGINS_1101",
@@ -1476,7 +1804,8 @@
           "event": "401873031",
           "stat": "passYds",
           "line": 250,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "hit"
         },
         {
           "player": "Tee Higgins",
@@ -1484,10 +1813,16 @@
           "event": "401873031",
           "stat": "recYds",
           "line": 80,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "hit"
         }
       ],
-      "dk_id": "DK639291378646211904"
+      "dk_id": "DK639291378646211904",
+      "state": "won",
+      "status": "cashed",
+      "profit": 7.9,
+      "day": "2026-11-01",
+      "settledAt": "2026-11-01T21:15:00.000Z"
     },
     {
       "id": "BAL_BUF_SGP_FLOWERS_OVER_COOK_1101",
@@ -1505,7 +1840,8 @@
           "event": "401873026",
           "stat": "recYds",
           "line": 80,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead"
         },
         {
           "player": "James Cook",
@@ -1514,11 +1850,17 @@
           "stat": "anytimeTD",
           "line": 1,
           "sport": "football/nfl",
-          "tdProb": 0.6
+          "tdProb": 0.6,
+          "result": "hit"
         }
       ],
       "dk_id": "DK639291470451357158",
-      "note": "Over 49.5 game total leg tracked manually"
+      "note": "Over 49.5 game total leg tracked manually",
+      "state": "lost",
+      "status": "lost",
+      "profit": -5,
+      "day": "2026-11-01",
+      "settledAt": "2026-11-01T21:15:00.000Z"
     },
     {
       "id": "TD_PARLAY_KYREN_JAVONTE_HENRY_1101",
@@ -1537,7 +1879,8 @@
           "stat": "anytimeTD",
           "line": 1,
           "sport": "football/nfl",
-          "tdProb": 0.55
+          "tdProb": 0.55,
+          "result": "hit"
         },
         {
           "player": "Javonte Williams",
@@ -1546,7 +1889,8 @@
           "stat": "anytimeTD",
           "line": 1,
           "sport": "football/nfl",
-          "tdProb": 0.67
+          "tdProb": 0.67,
+          "result": "dead"
         },
         {
           "player": "Derrick Henry",
@@ -1555,10 +1899,16 @@
           "stat": "anytimeTD",
           "line": 1,
           "sport": "football/nfl",
-          "tdProb": 0.62
+          "tdProb": 0.62,
+          "result": "hit"
         }
       ],
-      "dk_id": "DK639291470818278244"
+      "dk_id": "DK639291470818278244",
+      "state": "lost",
+      "status": "lost",
+      "profit": -10,
+      "day": "2026-11-01",
+      "settledAt": "2026-11-02T00:20:00.000Z"
     },
     {
       "id": "LONGEST_9LEG_FLIER_1101",
@@ -1576,7 +1926,8 @@
           "event": "401873030",
           "stat": "longRec",
           "line": 15,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "hit"
         },
         {
           "player": "Aaron Jones Sr.",
@@ -1584,7 +1935,8 @@
           "event": "401873030",
           "stat": "longRush",
           "line": 10,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead"
         },
         {
           "player": "Justin Jefferson",
@@ -1592,7 +1944,8 @@
           "event": "401873030",
           "stat": "longRec",
           "line": 20,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead"
         },
         {
           "player": "Zay Flowers",
@@ -1600,7 +1953,8 @@
           "event": "401873026",
           "stat": "longRec",
           "line": 30,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead"
         },
         {
           "player": "Josh Allen",
@@ -1608,7 +1962,8 @@
           "event": "401873026",
           "stat": "longRush",
           "line": 15,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead"
         },
         {
           "player": "Josh Downs",
@@ -1616,7 +1971,8 @@
           "event": "401873028",
           "stat": "longRec",
           "line": 20,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead"
         },
         {
           "player": "Tony Pollard",
@@ -1624,7 +1980,8 @@
           "event": "401873031",
           "stat": "longRush",
           "line": 15,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "hit"
         },
         {
           "player": "Trey McBride",
@@ -1632,7 +1989,8 @@
           "event": "401873024",
           "stat": "longRec",
           "line": 20,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead"
         },
         {
           "player": "Kenneth Walker III",
@@ -1643,7 +2001,12 @@
           "sport": "football/nfl"
         }
       ],
-      "dk_id": "DK639291486471378351"
+      "dk_id": "DK639291486471378351",
+      "state": "lost",
+      "status": "lost",
+      "profit": -5,
+      "day": "2026-11-01",
+      "settledAt": "2026-11-02T00:34:43.797Z"
     },
     {
       "id": "IND_JAX_TREADWELL_19REC_LIVE_1101",
@@ -1659,9 +2022,16 @@
           "stat": "recYds",
           "line": 19,
           "event": "401873028",
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead"
         }
-      ]
+      ],
+      "bonus": true,
+      "state": "lost",
+      "status": "lost",
+      "profit": 0,
+      "day": "2026-11-01",
+      "settledAt": "2026-11-01T21:15:00.000Z"
     },
     {
       "id": "BKN_IND_SGP_NEMBHARD_SIAKAM_RANDLE_BOOST_1101",
@@ -1677,7 +2047,7 @@
           "stat": "ast",
           "line": 8,
           "event": "401909904",
-          "sport": "football/nfl"
+          "sport": "basketball/nba"
         },
         {
           "player": "Pascal Siakam",
@@ -1685,7 +2055,7 @@
           "stat": "pts",
           "line": 20,
           "event": "401909904",
-          "sport": "football/nfl"
+          "sport": "basketball/nba"
         },
         {
           "player": "Julius Randle",
@@ -1693,9 +2063,13 @@
           "stat": "reb",
           "line": 7,
           "event": "401909904",
-          "sport": "football/nfl"
+          "sport": "basketball/nba"
         }
-      ]
+      ],
+      "sport": "basketball/nba",
+      "state": "live",
+      "profit": null,
+      "day": "2026-11-01"
     },
     {
       "id": "KC_DEN_LIVE_SGP_MAHOMES_WALKER_KCML_BOOST_1101",
@@ -1729,7 +2103,10 @@
           "event": "401873033",
           "sport": "football/nfl"
         }
-      ]
+      ],
+      "state": "live",
+      "profit": null,
+      "day": "2026-11-01"
     },
     {
       "id": "PHI_WAS_SGP_DIGGS_BURKS_BOOST_1101",
@@ -1755,7 +2132,10 @@
           "event": "401873035",
           "sport": "football/nfl"
         }
-      ]
+      ],
+      "state": "pending",
+      "profit": null,
+      "day": "2026-11-01"
     },
     {
       "id": "BOS_ORL_PGEORGE_2PLUS3PM_LIVE_1101",
@@ -1768,18 +2148,25 @@
         {
           "player": "Paul George",
           "team": "BOS",
-          "stat": "threePointFieldGoalsMade",
+          "stat": "threes",
           "line": 2,
           "event": "401909903",
-          "sport": "football/nfl"
+          "sport": "basketball/nba",
+          "result": "hit"
         }
-      ]
+      ],
+      "sport": "basketball/nba",
+      "status": "cashed",
+      "state": "won",
+      "profit": 14.26,
+      "day": "2026-11-01",
+      "settledAt": "2026-11-01T23:00:00.000Z"
     },
     {
       "id": "PHI_WAS_SGP_GOEDERT_DANIELS_LEMON_BOOST_1101",
       "name": "PHI@WAS SGP Goedert/Daniels/Lemon",
       "stake": 10,
-      "payout": 51.0,
+      "payout": 51,
       "placedAt": "2026-11-01T18:04:41-05:00",
       "odds": "+410",
       "legs": [
@@ -1807,7 +2194,10 @@
           "event": "401873035",
           "sport": "football/nfl"
         }
-      ]
+      ],
+      "state": "pending",
+      "profit": null,
+      "day": "2026-11-01"
     },
     {
       "id": "PHI_WAS_MCKEE_40PLUS_ATT_1101",
@@ -1825,7 +2215,10 @@
           "event": "401873035",
           "sport": "football/nfl"
         }
-      ]
+      ],
+      "state": "pending",
+      "profit": null,
+      "day": "2026-11-01"
     },
     {
       "id": "PHI_WAS_MCKEE_36PLUS_ATT_1101",
@@ -1843,7 +2236,10 @@
           "event": "401873035",
           "sport": "football/nfl"
         }
-      ]
+      ],
+      "state": "pending",
+      "profit": null,
+      "day": "2026-11-01"
     },
     {
       "id": "PHI_WAS_MCKEE_38PLUS_ATT_1101",
@@ -1861,7 +2257,72 @@
           "event": "401873035",
           "sport": "football/nfl"
         }
-      ]
+      ],
+      "state": "pending",
+      "profit": null,
+      "day": "2026-11-01"
+    }
+  ],
+  "days": [
+    {
+      "day": "2026-11-01",
+      "label": "Today · Sun Nov 1",
+      "won": 6,
+      "lost": 7,
+      "live": 2,
+      "pending": 5,
+      "staked": 114.97,
+      "net": 64.06
+    },
+    {
+      "day": "2026-10-31",
+      "label": "Yesterday · Sat Oct 31",
+      "won": 3,
+      "lost": 6,
+      "live": 0,
+      "pending": 0,
+      "staked": 85.45,
+      "net": -3.16
+    },
+    {
+      "day": "2026-10-28",
+      "label": "Wed Oct 28",
+      "won": 0,
+      "lost": 1,
+      "live": 0,
+      "pending": 0,
+      "staked": 7,
+      "net": -7
+    },
+    {
+      "day": "2026-10-27",
+      "label": "Tue Oct 27",
+      "won": 3,
+      "lost": 8,
+      "live": 0,
+      "pending": 0,
+      "staked": 75,
+      "net": 9.06
+    },
+    {
+      "day": "2026-10-26",
+      "label": "Mon Oct 26",
+      "won": 6,
+      "lost": 9,
+      "live": 0,
+      "pending": 0,
+      "staked": 81.71,
+      "net": 17.59
+    },
+    {
+      "day": "2026-10-25",
+      "label": "Sun Oct 25",
+      "won": 2,
+      "lost": 7,
+      "live": 0,
+      "pending": 0,
+      "staked": 80,
+      "net": 7
     }
   ]
 }

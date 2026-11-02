@@ -137,6 +137,9 @@
         stake: Number(t.stake) || 0, pays: Number(t.payout != null ? t.payout : t.pays) || 0,
         override: t.status ? String(t.status).toLowerCase() : undefined,
         placedAt: t.placedAt || null, legs,
+        // written by grade.js (optional; older tickets.json files simply lack them)
+        state: t.state ? String(t.state).toLowerCase() : undefined,
+        day: t.day || null, bonus: !!t.bonus, settledAt: t.settledAt || null,
       };
     });
   }
@@ -283,6 +286,22 @@
     return normAtLeast(muRem, sd, need);
   }
 
+  // Net result of a ticket. payout includes the stake, except on bonus bets (DK pays winnings only, stake not at risk).
+  function profitOf(t, status) {
+    const r = n => Math.round(n * 100) / 100;
+    if (status === "Cashed") return r(t.bonus ? t.pays : t.pays - t.stake);
+    if (status === "Lost") return r(t.bonus ? 0 : -t.stake);
+    if (status === "Void") return 0;
+    return null;
+  }
+  // Ticket-level override: manual status (cashed/won/lost/void) wins, else the graded state from grade.js
+  // ("won"/"lost"/"void"); "live"/"pending" are informational and never override live ESPN grading.
+  function overrideOf(t) {
+    if (t.override) return t.override;
+    if (t.state === "won" || t.state === "lost" || t.state === "void") return t.state;
+    return undefined;
+  }
+
   // ---- Evaluate tickets against parsed games ({gameKey: parsedSummary}) -------
   const OPEN = { Pregame: 1, Live: 1 };
   function evaluate(tickets, games) {
@@ -316,16 +335,17 @@
       });
       const live = legs.filter(l => l.status !== "void");
       let status = "Pregame";
-      if (t.override === "void" || !live.length) status = "Void";
-      else if (t.override === "cashed" || t.override === "won") status = "Cashed";
-      else if (t.override === "lost") status = "Lost";
+      const ov = overrideOf(t);
+      if (ov === "void" || !live.length) status = "Void";
+      else if (ov === "cashed" || ov === "won") status = "Cashed";
+      else if (ov === "lost") status = "Lost";
       else if (live.some(l => l.status === "dead")) status = "Lost";
       else if (live.every(l => l.status === "hit")) status = "Cashed";
       else if (live.some(l => l.game.state !== "pre")) status = "Live";
       const prob = status === "Cashed" ? 1 : (status === "Lost" || status === "Void") ? 0 : live.reduce((a, l) => a * l.prob, 1);
       if (status === "Cashed") cashed += t.pays;
       if (OPEN[status]) { inPlay += t.stake; potential += t.pays; }
-      return Object.assign({}, t, { legs, status, prob });
+      return Object.assign({}, t, { legs, status, prob, profit: profitOf(t, status) });
     });
     return { tickets: out, cashed, inPlay, potential };
   }
@@ -385,28 +405,94 @@
     if (last == null) return null;
     return Math.min(last + 12 * HOUR, next6amET(last));
   }
-  // Split evaluated tickets into what the widget shows now vs. rolled-off history.
+  // Split evaluated tickets into what the widget shows now (live days, today, upcoming) vs. past days.
+  // Also returns the day-by-day sections (see dayGroups) and today's net / record.
   function currentView(result, now) {
     now = now || Date.now();
-    const shown = [], hidden = [];
-    for (const t of result.tickets) {
-      const r = isSettled(t) ? rollOffAt(t) : null;
-      (r != null && now >= r ? hidden : shown).push(t);
+    const g = dayGroups(result, now);
+    const shown = [], hidden = [], current = [], past = [];
+    for (const s of g.sections) {
+      const isCur = s.live || s.isToday || s.key > g.today;
+      (isCur ? current : past).push(s);
+      for (const t of s.tickets) (isCur ? shown : hidden).push(t);
     }
     const open = shown.filter(t => t.status === "Live" || t.status === "Pregame");
-    const days = new Set(open.map(t => { const f = ticketTimes(t).first; return f != null ? etDayKey(f) : etDayKey(now); }));
+    const days = new Set(open.map(t => ticketDay(t) || g.today));
     let title;
     if (days.size > 1) title = "My Tickets";
     else if (days.size === 1) { const k = [...days][0]; title = etParts(Date.parse(k + "T12:00:00-04:00")).wd + " Tickets"; }
-    else title = etParts(now).wd + " Tickets";
+    else title = etParts(now - 6 * HOUR).wd + " Tickets";
     const cashed = shown.filter(t => t.status === "Cashed").reduce((a, t) => a + t.pays, 0);
-    return { shown, hidden, title, cashed };
+    const todaySec = g.sections.find(s => s.isToday) || { won: 0, lost: 0, net: 0, live: 0, pending: 0, tickets: [] };
+    return { shown, hidden, title, cashed, today: g.today, todaySec, sections: g.sections, current, past };
   }
+
+  // ---- Day-by-day grouping (relevance order) ---------------------------------
+  // The "current day" flips at 6 AM ET, so late games still count as tonight's slate after midnight.
+  const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  function currentDayKey(now) { return etDayKey((now || Date.now()) - 6 * HOUR); }
+  function ticketDay(t) {
+    if (t.day) return t.day;
+    const f = ticketTimes(t).first;
+    return f != null ? etDayKey(f) : null;
+  }
+  function dayLabel(key, today) {
+    if (!key) return "Undated";
+    const [y, m, d] = key.split("-").map(Number);
+    const wd = WD[new Date(Date.UTC(y, m - 1, d, 12)).getUTCDay()];
+    const base = wd.slice(0, 3) + " " + MON[m - 1] + " " + d;
+    if (key === today) return "Today · " + base;
+    const yest = etDayKey(Date.parse(today + "T12:00:00Z") - 24 * HOUR);
+    if (key === yest) return "Yesterday · " + base;
+    return base;
+  }
+  const RANK = { Live: 0, Pregame: 1, Cashed: 2, Lost: 3, Void: 4 };
+  function inTicketOrder(a, b) {
+    const ra = RANK[a.status], rb = RANK[b.status];
+    if (ra !== rb) return ra - rb;
+    const ta = ticketTimes(a), tb = ticketTimes(b);
+    if (a.status === "Pregame") return (ta.first || 0) - (tb.first || 0);      // next kickoff first
+    if (a.status === "Live") return (ta.first || 0) - (tb.first || 0);
+    const sa = Date.parse(a.settledAt || "") || ta.last || 0, sb = Date.parse(b.settledAt || "") || tb.last || 0;
+    return sb - sa;                                                              // most recently settled first
+  }
+  const round2 = n => Math.round(n * 100) / 100;
+  // Returns sections newest/most relevant first:
+  //   any day with a LIVE ticket, then today, then future days (soonest first), then past days (newest first).
+  // Each: { key, label, isToday, tickets (Live, Pregame, Cashed, Lost, Void), won, lost, live, pending, staked, net }
+  function dayGroups(result, now) {
+    now = now || Date.now();
+    const today = currentDayKey(now);
+    const by = {};
+    for (const t of result.tickets) {
+      let k = ticketDay(t);
+      if (!k) k = today;
+      (by[k] = by[k] || []).push(t);
+    }
+    const secs = Object.keys(by).map(k => {
+      const ts = by[k].slice().sort(inTicketOrder);
+      const won = ts.filter(t => t.status === "Cashed"), lost = ts.filter(t => t.status === "Lost");
+      const settled = won.concat(lost);
+      return {
+        key: k, label: dayLabel(k, today), isToday: k === today, tickets: ts,
+        won: won.length, lost: lost.length,
+        live: ts.filter(t => t.status === "Live").length, pending: ts.filter(t => t.status === "Pregame").length,
+        staked: round2(settled.reduce((a, t) => a + (t.bonus ? 0 : t.stake), 0)),
+        net: round2(settled.reduce((a, t) => a + (t.profit || 0), 0)),
+      };
+    });
+    const tier = s => s.live ? 0 : s.isToday ? 1 : s.key > today ? 2 : 3;
+    secs.sort((a, b) => (tier(a) - tier(b)) || (tier(a) === 2 ? (a.key < b.key ? -1 : 1) : (a.key < b.key ? 1 : -1)));
+    return { today, sections: secs };
+  }
+  const signedMoney = n => (n > 0 ? "+$" : n < 0 ? "−$" : "$") + Math.abs(n).toFixed(2);
+  const record = s => s.won + "-" + s.lost;
 
   const api = {
     DEFAULT_SPORT, STATS, ALIASES, summaryUrl, gameKey, statDef, normalizeTickets, eventsOf,
     parseSummary, statValue, evaluate, fracLeft, legEstimate, norm,
     etParts, etDayKey, next6amET, ticketTimes, isSettled, rollOffAt, currentView,
+    profitOf, currentDayKey, ticketDay, dayLabel, dayGroups, signedMoney, record,
   };
   if (typeof module !== "undefined" && module.exports) module.exports = api; else root.TT = api;
 })(typeof window !== "undefined" ? window : (typeof globalThis !== "undefined" ? globalThis : this));

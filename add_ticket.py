@@ -9,6 +9,8 @@ Usage:
   add_ticket.py remove <id>              delete a ticket
   add_ticket.py list                     show tickets
   add_ticket.py validate                 check tickets.json
+  add_ticket.py grade [--sync-ledger]    grade every ticket from ESPN + ledger (state/profit/day, daily P/L), push
+Every add/status/remove also re-grades (node grade.js) so the widget gets state, profit, day and the daily P/L.
 Options: --no-push (commit only), --no-git (just write the file), --wait (poll Pages until live),
          --message "..." (commit message)
 
@@ -108,6 +110,14 @@ def normalize_ticket(t, doc):
         while cand in ids:
             cand, n = f"{base}_{n}", n + 1
         t["id"] = cand
+    # No sport given and every stat is basketball-only (pts/reb/ast/threes...) -> NBA, not the NFL default
+    if "sport" not in t and t.get("legs") and all("sport" not in l for l in t["legs"]):
+        stats = [str(l.get("stat", "")) for l in t["legs"]]
+        bb = lambda s: s in KNOWN_STATS["basketball"] or ALIAS_HINT.get(re.sub(r"[^a-z0-9]", "", s.lower())) in KNOWN_STATS["basketball"] \
+            or s in ("threePointFieldGoalsMade", "points", "rebounds", "assists")
+        if all(bb(s) and s not in KNOWN_STATS["football"] for s in stats):
+            t["sport"] = "basketball/nba"
+            print("  note: basketball stats with no sport given -> sport set to basketball/nba")
     legs = []
     for l in t.get("legs", []):
         l = dict(l)
@@ -119,6 +129,22 @@ def normalize_ticket(t, doc):
     t["legs"] = legs
     order = ["id", "name", "time", "stake", "payout", "status", "placedAt", "dkTicket", "odds", "sport", "legs"]
     return {**{k: t[k] for k in order if k in t}, **{k: v for k, v in t.items() if k not in order}}
+
+
+def run_grade(sync_ledger=False, verbose=False):
+    """Annotate tickets.json via grade.js (ESPN + ledger). Fail-soft: the ticket file is still valid without it."""
+    cmd = ["node", os.path.join(ROOT, "grade.js")] + (["--sync-ledger"] if sync_ledger else [])
+    try:
+        r = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+    except Exception as e:
+        print(f"  note: grading skipped ({e})")
+        return False
+    out = (r.stdout or "").strip().splitlines()
+    if r.returncode:
+        print("  note: grading failed:", (r.stderr or "").strip()[-400:])
+        return False
+    print("\n".join(out) if verbose else (out[-1] if out else "graded"))
+    return True
 
 
 def git(*args, check=True):
@@ -161,22 +187,32 @@ def wait_live(stamp, timeout=240):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("cmd", choices=["add", "status", "remove", "list", "validate"])
+    ap.add_argument("cmd", choices=["add", "status", "remove", "list", "validate", "grade"])
     ap.add_argument("args", nargs="*")
     ap.add_argument("--replace", action="store_true")
     ap.add_argument("--no-push", action="store_true")
     ap.add_argument("--no-git", action="store_true")
     ap.add_argument("--wait", action="store_true")
     ap.add_argument("--message", "-m")
+    ap.add_argument("--sync-ledger", action="store_true", help="grade: write final won/lost back to open ledger entries")
+    ap.add_argument("--no-grade", action="store_true", help="skip the automatic ESPN grading pass")
     a = ap.parse_args()
     doc = load()
     tickets = doc.setdefault("tickets", [])
     by_id = {t["id"]: i for i, t in enumerate(tickets)}
 
+    if a.cmd == "grade":
+        if not run_grade(sync_ledger=a.sync_ledger, verbose=True):
+            sys.exit("grading failed")
+        if not a.no_git:
+            commit_push(a.message or "Grade tickets (state, profit, daily P/L)", push=not a.no_push)
+            if a.wait and not a.no_push:
+                wait_live(load()["updated"])
+        return
     if a.cmd == "list":
         for t in tickets:
             legs = "; ".join(f"{l['player']} {l['line']}+ {l['stat']}" for l in t["legs"])
-            print(f"{t['id']}  [{t.get('status', 'live')}]  {t['name']}  ${t['stake']} -> ${t['payout']}  ({legs})")
+            print(f"{t.get('day', '?')}  {t['id']}  [{t.get('state') or t.get('status', 'live')}]  {t['name']}  ${t['stake']} -> ${t['payout']}  ({legs})")
         print(f"{len(tickets)} ticket(s)")
         return
     if a.cmd == "validate":
@@ -225,6 +261,8 @@ def main():
         t = tickets[by_id[tid]]
         if st == "clear":
             t.pop("status", None)
+            for k in ("state", "profit", "settledAt"):
+                t.pop(k, None)
         elif st in SETTLE:
             t["status"] = st
         else:
@@ -242,6 +280,8 @@ def main():
 
     save(doc)
     print(f"tickets.json: {len(tickets)} ticket(s)")
+    if not a.no_grade:
+        run_grade()
     if not a.no_git:
         commit_push(a.message or msg, push=not a.no_push)
         if a.wait and not a.no_push:
