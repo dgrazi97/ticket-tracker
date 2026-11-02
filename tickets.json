@@ -1,7 +1,7 @@
 {
   "schema": 2,
   "title": "Sunday Tickets",
-  "updated": "2026-11-02T16:02:25-05:00",
+  "updated": "2026-11-02T18:23:07-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -2385,6 +2385,44 @@
       "state": "pending",
       "profit": null,
       "day": "2026-11-02"
+    },
+    {
+      "id": "NBA_SGPX_DAL_SABONIS_FLAGG_1102",
+      "name": "Mavs SGP(x) Boost",
+      "time": "8:10 PM",
+      "stake": 25,
+      "payout": 84.25,
+      "placedAt": "2026-11-02T18:18:10-05:00",
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "DAL Mavericks",
+          "team": "DAL",
+          "event": "401909913",
+          "stat": "ml",
+          "line": 0,
+          "sport": "basketball/nba"
+        },
+        {
+          "player": "Domantas Sabonis",
+          "team": "SAC",
+          "event": "401909913",
+          "stat": "reb",
+          "line": 13,
+          "sport": "basketball/nba"
+        },
+        {
+          "player": "Cooper Flagg",
+          "team": "DAL",
+          "event": "401909913",
+          "stat": "pts",
+          "line": 25,
+          "sport": "basketball/nba"
+        }
+      ],
+      "state": "pending",
+      "profit": null,
+      "day": "2026-11-02"
     }
   ],
   "days": [
@@ -2394,7 +2432,7 @@
       "won": 0,
       "lost": 0,
       "live": 0,
-      "pending": 3,
+      "pending": 4,
       "staked": 0,
       "net": 0
     },
