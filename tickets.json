@@ -1,7 +1,7 @@
 {
   "schema": 2,
   "title": "Sunday Tickets",
-  "updated": "2026-11-02T18:23:15-05:00",
+  "updated": "2026-11-03T05:58:04-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -2303,7 +2303,9 @@
           "event": "401873036",
           "stat": "ints",
           "line": 1,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "hit",
+          "actual": "1 INT (J.Lynch, 4Q 6:01)"
         },
         {
           "player": "Jaxon Smith-Njigba",
@@ -2311,7 +2313,9 @@
           "event": "401873036",
           "stat": "recYds",
           "line": 80,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "hit",
+          "actual": "6-118, 1 TD"
         },
         {
           "player": "Jeffery Simmons",
@@ -2319,12 +2323,16 @@
           "event": "401873036",
           "stat": "sacks",
           "line": 1,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "hit",
+          "actual": "1.0 sack (1Q 5:25)"
         }
       ],
-      "state": "pending",
-      "profit": null,
-      "day": "2026-11-02"
+      "state": "won",
+      "profit": 68.3,
+      "day": "2026-11-02",
+      "status": "cashed",
+      "settledAt": "2026-11-03T04:30:00.000Z"
     },
     {
       "id": "NBA_1Q_FOX_CADE_HERRO_1102",
@@ -2341,7 +2349,9 @@
           "event": "401909917",
           "stat": "q1pts",
           "line": 3,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "hit",
+          "actual": "6 1Q pts"
         },
         {
           "player": "Cade Cunningham",
@@ -2349,7 +2359,9 @@
           "event": "401909908",
           "stat": "q1pts",
           "line": 6,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "hit",
+          "actual": "11 1Q pts"
         },
         {
           "player": "Tyler Herro",
@@ -2357,12 +2369,16 @@
           "event": "401909915",
           "stat": "q1pts",
           "line": 6,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead",
+          "actual": "0 1Q pts (0-3 3PT)"
         }
       ],
-      "state": "pending",
-      "profit": null,
-      "day": "2026-11-02"
+      "state": "lost",
+      "profit": -10,
+      "day": "2026-11-02",
+      "status": "lost",
+      "settledAt": "2026-11-03T04:00:00.000Z"
     },
     {
       "id": "MNF_LOVELAND_ATD_1102",
@@ -2379,12 +2395,16 @@
           "event": "401873036",
           "stat": "anytimeTD",
           "line": 1,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead",
+          "actual": "7-65, 0 TD, 1 fumble lost"
         }
       ],
-      "state": "pending",
-      "profit": null,
-      "day": "2026-11-02"
+      "state": "lost",
+      "profit": -5,
+      "day": "2026-11-02",
+      "status": "lost",
+      "settledAt": "2026-11-03T04:30:00.000Z"
     },
     {
       "id": "NBA_SGPX_DAL_SABONIS_FLAGG_1102",
@@ -2401,7 +2421,9 @@
           "event": "401909913",
           "stat": "ml",
           "line": 0,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead",
+          "actual": "SAC won 115-100"
         },
         {
           "player": "Domantas Sabonis",
@@ -2409,7 +2431,9 @@
           "event": "401909913",
           "stat": "reb",
           "line": 13,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead",
+          "actual": "7 reb, 31 min, 4 PF"
         },
         {
           "player": "Cooper Flagg",
@@ -2417,12 +2441,16 @@
           "event": "401909913",
           "stat": "pts",
           "line": 25,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead",
+          "actual": "17 pts, 3-19 FG"
         }
       ],
-      "state": "pending",
-      "profit": null,
-      "day": "2026-11-02"
+      "state": "lost",
+      "profit": -25,
+      "day": "2026-11-02",
+      "status": "lost",
+      "settledAt": "2026-11-03T03:30:00.000Z"
     },
     {
       "id": "MNF_SWEEP_SEA_BURDEN_SWIFT_U_1102",
@@ -2430,6 +2458,7 @@
       "time": "8:20 PM",
       "stake": 10,
       "payout": 42,
+      "status": "lost",
       "placedAt": "2026-11-02T18:16:36-05:00",
       "sport": "football/nfl",
       "legs": [
@@ -2439,7 +2468,9 @@
           "event": "401873036",
           "stat": "ml",
           "line": 0,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead",
+          "actual": "CHI won 34-17"
         },
         {
           "player": "Luther Burden III",
@@ -2447,7 +2478,9 @@
           "event": "401873036",
           "stat": "recYds",
           "line": 10,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "hit",
+          "actual": "7-56, 1 TD"
         },
         {
           "player": "Swift u58.5 rush yds (manual)",
@@ -2455,7 +2488,9 @@
           "event": "401873036",
           "stat": "manual",
           "line": 9999,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead",
+          "actual": "27-69, 3 TD"
         },
         {
           "player": "Under 46.5 total (manual)",
@@ -2463,12 +2498,15 @@
           "event": "401873036",
           "stat": "manual",
           "line": 9999,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead",
+          "actual": "51 total"
         }
       ],
-      "state": "pending",
-      "profit": null,
-      "day": "2026-11-02"
+      "state": "lost",
+      "profit": -10,
+      "day": "2026-11-02",
+      "settledAt": "2026-11-03T04:30:00.000Z"
     },
     {
       "id": "NBA_KNICKS_KAT_UNDER_1102",
@@ -2485,7 +2523,9 @@
           "event": "401909910",
           "stat": "reb",
           "line": 11,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "hit",
+          "actual": "16 reb"
         },
         {
           "player": "Under 218.5 total (manual)",
@@ -2493,24 +2533,28 @@
           "event": "401909910",
           "stat": "manual",
           "line": 9999,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "hit",
+          "actual": "193 total (NY 103-90)"
         }
       ],
-      "state": "pending",
-      "profit": null,
-      "day": "2026-11-02"
+      "state": "won",
+      "profit": 22.9,
+      "day": "2026-11-02",
+      "status": "cashed",
+      "settledAt": "2026-11-03T03:00:00.000Z"
     }
   ],
   "days": [
     {
       "day": "2026-11-02",
       "label": "Today · Mon Nov 2",
-      "won": 0,
-      "lost": 0,
+      "won": 2,
+      "lost": 4,
       "live": 0,
-      "pending": 6,
-      "staked": 0,
-      "net": 0
+      "pending": 0,
+      "staked": 70,
+      "net": 41.2
     },
     {
       "day": "2026-11-01",
