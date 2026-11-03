@@ -2386,6 +2386,7 @@
       "time": "8:20 PM",
       "stake": 5,
       "payout": 15.75,
+      "status": "lost",
       "placedAt": "2026-11-02T16:02:24-05:00",
       "sport": "football/nfl",
       "legs": [
@@ -2403,7 +2404,6 @@
       "state": "lost",
       "profit": -5,
       "day": "2026-11-02",
-      "status": "lost",
       "settledAt": "2026-11-03T04:30:00.000Z"
     },
     {
