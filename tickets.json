@@ -1,7 +1,7 @@
 {
   "schema": 2,
   "title": "Sunday Tickets",
-  "updated": "2026-11-03T14:25:36-05:00",
+  "updated": "2026-11-03T14:26:32-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -2633,6 +2633,28 @@
       "state": "pending",
       "profit": null,
       "day": "2026-11-03"
+    },
+    {
+      "id": "NHL_HAGEL_SOG4_1103",
+      "name": "Hagel 4+ SOG",
+      "time": "7:10 PM",
+      "stake": 8.65,
+      "payout": 19.89,
+      "placedAt": "2026-11-03T14:26:00-05:00",
+      "sport": "hockey/nhl",
+      "legs": [
+        {
+          "player": "Brandon Hagel",
+          "team": "TB",
+          "event": "401892635",
+          "stat": "shots",
+          "line": 4,
+          "sport": "hockey/nhl"
+        }
+      ],
+      "state": "pending",
+      "profit": null,
+      "day": "2026-11-03"
     }
   ],
   "days": [
@@ -2652,7 +2674,7 @@
       "won": 0,
       "lost": 0,
       "live": 0,
-      "pending": 2,
+      "pending": 3,
       "staked": 0,
       "net": 0
     },
