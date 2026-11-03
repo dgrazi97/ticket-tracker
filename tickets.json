@@ -2340,6 +2340,7 @@
       "time": "7:40 PM",
       "stake": 10,
       "payout": 46.5,
+      "status": "lost",
       "placedAt": "2026-11-02T10:21:20-05:00",
       "sport": "basketball/nba",
       "legs": [
@@ -2377,7 +2378,6 @@
       "state": "lost",
       "profit": -10,
       "day": "2026-11-02",
-      "status": "lost",
       "settledAt": "2026-11-03T04:00:00.000Z"
     },
     {
