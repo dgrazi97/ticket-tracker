@@ -1,7 +1,7 @@
 {
   "schema": 2,
   "title": "Sunday Tickets",
-  "updated": "2026-11-03T14:18:38-05:00",
+  "updated": "2026-11-03T14:25:36-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -2587,6 +2587,52 @@
       "state": "pending",
       "profit": null,
       "day": "2026-11-04"
+    },
+    {
+      "id": "NHL_STEPPEDUP_SOG4_1103",
+      "name": "NHL Stepped Up SOG 4-leg (20% boost)",
+      "time": "7:10 PM",
+      "stake": 10,
+      "payout": 99,
+      "placedAt": "2026-11-03T14:24:58-05:00",
+      "sport": "hockey/nhl",
+      "legs": [
+        {
+          "player": "Joel Eriksson Ek",
+          "team": "MIN",
+          "event": "401892638",
+          "stat": "shots",
+          "line": 3,
+          "sport": "hockey/nhl"
+        },
+        {
+          "player": "Josh Anderson",
+          "team": "MTL",
+          "event": "401892634",
+          "stat": "shots",
+          "line": 2,
+          "sport": "hockey/nhl"
+        },
+        {
+          "player": "Vincent Trocheck",
+          "team": "UTA",
+          "event": "401892633",
+          "stat": "shots",
+          "line": 2,
+          "sport": "hockey/nhl"
+        },
+        {
+          "player": "Ben Kindel",
+          "team": "PIT",
+          "event": "401892639",
+          "stat": "shots",
+          "line": 2,
+          "sport": "hockey/nhl"
+        }
+      ],
+      "state": "pending",
+      "profit": null,
+      "day": "2026-11-03"
     }
   ],
   "days": [
@@ -2606,7 +2652,7 @@
       "won": 0,
       "lost": 0,
       "live": 0,
-      "pending": 1,
+      "pending": 2,
       "staked": 0,
       "net": 0
     },
