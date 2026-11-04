@@ -1,7 +1,7 @@
 {
   "schema": 2,
   "title": "Sunday Tickets",
-  "updated": "2026-11-04T18:35:37-05:00",
+  "updated": "2026-11-04T18:35:41-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -2905,6 +2905,28 @@
       "state": "pending",
       "profit": null,
       "day": "2026-11-04"
+    },
+    {
+      "id": "NBA_KAT_REB14_1104",
+      "name": "KAT 14+ Reb",
+      "time": "7:40 PM",
+      "stake": 6,
+      "payout": 12.12,
+      "placedAt": "2026-11-04T18:34:00-05:00",
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "Karl-Anthony Towns",
+          "team": "NY",
+          "event": "401909926",
+          "stat": "reb",
+          "line": 14,
+          "sport": "basketball/nba"
+        }
+      ],
+      "state": "pending",
+      "profit": null,
+      "day": "2026-11-04"
     }
   ],
   "days": [
@@ -2914,7 +2936,7 @@
       "won": 1,
       "lost": 0,
       "live": 0,
-      "pending": 8,
+      "pending": 9,
       "staked": 10,
       "net": 15
     },
