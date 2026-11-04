@@ -1,7 +1,7 @@
 {
   "schema": 2,
   "title": "Sunday Tickets",
-  "updated": "2026-11-04T17:47:04-05:00",
+  "updated": "2026-11-04T17:48:05-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -2839,6 +2839,28 @@
       "state": "pending",
       "profit": null,
       "day": "2026-11-04"
+    },
+    {
+      "id": "NBA_MTHOMAS_3PM3_1104",
+      "name": "Meleek Thomas 3+ 3PM",
+      "time": "8:10 PM",
+      "stake": 5,
+      "payout": 11.9,
+      "placedAt": "2026-11-04T17:47:00-05:00",
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "Meleek Thomas",
+          "team": "CLE",
+          "event": "401909929",
+          "stat": "threes",
+          "line": 3,
+          "sport": "basketball/nba"
+        }
+      ],
+      "state": "pending",
+      "profit": null,
+      "day": "2026-11-04"
     }
   ],
   "days": [
@@ -2848,7 +2870,7 @@
       "won": 1,
       "lost": 0,
       "live": 0,
-      "pending": 5,
+      "pending": 6,
       "staked": 10,
       "net": 15
     },
