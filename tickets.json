@@ -1,7 +1,7 @@
 {
   "schema": 2,
   "title": "Sunday Tickets",
-  "updated": "2026-11-04T18:35:46-05:00",
+  "updated": "2026-11-04T18:36:15-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -2902,6 +2902,7 @@
           "sport": "basketball/nba"
         }
       ],
+      "dk_id": "DK639294320966610281",
       "state": "pending",
       "profit": null,
       "day": "2026-11-04"
