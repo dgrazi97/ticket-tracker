@@ -1,7 +1,7 @@
 {
   "schema": 2,
   "title": "Sunday Tickets",
-  "updated": "2026-11-04T15:51:32-05:00",
+  "updated": "2026-11-04T16:07:03-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -2754,6 +2754,44 @@
       "state": "pending",
       "profit": null,
       "day": "2026-11-04"
+    },
+    {
+      "id": "NHL_SGP_CHIFLA_1104",
+      "name": "NHL 30% Biz Boost SGP CHI@FLA",
+      "time": "7:40 PM",
+      "stake": 10,
+      "payout": 25.9,
+      "placedAt": "2026-11-04T16:06:34-05:00",
+      "sport": "hockey/nhl",
+      "legs": [
+        {
+          "player": "Sam Reinhart",
+          "team": "FLA",
+          "event": "401892645",
+          "stat": "shots",
+          "line": 2,
+          "sport": "hockey/nhl"
+        },
+        {
+          "player": "Matthew Tkachuk",
+          "team": "FLA",
+          "event": "401892645",
+          "stat": "pts",
+          "line": 1,
+          "sport": "hockey/nhl"
+        },
+        {
+          "player": "Connor Bedard",
+          "team": "CHI",
+          "event": "401892645",
+          "stat": "pts",
+          "line": 1,
+          "sport": "hockey/nhl"
+        }
+      ],
+      "state": "pending",
+      "profit": null,
+      "day": "2026-11-04"
     }
   ],
   "days": [
@@ -2763,7 +2801,7 @@
       "won": 0,
       "lost": 0,
       "live": 1,
-      "pending": 2,
+      "pending": 3,
       "staked": 0,
       "net": 0
     },
