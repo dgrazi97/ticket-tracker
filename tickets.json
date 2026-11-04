@@ -1,7 +1,7 @@
 {
   "schema": 2,
   "title": "Sunday Tickets",
-  "updated": "2026-11-04T16:10:35-05:00",
+  "updated": "2026-11-04T17:47:04-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -2583,12 +2583,15 @@
           "event": "401915305",
           "stat": "ml",
           "line": 0,
-          "sport": "soccer/uefa.champions"
+          "sport": "soccer/uefa.champions",
+          "result": "hit"
         }
       ],
-      "state": "live",
-      "profit": null,
-      "day": "2026-11-04"
+      "state": "won",
+      "profit": 15,
+      "day": "2026-11-04",
+      "status": "cashed",
+      "settledAt": "2026-11-04T22:00:00.000Z"
     },
     {
       "id": "NHL_STEPPEDUP_SOG4_1103",
@@ -2814,18 +2817,40 @@
       "state": "pending",
       "profit": null,
       "day": "2026-11-04"
+    },
+    {
+      "id": "NBA_VANVLEET_RA10_1104",
+      "name": "VanVleet 10+ R+A",
+      "time": "8:40 PM",
+      "stake": 10,
+      "payout": 25,
+      "placedAt": "2026-11-04T17:46:00-05:00",
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "Fred VanVleet",
+          "team": "HOU",
+          "event": "401909930",
+          "stat": "ra",
+          "line": 10,
+          "sport": "basketball/nba"
+        }
+      ],
+      "state": "pending",
+      "profit": null,
+      "day": "2026-11-04"
     }
   ],
   "days": [
     {
       "day": "2026-11-04",
       "label": "Today · Wed Nov 4",
-      "won": 0,
+      "won": 1,
       "lost": 0,
-      "live": 1,
-      "pending": 4,
-      "staked": 0,
-      "net": 0
+      "live": 0,
+      "pending": 5,
+      "staked": 10,
+      "net": 15
     },
     {
       "day": "2026-11-03",
