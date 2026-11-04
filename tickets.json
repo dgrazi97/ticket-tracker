@@ -1,7 +1,7 @@
 {
   "schema": 2,
   "title": "Sunday Tickets",
-  "updated": "2026-11-04T15:50:19-05:00",
+  "updated": "2026-11-04T15:51:32-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -2716,6 +2716,44 @@
       "state": "pending",
       "profit": null,
       "day": "2026-11-04"
+    },
+    {
+      "id": "NHL_SGP_OTTBUF_1104",
+      "name": "NHL 20% Boost SGP OTT@BUF",
+      "time": "7:40 PM",
+      "stake": 10,
+      "payout": 57.4,
+      "placedAt": "2026-11-04T15:50:57-05:00",
+      "sport": "hockey/nhl",
+      "legs": [
+        {
+          "player": "Tage Thompson",
+          "team": "BUF",
+          "event": "401892644",
+          "stat": "shots",
+          "line": 4,
+          "sport": "hockey/nhl"
+        },
+        {
+          "player": "Drake Batherson",
+          "team": "OTT",
+          "event": "401892644",
+          "stat": "pts",
+          "line": 1,
+          "sport": "hockey/nhl"
+        },
+        {
+          "player": "Rasmus Dahlin",
+          "team": "BUF",
+          "event": "401892644",
+          "stat": "shots",
+          "line": 3,
+          "sport": "hockey/nhl"
+        }
+      ],
+      "state": "pending",
+      "profit": null,
+      "day": "2026-11-04"
     }
   ],
   "days": [
@@ -2725,7 +2763,7 @@
       "won": 0,
       "lost": 0,
       "live": 1,
-      "pending": 1,
+      "pending": 2,
       "staked": 0,
       "net": 0
     },
