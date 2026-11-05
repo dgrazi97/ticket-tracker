@@ -1,7 +1,7 @@
 {
   "schema": 2,
   "title": "Sunday Tickets",
-  "updated": "2026-11-05T07:25:15-05:00",
+  "updated": "2026-11-05T07:27:22-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -3383,6 +3383,53 @@
       "state": "pending",
       "profit": null,
       "day": "2026-11-05"
+    },
+    {
+      "id": "NHL_BOOST20_PASTRNAK_DEBRINCAT_GAUTHIER_ROBERTSON_1105",
+      "name": "NHL 20% Boost 4-leg SOG",
+      "time": "7:10 PM",
+      "stake": 10,
+      "payout": 72.5,
+      "placedAt": "2026-11-05T07:26:38-05:00",
+      "sport": "hockey/nhl",
+      "legs": [
+        {
+          "player": "David Pastrnak",
+          "team": "BOS",
+          "event": "401892654",
+          "stat": "shots",
+          "line": 3,
+          "sport": "hockey/nhl"
+        },
+        {
+          "player": "Alex DeBrincat",
+          "team": "DET",
+          "event": "401892649",
+          "stat": "shots",
+          "line": 3,
+          "sport": "hockey/nhl"
+        },
+        {
+          "player": "Cutter Gauthier",
+          "team": "ANA",
+          "event": "401892657",
+          "stat": "shots",
+          "line": 4,
+          "sport": "hockey/nhl"
+        },
+        {
+          "player": "Jason Robertson",
+          "team": "DAL",
+          "event": "401892655",
+          "stat": "shots",
+          "line": 3,
+          "sport": "hockey/nhl"
+        }
+      ],
+      "dk_id": "DK639294783984192049",
+      "state": "pending",
+      "profit": null,
+      "day": "2026-11-05"
     }
   ],
   "days": [
@@ -3392,7 +3439,7 @@
       "won": 0,
       "lost": 0,
       "live": 0,
-      "pending": 1,
+      "pending": 2,
       "staked": 0,
       "net": 0
     },
