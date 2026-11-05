@@ -1,7 +1,7 @@
 {
   "schema": 2,
   "title": "Sunday Tickets",
-  "updated": "2026-11-05T07:27:22-05:00",
+  "updated": "2026-11-05T08:17:09-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -3430,6 +3430,53 @@
       "state": "pending",
       "profit": null,
       "day": "2026-11-05"
+    },
+    {
+      "id": "NFL_SGP_BOOST30_JAXBAL_1105",
+      "name": "JAX@BAL 30% SGP Boost",
+      "time": "8:15 PM",
+      "stake": 10,
+      "payout": 78.3,
+      "placedAt": "2026-11-05T08:16:25-05:00",
+      "sport": "football/nfl",
+      "legs": [
+        {
+          "player": "Brenton Strange",
+          "team": "JAX",
+          "event": "401873037",
+          "stat": "recYds",
+          "line": 30,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Joe Fagnano",
+          "team": "BAL",
+          "event": "401873037",
+          "stat": "ints",
+          "line": 1,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Jake Moody",
+          "team": "BAL",
+          "event": "401873037",
+          "stat": "kickPts",
+          "line": 4,
+          "sport": "football/nfl"
+        },
+        {
+          "player": "Justice Hill",
+          "team": "BAL",
+          "event": "401873037",
+          "stat": "rec",
+          "line": 3,
+          "sport": "football/nfl"
+        }
+      ],
+      "dk_id": "DK639294813847671315",
+      "state": "pending",
+      "profit": null,
+      "day": "2026-11-05"
     }
   ],
   "days": [
@@ -3439,7 +3486,7 @@
       "won": 0,
       "lost": 0,
       "live": 0,
-      "pending": 2,
+      "pending": 3,
       "staked": 0,
       "net": 0
     },
