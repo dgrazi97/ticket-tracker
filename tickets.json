@@ -1,7 +1,7 @@
 {
   "schema": 2,
   "title": "Sunday Tickets",
-  "updated": "2026-11-04T18:36:23-05:00",
+  "updated": "2026-11-04T22:26:34-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -2705,7 +2705,8 @@
           "event": "401909922",
           "stat": "pr",
           "line": 30,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         },
         {
           "player": "Toumani Camara",
@@ -2716,9 +2717,11 @@
           "sport": "basketball/nba"
         }
       ],
-      "state": "pending",
-      "profit": null,
-      "day": "2026-11-04"
+      "state": "lost",
+      "profit": -10,
+      "day": "2026-11-04",
+      "status": "lost",
+      "settledAt": "2026-11-05T03:26:34.664Z"
     },
     {
       "id": "NHL_SGP_OTTBUF_1104",
@@ -2735,7 +2738,8 @@
           "event": "401892644",
           "stat": "shots",
           "line": 4,
-          "sport": "hockey/nhl"
+          "sport": "hockey/nhl",
+          "result": "dead"
         },
         {
           "player": "Drake Batherson",
@@ -2743,7 +2747,8 @@
           "event": "401892644",
           "stat": "pts",
           "line": 1,
-          "sport": "hockey/nhl"
+          "sport": "hockey/nhl",
+          "result": "dead"
         },
         {
           "player": "Rasmus Dahlin",
@@ -2751,12 +2756,15 @@
           "event": "401892644",
           "stat": "shots",
           "line": 3,
-          "sport": "hockey/nhl"
+          "sport": "hockey/nhl",
+          "result": "dead"
         }
       ],
-      "state": "pending",
-      "profit": null,
-      "day": "2026-11-04"
+      "state": "lost",
+      "profit": -10,
+      "day": "2026-11-04",
+      "status": "lost",
+      "settledAt": "2026-11-05T03:06:00.000Z"
     },
     {
       "id": "NHL_SGP_CHIFLA_1104",
@@ -2773,7 +2781,8 @@
           "event": "401892645",
           "stat": "shots",
           "line": 2,
-          "sport": "hockey/nhl"
+          "sport": "hockey/nhl",
+          "result": "hit"
         },
         {
           "player": "Matthew Tkachuk",
@@ -2781,7 +2790,8 @@
           "event": "401892645",
           "stat": "pts",
           "line": 1,
-          "sport": "hockey/nhl"
+          "sport": "hockey/nhl",
+          "result": "hit"
         },
         {
           "player": "Connor Bedard",
@@ -2789,12 +2799,15 @@
           "event": "401892645",
           "stat": "pts",
           "line": 1,
-          "sport": "hockey/nhl"
+          "sport": "hockey/nhl",
+          "result": "hit"
         }
       ],
-      "state": "pending",
-      "profit": null,
-      "day": "2026-11-04"
+      "state": "won",
+      "profit": 15.9,
+      "day": "2026-11-04",
+      "status": "cashed",
+      "settledAt": "2026-11-05T03:06:00.000Z"
     },
     {
       "id": "NBA_COWARD_REB7_1104",
@@ -2811,12 +2824,15 @@
           "event": "401909927",
           "stat": "reb",
           "line": 7,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "hit"
         }
       ],
-      "state": "pending",
-      "profit": null,
-      "day": "2026-11-04"
+      "state": "won",
+      "profit": 6.84,
+      "day": "2026-11-04",
+      "status": "cashed",
+      "settledAt": "2026-11-05T03:26:34.664Z"
     },
     {
       "id": "NBA_VANVLEET_RA10_1104",
@@ -2836,7 +2852,7 @@
           "sport": "basketball/nba"
         }
       ],
-      "state": "pending",
+      "state": "live",
       "profit": null,
       "day": "2026-11-04"
     },
@@ -2855,12 +2871,15 @@
           "event": "401909929",
           "stat": "threes",
           "line": 3,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "hit"
         }
       ],
-      "state": "pending",
-      "profit": null,
-      "day": "2026-11-04"
+      "state": "won",
+      "profit": 6.9,
+      "day": "2026-11-04",
+      "status": "cashed",
+      "settledAt": "2026-11-05T03:26:34.664Z"
     },
     {
       "id": "NBA_KJOHNSON_REB4_1104",
@@ -2880,7 +2899,7 @@
           "sport": "basketball/nba"
         }
       ],
-      "state": "pending",
+      "state": "live",
       "profit": null,
       "day": "2026-11-04"
     },
@@ -2899,13 +2918,16 @@
           "event": "401909926",
           "stat": "reb",
           "line": 13,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         }
       ],
       "dk_id": "DK639294320966610281",
-      "state": "pending",
-      "profit": null,
-      "day": "2026-11-04"
+      "state": "lost",
+      "profit": -13.68,
+      "day": "2026-11-04",
+      "status": "lost",
+      "settledAt": "2026-11-05T03:00:00.000Z"
     },
     {
       "id": "NBA_KAT_REB14_1104",
@@ -2922,13 +2944,16 @@
           "event": "401909926",
           "stat": "reb",
           "line": 14,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         }
       ],
       "dk_id": "DK639294320964637964",
-      "state": "pending",
-      "profit": null,
-      "day": "2026-11-04"
+      "state": "lost",
+      "profit": -6,
+      "day": "2026-11-04",
+      "status": "lost",
+      "settledAt": "2026-11-05T03:00:00.000Z"
     },
     {
       "id": "NBA_KAT_REB16_1104",
@@ -2945,11 +2970,37 @@
           "event": "401909926",
           "stat": "reb",
           "line": 16,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         }
       ],
       "dk_id": "DK639294320964518140",
-      "state": "pending",
+      "state": "lost",
+      "profit": -4,
+      "day": "2026-11-04",
+      "status": "lost",
+      "settledAt": "2026-11-05T03:00:00.000Z"
+    },
+    {
+      "id": "NBA_LIVE_MCDANIELS_3PM1_1104",
+      "name": "LIVE McDaniels 1+ 3PM",
+      "time": "LIVE",
+      "stake": 10,
+      "payout": 24.5,
+      "placedAt": "2026-11-04T22:20:36-05:00",
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "Jaden McDaniels",
+          "team": "MIN",
+          "event": "401909930",
+          "stat": "threes",
+          "line": 1,
+          "sport": "basketball/nba"
+        }
+      ],
+      "dk_id": "DK639294456356767588",
+      "state": "live",
       "profit": null,
       "day": "2026-11-04"
     }
@@ -2958,12 +3009,12 @@
     {
       "day": "2026-11-04",
       "label": "Today · Wed Nov 4",
-      "won": 1,
-      "lost": 0,
-      "live": 0,
-      "pending": 10,
-      "staked": 10,
-      "net": 15
+      "won": 4,
+      "lost": 5,
+      "live": 3,
+      "pending": 0,
+      "staked": 78.68,
+      "net": 0.96
     },
     {
       "day": "2026-11-03",
