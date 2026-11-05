@@ -1,7 +1,7 @@
 {
   "schema": 2,
   "title": "Sunday Tickets",
-  "updated": "2026-11-04T22:26:45-05:00",
+  "updated": "2026-11-05T00:14:21-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -2849,12 +2849,15 @@
           "event": "401909930",
           "stat": "ra",
           "line": 10,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         }
       ],
-      "state": "live",
-      "profit": null,
-      "day": "2026-11-04"
+      "state": "lost",
+      "profit": -10,
+      "day": "2026-11-04",
+      "status": "lost",
+      "settledAt": "2026-11-05T04:00:00.000Z"
     },
     {
       "id": "NBA_MTHOMAS_3PM3_1104",
@@ -2896,12 +2899,15 @@
           "event": "401909933",
           "stat": "reb",
           "line": 4,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "hit"
         }
       ],
-      "state": "live",
-      "profit": null,
-      "day": "2026-11-04"
+      "state": "won",
+      "profit": 5.61,
+      "day": "2026-11-04",
+      "status": "cashed",
+      "settledAt": "2026-11-05T05:00:00.000Z"
     },
     {
       "id": "NBA_KAT_REB13_1104",
@@ -2996,13 +3002,16 @@
           "event": "401909930",
           "stat": "threes",
           "line": 1,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         }
       ],
       "dk_id": "DK639294456356767588",
-      "state": "live",
-      "profit": null,
-      "day": "2026-11-04"
+      "state": "lost",
+      "profit": -10,
+      "day": "2026-11-04",
+      "status": "lost",
+      "settledAt": "2026-11-05T04:00:00.000Z"
     },
     {
       "id": "NBA_LIVE_DURANT_3PM3_1104",
@@ -3019,13 +3028,16 @@
           "event": "401909930",
           "stat": "threes",
           "line": 3,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         }
       ],
       "dk_id": "pending",
-      "state": "live",
-      "profit": null,
-      "day": "2026-11-04"
+      "state": "lost",
+      "profit": -16.74,
+      "day": "2026-11-04",
+      "status": "lost",
+      "settledAt": "2026-11-05T04:00:00.000Z"
     },
     {
       "id": "NBA_LIVE_SGP6_3PM_MINHOU_1104",
@@ -3051,7 +3063,8 @@
           "event": "401909930",
           "stat": "threes",
           "line": 1,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         },
         {
           "player": "Jaden McDaniels",
@@ -3059,7 +3072,8 @@
           "event": "401909930",
           "stat": "threes",
           "line": 1,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         },
         {
           "player": "Jonathan Kuminga",
@@ -3067,7 +3081,8 @@
           "event": "401909930",
           "stat": "threes",
           "line": 3,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "hit"
         },
         {
           "player": "Fred VanVleet",
@@ -3075,7 +3090,8 @@
           "event": "401909930",
           "stat": "threes",
           "line": 4,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "hit"
         },
         {
           "player": "Kevin Durant",
@@ -3083,10 +3099,36 @@
           "event": "401909930",
           "stat": "threes",
           "line": 3,
-          "sport": "basketball/nba"
+          "sport": "basketball/nba",
+          "result": "dead"
         }
       ],
       "dk_id": "DK639294455537499685",
+      "state": "lost",
+      "profit": -1,
+      "day": "2026-11-04",
+      "status": "lost",
+      "settledAt": "2026-11-05T04:00:00.000Z"
+    },
+    {
+      "id": "NBA_LIVE_IRVING_3PM6_1105",
+      "name": "LIVE Irving 6+ 3PM",
+      "time": "LIVE",
+      "stake": 5,
+      "payout": 17.25,
+      "placedAt": "2026-11-05T00:11:31-05:00",
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "Kyrie Irving",
+          "team": "DAL",
+          "event": "401909933",
+          "stat": "threes",
+          "line": 6,
+          "sport": "basketball/nba"
+        }
+      ],
+      "dk_id": "DK639294522912578944",
       "state": "live",
       "profit": null,
       "day": "2026-11-04"
@@ -3096,12 +3138,12 @@
     {
       "day": "2026-11-04",
       "label": "Today · Wed Nov 4",
-      "won": 4,
-      "lost": 5,
-      "live": 5,
+      "won": 5,
+      "lost": 9,
+      "live": 1,
       "pending": 0,
-      "staked": 78.68,
-      "net": 0.96
+      "staked": 126.42,
+      "net": -31.17
     },
     {
       "day": "2026-11-03",
