@@ -1,7 +1,7 @@
 {
   "schema": 2,
   "title": "Sunday Tickets",
-  "updated": "2026-11-05T00:14:22-05:00",
+  "updated": "2026-11-05T00:14:23-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -3155,6 +3155,29 @@
       "state": "live",
       "profit": null,
       "day": "2026-11-04"
+    },
+    {
+      "id": "NBA_LIVE_PJWASH_3PM4_1105",
+      "name": "LIVE PJ Washington 4+ 3PM",
+      "time": "LIVE",
+      "stake": 5,
+      "payout": 21.5,
+      "placedAt": "2026-11-05T00:11:37-05:00",
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "P.J. Washington",
+          "team": "DAL",
+          "event": "401909933",
+          "stat": "threes",
+          "line": 4,
+          "sport": "basketball/nba"
+        }
+      ],
+      "dk_id": "DK639294522962910672",
+      "state": "live",
+      "profit": null,
+      "day": "2026-11-04"
     }
   ],
   "days": [
@@ -3163,7 +3186,7 @@
       "label": "Today · Wed Nov 4",
       "won": 5,
       "lost": 9,
-      "live": 2,
+      "live": 3,
       "pending": 0,
       "staked": 126.42,
       "net": -31.17
