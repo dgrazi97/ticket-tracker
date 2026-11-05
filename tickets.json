@@ -1,7 +1,7 @@
 {
   "schema": 2,
   "title": "Sunday Tickets",
-  "updated": "2026-11-05T00:20:19-05:00",
+  "updated": "2026-11-05T00:20:20-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -3294,6 +3294,29 @@
       "state": "live",
       "profit": null,
       "day": "2026-11-04"
+    },
+    {
+      "id": "NBA_LIVE_KLAY_3PM8_1105",
+      "name": "LIVE Klay 8+ 3PM",
+      "time": "LIVE",
+      "stake": 7.51,
+      "payout": 35.29,
+      "placedAt": "2026-11-05T00:18:46-05:00",
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "Klay Thompson",
+          "team": "MIA",
+          "event": "401909935",
+          "stat": "threes",
+          "line": 8,
+          "sport": "basketball/nba"
+        }
+      ],
+      "dk_id": "DK639294527259867386",
+      "state": "live",
+      "profit": null,
+      "day": "2026-11-04"
     }
   ],
   "days": [
@@ -3302,7 +3325,7 @@
       "label": "Today · Wed Nov 4",
       "won": 5,
       "lost": 9,
-      "live": 7,
+      "live": 8,
       "pending": 0,
       "staked": 126.42,
       "net": -31.17
