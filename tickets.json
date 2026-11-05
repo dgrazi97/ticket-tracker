@@ -1,7 +1,7 @@
 {
   "schema": 2,
   "title": "Sunday Tickets",
-  "updated": "2026-11-05T00:14:24-05:00",
+  "updated": "2026-11-05T00:14:25-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -3201,6 +3201,53 @@
       "state": "live",
       "profit": null,
       "day": "2026-11-04"
+    },
+    {
+      "id": "NBA_LIVE_SGP4_3PM_DALSA_1105",
+      "name": "LIVE 4-leg 3PM SGP DAL@SA",
+      "time": "LIVE",
+      "stake": 5,
+      "payout": 1155,
+      "placedAt": "2026-11-05T00:11:35-05:00",
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "Julian Champagnie",
+          "team": "SA",
+          "event": "401909933",
+          "stat": "threes",
+          "line": 1,
+          "sport": "basketball/nba"
+        },
+        {
+          "player": "Kyrie Irving",
+          "team": "DAL",
+          "event": "401909933",
+          "stat": "threes",
+          "line": 6,
+          "sport": "basketball/nba"
+        },
+        {
+          "player": "P.J. Washington",
+          "team": "DAL",
+          "event": "401909933",
+          "stat": "threes",
+          "line": 4,
+          "sport": "basketball/nba"
+        },
+        {
+          "player": "Devin Vassell",
+          "team": "SA",
+          "event": "401909933",
+          "stat": "threes",
+          "line": 1,
+          "sport": "basketball/nba"
+        }
+      ],
+      "dk_id": "DK639294522946168221",
+      "state": "live",
+      "profit": null,
+      "day": "2026-11-04"
     }
   ],
   "days": [
@@ -3209,7 +3256,7 @@
       "label": "Today · Wed Nov 4",
       "won": 5,
       "lost": 9,
-      "live": 4,
+      "live": 5,
       "pending": 0,
       "staked": 126.42,
       "net": -31.17
