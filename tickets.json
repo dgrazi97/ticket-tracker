@@ -1,7 +1,7 @@
 {
   "schema": 2,
   "title": "Sunday Tickets",
-  "updated": "2026-11-04T22:26:34-05:00",
+  "updated": "2026-11-04T22:26:40-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -3003,6 +3003,29 @@
       "state": "live",
       "profit": null,
       "day": "2026-11-04"
+    },
+    {
+      "id": "NBA_LIVE_DURANT_3PM3_1104",
+      "name": "LIVE Durant 3+ 3PM",
+      "time": "LIVE",
+      "stake": 16.74,
+      "payout": 35.99,
+      "placedAt": "2026-11-04T22:20:00-05:00",
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "Kevin Durant",
+          "team": "HOU",
+          "event": "401909930",
+          "stat": "threes",
+          "line": 3,
+          "sport": "basketball/nba"
+        }
+      ],
+      "dk_id": "pending",
+      "state": "live",
+      "profit": null,
+      "day": "2026-11-04"
     }
   ],
   "days": [
@@ -3011,7 +3034,7 @@
       "label": "Today · Wed Nov 4",
       "won": 4,
       "lost": 5,
-      "live": 3,
+      "live": 4,
       "pending": 0,
       "staked": 78.68,
       "net": 0.96
