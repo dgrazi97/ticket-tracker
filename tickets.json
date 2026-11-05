@@ -1,7 +1,7 @@
 {
   "schema": 2,
   "title": "Sunday Tickets",
-  "updated": "2026-11-04T22:26:40-05:00",
+  "updated": "2026-11-04T22:26:45-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -3026,6 +3026,70 @@
       "state": "live",
       "profit": null,
       "day": "2026-11-04"
+    },
+    {
+      "id": "NBA_LIVE_SGP6_3PM_MINHOU_1104",
+      "name": "LIVE 6-leg 3PM SGP",
+      "time": "LIVE",
+      "stake": 1,
+      "payout": 131,
+      "placedAt": "2026-11-04T22:19:14-05:00",
+      "sport": "basketball/nba",
+      "legs": [
+        {
+          "player": "Bones Hyland",
+          "team": "MIN",
+          "event": "401909930",
+          "stat": "threes",
+          "line": 4,
+          "sport": "basketball/nba",
+          "result": "hit"
+        },
+        {
+          "player": "Ayo Dosunmu",
+          "team": "MIN",
+          "event": "401909930",
+          "stat": "threes",
+          "line": 1,
+          "sport": "basketball/nba"
+        },
+        {
+          "player": "Jaden McDaniels",
+          "team": "MIN",
+          "event": "401909930",
+          "stat": "threes",
+          "line": 1,
+          "sport": "basketball/nba"
+        },
+        {
+          "player": "Jonathan Kuminga",
+          "team": "MIN",
+          "event": "401909930",
+          "stat": "threes",
+          "line": 3,
+          "sport": "basketball/nba"
+        },
+        {
+          "player": "Fred VanVleet",
+          "team": "HOU",
+          "event": "401909930",
+          "stat": "threes",
+          "line": 4,
+          "sport": "basketball/nba"
+        },
+        {
+          "player": "Kevin Durant",
+          "team": "HOU",
+          "event": "401909930",
+          "stat": "threes",
+          "line": 3,
+          "sport": "basketball/nba"
+        }
+      ],
+      "dk_id": "DK639294455537499685",
+      "state": "live",
+      "profit": null,
+      "day": "2026-11-04"
     }
   ],
   "days": [
@@ -3034,7 +3098,7 @@
       "label": "Today · Wed Nov 4",
       "won": 4,
       "lost": 5,
-      "live": 4,
+      "live": 5,
       "pending": 0,
       "staked": 78.68,
       "net": 0.96
