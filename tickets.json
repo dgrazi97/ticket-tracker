@@ -1,7 +1,7 @@
 {
   "schema": 2,
   "title": "Sunday Tickets",
-  "updated": "2026-11-05T08:17:09-05:00",
+  "updated": "2026-11-06T07:41:41-05:00",
   "tickets": [
     {
       "id": "NFL_Paris_SGP_user_placed_1025",
@@ -3351,6 +3351,7 @@
       "time": "9:10 PM",
       "stake": 25,
       "payout": 104.25,
+      "status": "cashed",
       "placedAt": "2026-11-05T07:23:30-05:00",
       "sport": "basketball/nba",
       "legs": [
@@ -3380,9 +3381,10 @@
         }
       ],
       "dk_id": "DK639294782103049178",
-      "state": "pending",
-      "profit": null,
-      "day": "2026-11-05"
+      "state": "won",
+      "profit": 79.25,
+      "day": "2026-11-05",
+      "settledAt": "2026-11-05T12:23:30.000Z"
     },
     {
       "id": "NHL_BOOST20_PASTRNAK_DEBRINCAT_GAUTHIER_ROBERTSON_1105",
@@ -3399,7 +3401,8 @@
           "event": "401892654",
           "stat": "shots",
           "line": 3,
-          "sport": "hockey/nhl"
+          "sport": "hockey/nhl",
+          "result": "hit"
         },
         {
           "player": "Alex DeBrincat",
@@ -3407,7 +3410,8 @@
           "event": "401892649",
           "stat": "shots",
           "line": 3,
-          "sport": "hockey/nhl"
+          "sport": "hockey/nhl",
+          "result": "hit"
         },
         {
           "player": "Cutter Gauthier",
@@ -3415,7 +3419,8 @@
           "event": "401892657",
           "stat": "shots",
           "line": 4,
-          "sport": "hockey/nhl"
+          "sport": "hockey/nhl",
+          "result": "dead"
         },
         {
           "player": "Jason Robertson",
@@ -3423,13 +3428,16 @@
           "event": "401892655",
           "stat": "shots",
           "line": 3,
-          "sport": "hockey/nhl"
+          "sport": "hockey/nhl",
+          "result": "hit"
         }
       ],
       "dk_id": "DK639294783984192049",
-      "state": "pending",
-      "profit": null,
-      "day": "2026-11-05"
+      "state": "lost",
+      "profit": -10,
+      "day": "2026-11-05",
+      "status": "lost",
+      "settledAt": "2026-11-06T03:36:00.000Z"
     },
     {
       "id": "NFL_SGP_BOOST30_JAXBAL_1105",
@@ -3446,7 +3454,8 @@
           "event": "401873037",
           "stat": "recYds",
           "line": 30,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "dead"
         },
         {
           "player": "Joe Fagnano",
@@ -3454,7 +3463,8 @@
           "event": "401873037",
           "stat": "ints",
           "line": 1,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "hit"
         },
         {
           "player": "Jake Moody",
@@ -3462,7 +3472,8 @@
           "event": "401873037",
           "stat": "kickPts",
           "line": 4,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "hit"
         },
         {
           "player": "Justice Hill",
@@ -3470,29 +3481,32 @@
           "event": "401873037",
           "stat": "rec",
           "line": 3,
-          "sport": "football/nfl"
+          "sport": "football/nfl",
+          "result": "hit"
         }
       ],
       "dk_id": "DK639294813847671315",
-      "state": "pending",
-      "profit": null,
-      "day": "2026-11-05"
+      "state": "lost",
+      "profit": -10,
+      "day": "2026-11-05",
+      "status": "lost",
+      "settledAt": "2026-11-06T04:30:00.000Z"
     }
   ],
   "days": [
     {
       "day": "2026-11-05",
-      "label": "Today · Thu Nov 5",
-      "won": 0,
-      "lost": 0,
+      "label": "Yesterday · Thu Nov 5",
+      "won": 1,
+      "lost": 2,
       "live": 0,
-      "pending": 3,
-      "staked": 0,
-      "net": 0
+      "pending": 0,
+      "staked": 45,
+      "net": 59.25
     },
     {
       "day": "2026-11-04",
-      "label": "Yesterday · Wed Nov 4",
+      "label": "Wed Nov 4",
       "won": 7,
       "lost": 15,
       "live": 0,
