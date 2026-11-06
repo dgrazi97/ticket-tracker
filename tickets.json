@@ -3392,6 +3392,7 @@
       "time": "7:10 PM",
       "stake": 10,
       "payout": 72.5,
+      "status": "lost",
       "placedAt": "2026-11-05T07:26:38-05:00",
       "sport": "hockey/nhl",
       "legs": [
@@ -3436,7 +3437,6 @@
       "state": "lost",
       "profit": -10,
       "day": "2026-11-05",
-      "status": "lost",
       "settledAt": "2026-11-06T03:36:00.000Z"
     },
     {
